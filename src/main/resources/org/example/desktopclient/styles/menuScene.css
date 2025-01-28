@@ -1,0 +1,15 @@
+.menu-item{
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 28px;
+    -fx-font-weight: 600;
+
+}
+
+.menu-item:hover {
+    -fx-fill: #B5B5B5;
+}
+
+.menu-username{
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 20px;
+}
