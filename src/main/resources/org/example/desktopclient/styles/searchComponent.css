@@ -1,0 +1,18 @@
+.search-text{
+    -fx-background-color: #0E0F1A;
+    -fx-text-fill: #939CFF;
+    -fx-fill: #575C96;
+    -fx-border-radius: 10px;
+    -fx-font-size:14px;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px 20px;
+    -fx-border-color: #575C96;
+    -fx-prompt-text-fill: #575C96;
+    -fx-font-weight: 600;
+}
+
+.search-button{
+-fx-background-color: transparent;
+-fx-border-color: transparent;
+-fx-cursor: hand;
+}

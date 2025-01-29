@@ -2,11 +2,11 @@
     -fx-fill: #FFFFFF;
     -fx-font-size: 28px;
     -fx-font-weight: 600;
-
 }
 
 .menu-item:hover {
     -fx-fill: #B5B5B5;
+    -fx-cursor: hand;
 }
 
 .menu-username{
