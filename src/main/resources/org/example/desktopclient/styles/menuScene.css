@@ -9,6 +9,12 @@
     -fx-cursor: hand;
 }
 
+.menu-item-line {
+    -fx-stroke: #0084FF;  /* Plava boja linije */
+    -fx-stroke-width: 4px; /* Debljina linije */
+}
+
+
 .menu-username{
     -fx-fill: #FFFFFF;
     -fx-font-size: 20px;

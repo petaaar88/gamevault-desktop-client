@@ -1,6 +1,7 @@
 package org.example.desktopclient.component;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,6 +43,8 @@ public class SearchComponent {
         layout.setMaxWidth(1000);
         layout.setMinWidth(1000);
         layout.getChildren().addAll(textField, stackPane);
+
+        layout.setPadding(new Insets(30, 0, 0, 0));
 
         return layout;
     }
