@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.desktopclient.component.CatalogGameComponent;
+import org.example.desktopclient.component.GamesCatalogComponent;
 import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.component.SearchComponent;
 
@@ -30,9 +32,10 @@ public class GameCatalogScene extends CustomScene {
         MenuComponent menuComponent = new MenuComponent();
         SearchComponent searchComponent = new SearchComponent();
         searchComponent.settingFocus(scene);
+        GamesCatalogComponent gamesCatalogComponent = new GamesCatalogComponent();
 
 
-        layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"));
+        layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), gamesCatalogComponent.getComponent());
         layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
 
         root.getChildren().add(layout);
