@@ -48,7 +48,8 @@ public class CatalogGameComponent {
         String css2 = getClass().getResource("/org/example/desktopclient/styles/catalogGameComponentStyles.css").toExternalForm();
         button.getStylesheets().add(css2);
         button.getStyleClass().add("game-button");
-
+        button.setMinWidth(320);
+        button.setMaxWidth(320);
         return button;
     }
 

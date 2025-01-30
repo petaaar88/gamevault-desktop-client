@@ -44,7 +44,7 @@ public class SearchComponent {
         layout.setMinWidth(1000);
         layout.getChildren().addAll(textField, stackPane);
 
-        layout.setPadding(new Insets(30, 0, 0, 0));
+        layout.setPadding(new Insets(30, 0, 30, 0));
 
         return layout;
     }

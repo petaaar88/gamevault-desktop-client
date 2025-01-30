@@ -1,0 +1,37 @@
+/* Stilizacija horizontalne i vertikalne skrol trake */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* Stilizacija vertikalnog i horizontalnog skrol bara */
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* Tamna pozadina */
+}
+
+/* Stilizacija skrol dugmeta (thumb) */
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #0084FF; /* Siva boja */
+    -fx-background-radius: 5px; /* Zaobljeni uglovi */
+}
+
+/* Kada korisnik pređe preko skrol dugmeta */
+.scroll-bar:vertical .thumb:hover, .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #777; /* Svetlija siva pri hover-u */
+}
+
+/* Kada korisnik klikne na skrol dugme */
+.scroll-bar:vertical .thumb:pressed, .scroll-bar:horizontal .thumb:pressed {
+    -fx-background-color: #999; /* Još svetlija siva */
+}
+
+/* Stilizacija skrol trake (track) */
+.scroll-bar:vertical .track, .scroll-bar:horizontal .track {
+    -fx-background-color: #0E0F1A; /* Tamnija pozadina */
+    -fx-background-radius: 5px;
+}
+
+/* Uklanjanje strelica (gore/dole, levo/desno) */
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-opacity: 0; /* Sakriva dugmad */
+    -fx-padding: 0;
+}
