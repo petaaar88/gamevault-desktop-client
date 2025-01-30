@@ -13,7 +13,7 @@ import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.component.SearchComponent;
 
 public class GameCatalogScene {
-    public Scene createScene(Stage primaryStage) {
+    public VBox createScene(Stage primaryStage) {
 
         VBox layout = new VBox();
         layout.setPrefWidth(Double.MAX_VALUE);  // Postavlja širinu na maksimalnu
@@ -39,6 +39,6 @@ public class GameCatalogScene {
         primaryStage.setMinHeight(550);
 
         primaryStage.setScene(scene);
-        return scene;
+        return layout;
     }
 }
