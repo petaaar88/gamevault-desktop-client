@@ -1,15 +1,16 @@
 package org.example.desktopclient.component;
 
-import javafx.scene.Group;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import java.lang.foreign.GroupLayout;
 
 public class CatalogGameComponent {
 
@@ -17,52 +18,73 @@ public class CatalogGameComponent {
 
         VBox layout = new VBox();
 
-        layout.setStyle("-fx-background-color: #333352");
+        String css = getClass().getResource("/org/example/desktopclient/styles/catalogGameComponentStyles.css").toExternalForm();
+        layout.getStylesheets().add(css);
+
+        layout.getStyleClass().add("game-button-layout");
 
         Image gameCatalogImage = new Image("https://store-images.s-microsoft.com/image/apps.21181.14244061853036130.7c2802a8-1b30-475c-bf05-1f4138de9fd0.0ff00a6d-8e75-4346-980c-12dcdb64778d?q=90&w=480&h=270");
 
         ImageView gameCatalogImageView = new ImageView(gameCatalogImage);
-        gameCatalogImageView.setFitWidth(310);
+        gameCatalogImageView.setFitWidth(320);
         gameCatalogImageView.setFitHeight(180);
 
-        Text gameTitleText = new Text("Red Dead Redemtion");
+        String gameTitle = "Red Dead Redemtion 2 DLC Back to the future";
+
+        Label gameTitleLabel = new Label(gameTitle);
+        gameTitleLabel.getStyleClass().add("game-title");
+
+        Tooltip tooltip = new Tooltip(gameTitle);
+        Tooltip.install(gameTitleLabel, tooltip);
 
 
-        layout.getChildren().addAll(gameCatalogImageView, gameTitleText,getGameStatsGridPane());
+        VBox gameDetailsVbox = new VBox( gameTitleLabel,getGameStatsGridPane());
+        gameDetailsVbox.setPadding(new Insets(10,17,10,17));
+        layout.getChildren().addAll(gameCatalogImageView, gameDetailsVbox);
 
         Button button = new Button("", layout);
+        button.setPadding(new Insets(0));
+
+        String css2 = getClass().getResource("/org/example/desktopclient/styles/catalogGameComponentStyles.css").toExternalForm();
+        button.getStylesheets().add(css2);
+        button.getStyleClass().add("game-button");
 
         return button;
     }
 
     private GridPane getGameStatsGridPane(){
         GridPane gameStatsGridPane = new GridPane();
+        gameStatsGridPane.setPadding(new Insets(3,0,0,0));
 
         Image downloadIconImage = new Image(getClass().getResource("/org/example/desktopclient/icons/downloadIcon.png").toExternalForm());
         ImageView downloadIconImageView = new ImageView(downloadIconImage);
-        downloadIconImageView.setFitHeight(30);
-        downloadIconImageView.setFitWidth(30);
+        downloadIconImageView.setFitHeight(23);
+        downloadIconImageView.setFitWidth(23);
 
-        Text downloadNumberText = new Text("123");
-        HBox downloadHbox = new HBox(downloadIconImageView, downloadNumberText);
+        Label downloadNumberLabel = new Label("123");
+        downloadNumberLabel.getStyleClass().add("game-details-text");
+        HBox downloadHbox = new HBox(downloadIconImageView, downloadNumberLabel);
 
-
-        Image reviewIconImage = new Image(getClass().getResource("/org/example/desktopclient/icons/downloadIcon.png").toExternalForm());
+        Image reviewIconImage = new Image(getClass().getResource("/org/example/desktopclient/icons/emoji/mostlyNegativeEmojiDark.png").toExternalForm());
         ImageView reviewIconImageView = new ImageView(reviewIconImage);
-        reviewIconImageView.setFitHeight(30);
-        reviewIconImageView.setFitWidth(30);
+        reviewIconImageView.setFitHeight(23);
+        reviewIconImageView.setFitWidth(23);
 
-        Text reviewPercentageText = new Text("85%");
-        Text reviewNumberText = new Text("123");
-        HBox reviewHbox = new HBox(reviewIconImageView, reviewPercentageText,reviewNumberText);
+        Label reviewPercentageLabel = new Label("85%");
+        reviewPercentageLabel.getStyleClass().add("game-details-text");
+        Label reviewNumberLabel = new Label("123");
+        reviewNumberLabel.setPadding(new Insets(0,0,0,5));
+        reviewNumberLabel.getStyleClass().add("game-details-text");
+        HBox reviewHbox = new HBox(reviewIconImageView, reviewPercentageLabel,reviewNumberLabel);
 
         Image developerIconImage = new Image( getClass().getResource("/org/example/desktopclient/icons/developerIcon.png").toExternalForm());
         ImageView developerIconImageView = new ImageView(developerIconImage);
-        developerIconImageView.setFitWidth(30);
-        developerIconImageView.setFitHeight(30);
+        developerIconImageView.setFitWidth(23);
+        developerIconImageView.setFitHeight(23);
 
-        Text developerNameText = new Text("Rocstar");
-        HBox developerHbox = new HBox(developerIconImageView, developerNameText);
+        Label developerNameLabel = new Label("Rocstar Games");
+        developerNameLabel.getStyleClass().add("game-details-text");
+        HBox developerHbox = new HBox(developerIconImageView, developerNameLabel);
 
         gameStatsGridPane.addRow(0,reviewHbox,downloadHbox);
         gameStatsGridPane.addRow(1,developerHbox);
