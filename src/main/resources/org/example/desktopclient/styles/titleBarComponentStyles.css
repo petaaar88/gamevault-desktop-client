@@ -1,0 +1,26 @@
+.title-bar{
+    -fx-background-color: #0E0F1A;
+    -fx-padding: 0 0 0 11;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.title-bar-text{
+    -fx-text-fill: #575C96;
+}
+
+.title-bar-minimize-icon, .title-bar-maximize-icon, .title-bar-close-icon{
+    -fx-background-color: transparent;
+    -fx-text-fill: #575C96;
+    -fx-font-size: 14;
+}
+
+.title-bar-minimize-icon:hover, .title-bar-maximize-icon:hover{
+    -fx-background-color: #575C96;
+    -fx-text-fill: white;
+}
+
+.title-bar-close-icon:hover{
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
