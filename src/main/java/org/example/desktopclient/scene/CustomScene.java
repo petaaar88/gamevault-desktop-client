@@ -1,6 +1,8 @@
 package org.example.desktopclient.scene;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -12,12 +14,12 @@ public abstract class CustomScene {
     protected double yOffset = 0;
     protected final double borderThickness = 2; // Debljina ivica za resize
     protected Stage primaryStage;
-    protected VBox root;
+    protected BorderPane root;
     protected Scene scene;
 
     public CustomScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        root = new VBox();
+        root = new BorderPane();
     }
 
     public abstract Scene createScene();
@@ -28,7 +30,8 @@ public abstract class CustomScene {
 
         TitleBarComponent titleBar = new TitleBarComponent();
         root.setStyle("-fx-border: none;-fx-background-color: #191B2E");
-        root.getChildren().add(titleBar.getComponent(primaryStage,xOffset,yOffset));
+        root.setTop(titleBar.getComponent(primaryStage,xOffset,yOffset));
+        root.setPadding(new Insets(0,6,0,6));
 
         ResizeUtil.resizingWindow(primaryStage,root,borderThickness);
 

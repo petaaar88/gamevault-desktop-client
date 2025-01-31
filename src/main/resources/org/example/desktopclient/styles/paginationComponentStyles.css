@@ -1,0 +1,19 @@
+.pagination-item, .current-page{
+    -fx-background-color:transparent;
+    -fx-text-fill:white;
+    -fx-font-size: 16px;
+}
+
+.pagination-item:hover, .current-page:hover{
+    -fx-background-color:#575C96;
+}
+
+.pagination-item:pressed, .current-page:pressed{
+    -fx-background-color:#191B2E;
+}
+
+.current-page{
+    -fx-text-fill: #0084FF;
+    -fx-font-weight: 800;
+}
+

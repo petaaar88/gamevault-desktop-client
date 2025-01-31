@@ -4,7 +4,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class GamesCatalogComponent {
 
@@ -20,7 +22,7 @@ public class GamesCatalogComponent {
         gridPane.addRow(1, new CatalogGameComponent().getComponent(), new CatalogGameComponent().getComponent(), new CatalogGameComponent().getComponent());
 
         // Omotač (StackPane) koji centrira GridPane
-        StackPane stackPane = new StackPane(gridPane);
+        VBox stackPane = new VBox(gridPane);
         stackPane.setAlignment(Pos.CENTER); // Centriranje sadržaja
         stackPane.setPrefWidth(1000); // Širina omotača
 
@@ -39,6 +41,11 @@ public class GamesCatalogComponent {
         String css = getClass().getResource("/org/example/desktopclient/styles/scrollPaneStyles.css").toExternalForm();
         scrollPane.getStylesheets().add(css);
         scrollPane.getStyleClass().add("scroll-pane");
+
+
+        PaginationComponent paginationComponent = new PaginationComponent();
+
+        stackPane.getChildren().add(paginationComponent.getCompoenent());
 
         return scrollPane;
     }

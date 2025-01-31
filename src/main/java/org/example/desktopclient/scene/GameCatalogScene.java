@@ -3,7 +3,10 @@ package org.example.desktopclient.scene;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.CatalogGameComponent;
 import org.example.desktopclient.component.GamesCatalogComponent;
@@ -38,7 +41,15 @@ public class GameCatalogScene extends CustomScene {
         layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), gamesCatalogComponent.getComponent());
         layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
 
-        root.getChildren().add(layout);
+        root.setCenter(layout);
+        HBox hBox = new HBox();
+        hBox.setMinHeight(30);
+        hBox.setMaxHeight(30);
+        Text text = new Text("nesto");
+        hBox.getChildren().add(text);
+        hBox.setStyle("-fx-background-color:red");
+
+        root.setBottom(hBox);
 
         primaryStage.setMinWidth(1048);
         primaryStage.setMinHeight(550);
