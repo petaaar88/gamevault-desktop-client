@@ -34,8 +34,10 @@ public class GameCatalogScene extends CustomScene {
         searchComponent.settingFocus(scene);
         GamesCatalogComponent gamesCatalogComponent = new GamesCatalogComponent();
 
+        ScrollComponent scrollComponent = new ScrollComponent();
 
-        layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), gamesCatalogComponent.getComponent());
+
+        layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), scrollComponent.getComponent(gamesCatalogComponent.getComponent()));
         layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
 
         root.setCenter(layout);
