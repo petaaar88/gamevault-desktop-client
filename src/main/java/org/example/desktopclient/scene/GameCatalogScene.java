@@ -22,11 +22,11 @@ public class GameCatalogScene extends CustomScene {
         MenuComponent menuComponent = new MenuComponent();
         SearchComponent searchComponent = new SearchComponent();
         searchComponent.settingFocus(scene);
-        GamesCatalogComponent gamesCatalogComponent = new GamesCatalogComponent();
+        GamesCatalogVerticalMainComponent gamesCatalogVerticalMainComponent = new GamesCatalogVerticalMainComponent();
 
         ScrollComponent scrollComponent = new ScrollComponent();
 
-        Collection<Node> elements = Arrays.asList(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), scrollComponent.getComponent(gamesCatalogComponent.getComponent()));
+        Collection<Node> elements = Arrays.asList(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), scrollComponent.getComponent(gamesCatalogVerticalMainComponent.getComponent()));
 
         this.addNodesToLayout(elements);
 

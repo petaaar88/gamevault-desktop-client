@@ -36,13 +36,11 @@ public abstract class CustomScene {
         this.primaryStage.initStyle(StageStyle.UNDECORATED);
 
         TitleBarComponent titleBar = new TitleBarComponent();
-        root.setStyle("-fx-border: none;-fx-background-color: #191B2E");
         root.setTop(titleBar.getComponent(primaryStage,xOffset,yOffset));
+        root.setStyle("-fx-border: none;-fx-background-color: #191B2E");
         root.setPadding(new Insets(0,0,0,0));
 
-
         FooterComponent footerComponent = new FooterComponent();
-
         root.setBottom(footerComponent.getComponents());
 
         ResizeUtil.resizingWindow(primaryStage,root,borderThickness);
