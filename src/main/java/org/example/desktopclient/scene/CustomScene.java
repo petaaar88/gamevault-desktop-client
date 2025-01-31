@@ -1,13 +1,18 @@
 package org.example.desktopclient.scene;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.FooterComponent;
 import org.example.desktopclient.component.TitleBarComponent;
 import org.example.desktopclient.util.ResizeUtil;
+
+import java.util.Collection;
 
 public abstract class CustomScene {
     protected double xOffset = 0;
@@ -16,10 +21,12 @@ public abstract class CustomScene {
     protected Stage primaryStage;
     protected BorderPane root;
     protected Scene scene;
+    protected VBox layout;
 
     public CustomScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
         root = new BorderPane();
+        layout = new VBox();
     }
 
     public abstract Scene createScene();
@@ -45,8 +52,22 @@ public abstract class CustomScene {
 
         scene.getStylesheets().add(css);
 
+        layout = new VBox();
+        layout.setPrefWidth(Double.MAX_VALUE);  // Postavlja širinu na maksimalnu
+        layout.setPrefHeight(Double.MAX_VALUE);  // Postavlja visinu na maksimalnu
+
+        layout.setAlignment(Pos.TOP_CENTER);
+
+        layout.getStyleClass().add("main-layout");
+        layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
+
+
     }
 
+    public void addNodesToLayout(Collection<Node> elements){
+        layout.getChildren().addAll(elements);
+        root.setCenter(layout);
 
+    }
 
 }

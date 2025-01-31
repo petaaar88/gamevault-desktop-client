@@ -1,14 +1,12 @@
 package org.example.desktopclient.scene;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class GameCatalogScene extends CustomScene {
 
@@ -21,14 +19,6 @@ public class GameCatalogScene extends CustomScene {
 
         this.setup();
 
-        VBox layout = new VBox();
-        layout.setPrefWidth(Double.MAX_VALUE);  // Postavlja širinu na maksimalnu
-        layout.setPrefHeight(Double.MAX_VALUE);  // Postavlja visinu na maksimalnu
-
-        layout.setAlignment(Pos.TOP_CENTER);
-
-        layout.getStyleClass().add("main-layout");
-
         MenuComponent menuComponent = new MenuComponent();
         SearchComponent searchComponent = new SearchComponent();
         searchComponent.settingFocus(scene);
@@ -36,14 +26,9 @@ public class GameCatalogScene extends CustomScene {
 
         ScrollComponent scrollComponent = new ScrollComponent();
 
+        Collection<Node> elements = Arrays.asList(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), scrollComponent.getComponent(gamesCatalogComponent.getComponent()));
 
-        layout.getChildren().addAll(menuComponent.getComponent(), searchComponent.getComponent("Search Games"), scrollComponent.getComponent(gamesCatalogComponent.getComponent()));
-        layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
-
-        root.setCenter(layout);
-
-        primaryStage.setMinWidth(1048);
-        primaryStage.setMinHeight(550);
+        this.addNodesToLayout(elements);
 
         primaryStage.setScene(scene);
         return scene;
