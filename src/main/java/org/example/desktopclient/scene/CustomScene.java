@@ -3,9 +3,9 @@ package org.example.desktopclient.scene;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.example.desktopclient.component.FooterComponent;
 import org.example.desktopclient.component.TitleBarComponent;
 import org.example.desktopclient.util.ResizeUtil;
 
@@ -31,7 +31,12 @@ public abstract class CustomScene {
         TitleBarComponent titleBar = new TitleBarComponent();
         root.setStyle("-fx-border: none;-fx-background-color: #191B2E");
         root.setTop(titleBar.getComponent(primaryStage,xOffset,yOffset));
-        root.setPadding(new Insets(0,6,0,6));
+        root.setPadding(new Insets(0,0,0,0));
+
+
+        FooterComponent footerComponent = new FooterComponent();
+
+        root.setBottom(footerComponent.getComponents());
 
         ResizeUtil.resizingWindow(primaryStage,root,borderThickness);
 

@@ -8,10 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.example.desktopclient.component.CatalogGameComponent;
-import org.example.desktopclient.component.GamesCatalogComponent;
-import org.example.desktopclient.component.MenuComponent;
-import org.example.desktopclient.component.SearchComponent;
+import org.example.desktopclient.component.*;
 
 public class GameCatalogScene extends CustomScene {
 
@@ -42,14 +39,6 @@ public class GameCatalogScene extends CustomScene {
         layout.setPadding(new Insets(25, 0, 0, 0)); // (top, right, bottom, left)
 
         root.setCenter(layout);
-        HBox hBox = new HBox();
-        hBox.setMinHeight(30);
-        hBox.setMaxHeight(30);
-        Text text = new Text("nesto");
-        hBox.getChildren().add(text);
-        hBox.setStyle("-fx-background-color:red");
-
-        root.setBottom(hBox);
 
         primaryStage.setMinWidth(1048);
         primaryStage.setMinHeight(550);

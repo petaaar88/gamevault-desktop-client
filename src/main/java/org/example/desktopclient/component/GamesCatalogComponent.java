@@ -4,13 +4,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class GamesCatalogComponent {
 
-    public ScrollPane getComponent() {
+    public StackPane getComponent() {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(20);
@@ -22,12 +21,12 @@ public class GamesCatalogComponent {
         gridPane.addRow(1, new CatalogGameComponent().getComponent(), new CatalogGameComponent().getComponent(), new CatalogGameComponent().getComponent());
 
         // Omotač (StackPane) koji centrira GridPane
-        VBox stackPane = new VBox(gridPane);
-        stackPane.setAlignment(Pos.CENTER); // Centriranje sadržaja
-        stackPane.setPrefWidth(1000); // Širina omotača
+        VBox vBox = new VBox(gridPane);
+        vBox.setAlignment(Pos.CENTER); // Centriranje sadržaja
+        vBox.setPrefWidth(1000); // Širina omotača
 
         // Kreiranje ScrollPane
-        ScrollPane scrollPane = new ScrollPane(stackPane);
+        ScrollPane scrollPane = new ScrollPane(vBox);
         scrollPane.setFitToWidth(true); // Osigurava da StackPane zauzima celu širinu
         scrollPane.setFitToHeight(true); // Prilagođava visinu
 
@@ -45,9 +44,13 @@ public class GamesCatalogComponent {
 
         PaginationComponent paginationComponent = new PaginationComponent();
 
-        stackPane.getChildren().add(paginationComponent.getCompoenent());
+        vBox.getChildren().add(paginationComponent.getCompoenent());
 
-        return scrollPane;
+        StackPane stackPane = new StackPane(scrollPane);
+
+        stackPane.setPadding(new Insets(0,6,0,6));
+
+        return stackPane;
     }
 
 }
