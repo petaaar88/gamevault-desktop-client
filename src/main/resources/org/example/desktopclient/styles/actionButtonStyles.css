@@ -1,0 +1,25 @@
+.normal-action-button{
+    -fx-background-color: #0084FF;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-padding: 3 18;
+    -fx-cursor: hand;
+}
+
+.large-action-button {
+    -fx-background-color: #0084FF;
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 6 36;
+    -fx-cursor: hand;
+}
+
+.normal-action-button:hover, .large-action-button{
+    -fx-background-color: #0057A7;
+}
+
+.normal-action-button:pressed, .large-action-button:pressed{
+    -fx-background-color: #013E77;
+}
