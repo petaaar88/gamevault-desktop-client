@@ -9,6 +9,7 @@
 
 .image-slider-button:hover{
     -fx-background-color: #036FD4;
+    -fx-cursor: hand;
 }
 
 .current-image, .image-in-slider{
