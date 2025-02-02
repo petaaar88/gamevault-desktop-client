@@ -1,9 +1,7 @@
 package org.example.desktopclient.component;
 
 import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,9 +16,9 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent{
 
         this.setup();
 
-        GameDescription gameDescription = new GameDescription();
+        GameDescriptionComponent gameDescriptionComponent = new GameDescriptionComponent();
 
-        Collection<Node> elements = Arrays.asList(gameDescription.getComponent());
+        Collection<Node> elements = Arrays.asList(gameDescriptionComponent.getComponent());
         this.addElements(elements);
 
         return layout;

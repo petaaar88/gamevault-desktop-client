@@ -3,7 +3,6 @@ package org.example.desktopclient.scene;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.desktopclient.component.GameDescription;
 import org.example.desktopclient.component.GameProductPageVerticalMainComponent;
 import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.component.ScrollComponent;

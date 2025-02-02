@@ -1,0 +1,25 @@
+.image-slider-button{
+    -fx-background-color: #333352;
+    -fx-text-fill: #0084FF;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 17px;
+    -fx-font-weight: 700;
+}
+
+.image-slider-button:hover{
+    -fx-background-color: #036FD4;
+}
+
+.current-image, .image-in-slider{
+    -fx-border-width: 1px;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+}
+.current-image{
+    -fx-border-color: white;
+}
+
+.image-in-slider{
+    -fx-border-color: transparent;
+}

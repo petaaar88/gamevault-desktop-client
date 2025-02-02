@@ -1,14 +1,13 @@
 package org.example.desktopclient.component;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class GameDescription {
+public class GameDescriptionComponent {
 
     public VBox getComponent(){
         VBox layout = new VBox();
@@ -23,17 +22,18 @@ public class GameDescription {
         layout.getStylesheets().add(css);
         gameTitleText.getStyleClass().add("game-description-title");
 
-        HBox hBox = new HBox();
-        ImageView imageView = new ImageView(new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2933620/ss_bf4e9aa33ea2cf6846e26ffdec5f1cdecbc39e61.600x338.jpg?t=1738088305"));
-        imageView.setFitHeight(350);
-        imageView.setFitWidth(630);
+        HBox imageSliderAndDetailsHbox = new HBox();
+        ImagesSliderComponent imagesSliderComponent = new ImagesSliderComponent();
+
+
         GameDetailsComponent gameDetailsComponent = new GameDetailsComponent();
-        hBox.setSpacing(24);
-        hBox.setPadding(new Insets(15,0,0,0));
+        imageSliderAndDetailsHbox.setSpacing(24);
+        imageSliderAndDetailsHbox.setPadding(new Insets(15,0,0,0));
 
-        hBox.getChildren().addAll(imageView,gameDetailsComponent.getComponent());
+        imageSliderAndDetailsHbox.getChildren().addAll(imagesSliderComponent.getComponent(),gameDetailsComponent.getComponent());
 
-        layout.getChildren().addAll(gameTitleText, hBox);
+
+        layout.getChildren().addAll(gameTitleText, imageSliderAndDetailsHbox);
         return layout;
     }
 }
