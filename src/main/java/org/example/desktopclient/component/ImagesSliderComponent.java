@@ -19,16 +19,6 @@ public class ImagesSliderComponent {
     private final Integer MIN_IMAGES_IN_SLIDER = 0;
 
     public VBox getComponent() {
-
-        int[] currentImageIndex = {0}; // početna vrednost
-        int[] previousImageIndex = {currentImageIndex[0]}; // koristiš niz da bi bila efektivno finalna
-
-        int[] minIndexInSlider = {MIN_IMAGES_IN_SLIDER}; // početna vrednost
-        int[] maxIndexInSlider = {MAX_IMAGES_IN_SLIDER - 1}; // koristiš niz da bi bila efektivno finalna
-
-        int[] currentImageIndexInSlider = {0}; // početna vrednost
-        int[] previousImageIndexInSlider = {currentImageIndexInSlider[0]}; // koristiš niz da bi bila efektivno finalna
-
         List<Image> images = Arrays.asList(
                 new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2933620/ss_bf4e9aa33ea2cf6846e26ffdec5f1cdecbc39e61.600x338.jpg?t=1738088305"),
                 new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/ss_66b553f4c209476d3e4ce25fa4714002cc914c4f.600x338.jpg?t=1720558643"),
@@ -36,6 +26,18 @@ public class ImagesSliderComponent {
                 new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/ss_668dafe477743f8b50b818d5bbfcec669e9ba93e.600x338.jpg?t=1720558643"),
                 new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/ss_d1a8f5a69155c3186c65d1da90491fcfd43663d9.600x338.jpg?t=1720558643"),
                 new Image("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1295660/ss_8c1226a5c58447773b03b6c967e9d561d3315fd7.600x338.jpg?t=1738279420"));
+
+        Integer maxNumberOfImagesInSlider = (MAX_IMAGES_IN_SLIDER > images.size())? images.size() : MAX_IMAGES_IN_SLIDER;
+
+        int[] currentImageIndex = {0}; // početna vrednost
+        int[] previousImageIndex = {currentImageIndex[0]}; // koristiš niz da bi bila efektivno finalna
+
+        int[] minIndexInSlider = {MIN_IMAGES_IN_SLIDER}; // početna vrednost
+        int[] maxIndexInSlider = {maxNumberOfImagesInSlider - 1}; // koristiš niz da bi bila efektivno finalna
+
+        int[] currentImageIndexInSlider = {0}; // početna vrednost
+        int[] previousImageIndexInSlider = {currentImageIndexInSlider[0]}; // koristiš niz da bi bila efektivno finalna
+
 
         List<Button> allImagesForSlider = new ArrayList<>();
 
@@ -74,7 +76,7 @@ public class ImagesSliderComponent {
 
         }
 
-        for (int i = 0; i < MAX_IMAGES_IN_SLIDER; i++) {
+        for (int i = 0; i < maxNumberOfImagesInSlider; i++) {
 
             ImageView imageView = new ImageView(images.get(i));
             imageView.setFitWidth(122);
@@ -107,9 +109,9 @@ public class ImagesSliderComponent {
                 if (currentImageIndex[0] == (images.size() - 1)) {
                     currentImageIndex[0] = 0;
                     minIndexInSlider[0] = 0;
-                    maxIndexInSlider[0] = MAX_IMAGES_IN_SLIDER -1 ;
+                    maxIndexInSlider[0] = maxNumberOfImagesInSlider -1 ;
                     currentImageIndexInSlider[0] = 0;
-                    previousImageIndexInSlider[0] = MAX_IMAGES_IN_SLIDER - 1;
+                    previousImageIndexInSlider[0] = maxNumberOfImagesInSlider - 1;
 
                     imagesInSliderHbox.getChildren().getLast().getStyleClass().removeLast();
                     imagesInSliderHbox.getChildren().getLast().getStyleClass().add("image-in-slider");
@@ -118,7 +120,7 @@ public class ImagesSliderComponent {
                         imagesInSliderHbox.getChildren().removeLast();
 
 
-                    for (int i = 0; i < MAX_IMAGES_IN_SLIDER; i++) {
+                    for (int i = 0; i < maxNumberOfImagesInSlider; i++) {
 
                         Button button = allImagesForSlider.get(i);
 
@@ -140,7 +142,7 @@ public class ImagesSliderComponent {
                     imagesInSliderHbox.getChildren().add(allImagesForSlider.get(currentImageIndex[0]));
                     maxIndexInSlider[0]++;
                     minIndexInSlider[0]++;
-                    currentImageIndexInSlider[0] = MAX_IMAGES_IN_SLIDER - 1;
+                    currentImageIndexInSlider[0] = maxNumberOfImagesInSlider - 1;
                     previousImageIndexInSlider[0] = currentImageIndexInSlider[0] - 1;
 
                 }
@@ -169,9 +171,9 @@ public class ImagesSliderComponent {
 
                 if (currentImageIndex[0] == 0) {
                     currentImageIndex[0] = images.size() - 1;
-                    minIndexInSlider[0] = images.size() - MAX_IMAGES_IN_SLIDER;
+                    minIndexInSlider[0] = images.size() - maxNumberOfImagesInSlider;
                     maxIndexInSlider[0] = images.size() - 1;
-                    currentImageIndexInSlider[0] = MAX_IMAGES_IN_SLIDER - 1;
+                    currentImageIndexInSlider[0] = maxNumberOfImagesInSlider - 1;
                     previousImageIndexInSlider[0] = 0;
 
                     imagesInSliderHbox.getChildren().getFirst().getStyleClass().removeLast();
@@ -214,8 +216,6 @@ public class ImagesSliderComponent {
             }
         });
 
-
-        HBox.setHgrow(imagesInSliderHbox, Priority.ALWAYS);
 
         sliderHbox.getChildren().addAll(leftArrow, imagesInSliderHbox, rightArrow);
         sliderHbox.setAlignment(Pos.CENTER);
