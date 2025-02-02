@@ -3,7 +3,6 @@ package org.example.desktopclient.component;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.util.Collection;
 

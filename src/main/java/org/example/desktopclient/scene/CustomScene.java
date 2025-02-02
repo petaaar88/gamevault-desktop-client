@@ -49,6 +49,7 @@ public abstract class CustomScene {
         String css = getClass().getResource("/org/example/desktopclient/styles/universalStyles.css").toExternalForm();
 
         scene.getStylesheets().add(css);
+        primaryStage.setScene(scene);
 
         layout = new VBox();
         layout.setPrefWidth(Double.MAX_VALUE);  // Postavlja širinu na maksimalnu

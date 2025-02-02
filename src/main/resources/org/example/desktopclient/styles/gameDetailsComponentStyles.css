@@ -1,0 +1,35 @@
+.game-description-text-heading{
+    -fx-fill: #8079CB;
+    -fx-font-weight: 700;
+    -fx-font-size: 18px;
+}
+
+.game-description-text-body{
+    -fx-fill: white;
+    -fx-font-size: 13.5px;
+}
+
+.game-description-review-mostly_negative-color{
+    -fx-fill: #820909;
+    -fx-font-weight: 700;
+}
+
+.game-description-review-negative-color{
+    -fx-fill: #FF0000;
+    -fx-font-weight: 700;
+}
+
+.game-description-review-mixed-color{
+    -fx-fill: #FFA500;
+    -fx-font-weight: 700;
+}
+
+.game-description-review-positive-color{
+    -fx-fill: #32CD32;
+    -fx-font-weight: 700;
+}
+
+.game-description-review-mostly_positive-color{
+    -fx-fill: #027a02;
+    -fx-font-weight: 700;
+}

@@ -1,0 +1,9 @@
+.game-genre{
+    -fx-background-color: #191B2E;
+    -fx-text-color: white;
+    -fx-font-size: 10px;
+    -fx-padding: 4 13;
+    -fx-font-weight: 700;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}

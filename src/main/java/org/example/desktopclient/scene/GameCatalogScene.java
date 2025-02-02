@@ -12,12 +12,12 @@ public class GameCatalogScene extends CustomScene {
 
     public GameCatalogScene(Stage primaryStage) {
         super(primaryStage);
+        this.setup();
+
     }
 
     @Override
     public Scene createScene() {
-
-        this.setup();
 
         MenuComponent menuComponent = new MenuComponent();
         SearchComponent searchComponent = new SearchComponent();
@@ -30,7 +30,6 @@ public class GameCatalogScene extends CustomScene {
 
         this.addNodesToLayout(elements);
 
-        primaryStage.setScene(scene);
         return scene;
     }
 }
