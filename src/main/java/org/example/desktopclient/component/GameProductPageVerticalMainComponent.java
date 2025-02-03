@@ -3,6 +3,7 @@ package org.example.desktopclient.component;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -30,7 +31,11 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent{
 
         DownloadGameComponent downloadGameComponent = new DownloadGameComponent();
 
-        systemRequirementAndFriendsHBox.getChildren().addAll(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"),new Text("Neki tekst") );
+        systemRequirementAndFriendsHBox.getChildren().add(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"));
+
+        FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
+
+        systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
 
         Collection<Node> elements = Arrays.asList(gameDescriptionComponent.getComponent(), systemRequirementAndFriendsHBox);
         this.addElements(elements);

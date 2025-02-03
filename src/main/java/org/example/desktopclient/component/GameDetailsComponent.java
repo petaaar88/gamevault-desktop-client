@@ -16,6 +16,7 @@ public class GameDetailsComponent {
 
     public VBox getComponent() {
         VBox layout = new VBox();
+        layout.setMaxHeight(Region.USE_PREF_SIZE);
 
         layout.setStyle("-fx-background-color:#333352");
         layout.setPadding(new Insets(17));
