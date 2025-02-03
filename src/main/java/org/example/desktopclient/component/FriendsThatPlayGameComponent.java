@@ -3,6 +3,7 @@ package org.example.desktopclient.component;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -13,6 +14,7 @@ public class FriendsThatPlayGameComponent {
         layout.setMinWidth(345);
         layout.setMaxWidth(345);
         layout.setPadding(new Insets(15));
+        layout.setMaxHeight(Region.USE_PREF_SIZE);
 
         layout.setStyle("-fx-background-color: #333352");
 

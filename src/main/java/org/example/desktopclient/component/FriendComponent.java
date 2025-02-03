@@ -2,6 +2,7 @@ package org.example.desktopclient.component;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,14 +26,20 @@ public class FriendComponent {
 
         Label usernameLabel = new Label(username);
         usernameLabel.setStyle("-fx-font-size: 17;-fx-font-weight: bold");
+        Button button = new Button("",usernameLabel);
+        button.setPadding(new Insets(0));
+        button.setStyle("-fx-background-color: transparent;-fx-cursor: hand");
+
+
         Label textLabel = new Label(text);
         textLabel.setStyle("-fx-font-weight: 200");
 
-        VBox vBox = new VBox(usernameLabel, textLabel);
+        VBox vBox = new VBox(button, textLabel);
 
         HBox hBox = new HBox(imageView, vBox);
         hBox.setSpacing(10);
         hBox.setAlignment(Pos.CENTER_LEFT);
+
         layout.getChildren().add(hBox);
 
         return layout;
@@ -52,10 +59,15 @@ public class FriendComponent {
 
         Label usernameLabel = new Label(username);
         usernameLabel.setStyle("-fx-font-size: 17;-fx-font-weight: bold");
+
+        Button button = new Button("",usernameLabel);
+        button.setPadding(new Insets(0));
+        button.setStyle("-fx-background-color: transparent;-fx-cursor: hand");
+
         Label textLabel = new Label(text);
         textLabel.setStyle("-fx-font-weight: 200;-fx-text-fill: #D8E212");
 
-        VBox vBox = new VBox(usernameLabel, textLabel);
+        VBox vBox = new VBox(button, textLabel);
 
         HBox hBox = new HBox(imageView, vBox);
         hBox.setSpacing(7);

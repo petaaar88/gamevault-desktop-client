@@ -30,12 +30,18 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent{
         systemRequirementAndFriendsHBox.setMaxWidth(1000);
 
         DownloadGameComponent downloadGameComponent = new DownloadGameComponent();
+        GameSystemRequirements gameSystemRequirements = new GameSystemRequirements();
 
-        systemRequirementAndFriendsHBox.getChildren().add(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"));
+        VBox vBox = new VBox(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"),gameSystemRequirements.getComponent());
+        vBox.setSpacing(20);
+
+
+        systemRequirementAndFriendsHBox.getChildren().add(vBox);
 
         FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
-
         systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
+
+
 
         Collection<Node> elements = Arrays.asList(gameDescriptionComponent.getComponent(), systemRequirementAndFriendsHBox);
         this.addElements(elements);
