@@ -2,6 +2,7 @@
     -fx-background-color:transparent;
     -fx-text-fill:white;
     -fx-font-size: 16px;
+    -fx-cursor: hand;
 }
 
 .pagination-item:hover, .current-page:hover{

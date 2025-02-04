@@ -17,7 +17,7 @@ public class ScrollComponent {
 
         // Onemogućavanje horizontalnog skrolovanja ako nije potrebno
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setPadding(new Insets(0, 0, 0, 0));
+        scrollPane.setPadding(new Insets(0, 0, 20, 0));
         scrollPane.setStyle("-fx-background:#191B2E");
         String css = getClass().getResource("/org/example/desktopclient/styles/scrollPaneStyles.css").toExternalForm();
         scrollPane.getStylesheets().add(css);

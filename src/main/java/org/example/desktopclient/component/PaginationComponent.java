@@ -11,7 +11,7 @@ public class PaginationComponent {
     public HBox getCompoenent(){
         HBox layout = new HBox();
 
-        layout.setPadding(new Insets(20));
+        layout.setPadding(new Insets(20,20,0,20));
 
         String css = getClass().getResource("/org/example/desktopclient/styles/paginationComponentStyles.css").toExternalForm();
         layout.getStylesheets().add(css);
