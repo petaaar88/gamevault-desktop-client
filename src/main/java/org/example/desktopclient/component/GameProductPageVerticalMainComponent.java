@@ -31,8 +31,9 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent{
 
         DownloadGameComponent downloadGameComponent = new DownloadGameComponent();
         GameSystemRequirements gameSystemRequirements = new GameSystemRequirements();
+        TextInputComponent textInputComponent = new TextInputComponent();
 
-        VBox vBox = new VBox(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"),gameSystemRequirements.getComponent());
+        VBox vBox = new VBox(downloadGameComponent.getComponent("Red Dead Redemption 2","Http://nlse.com"),gameSystemRequirements.getComponent(),textInputComponent.getWithRatingComponent());
         vBox.setSpacing(20);
 
 
