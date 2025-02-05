@@ -1,0 +1,18 @@
+.game-in-collection-button{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.game-in-collection-button:hover {
+    -fx-background-color: #0563BA;
+}
+
+.game-in-collection-button:pressed {
+    -fx-background-color: #0084FF;
+}
+
+.selected-game-in-collection-button {
+    -fx-background-color: #0084FF;
+    -fx-cursor: hand;
+}
+
