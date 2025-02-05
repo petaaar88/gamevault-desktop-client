@@ -36,21 +36,21 @@ public class UserGameInCollectionDetailsComponent {
 
 
         HBox actionAndStatsHbox = new HBox();
-        actionAndStatsHbox.setPadding(new Insets(13,18,13,18));
-        VBox imageAndActionVbox = new VBox(coverImage,actionAndStatsHbox);
+        actionAndStatsHbox.setPadding(new Insets(13, 18, 13, 18));
+        VBox imageAndActionVbox = new VBox(coverImage, actionAndStatsHbox);
         actionAndStatsHbox.setStyle("-fx-background-color: #333352");
         actionButton.setText("Download");
         Text lastPlayedTitle = new Text("Last Played");
         lastPlayedTitle.setStyle("-fx-fill: white;-fx-font-size: 15px;-fx-font-weight: 700;");
         Text lastPlayedText = new Text("12.3.2025.");
         lastPlayedText.setStyle("-fx-fill: white;-fx-font-size: 14px;-fx-font-weight: 600");
-        VBox lastPlayedVBox = new VBox(lastPlayedTitle,lastPlayedText);
+        VBox lastPlayedVBox = new VBox(lastPlayedTitle, lastPlayedText);
 
         Text playtimeTitle = new Text("Playtime");
         playtimeTitle.setStyle("-fx-fill: white;-fx-font-size: 15px;-fx-font-weight: 700;");
         Text playtimeText = new Text("12h");
         playtimeText.setStyle("-fx-fill: white;-fx-font-size: 14px;-fx-font-weight: 600");
-        VBox playtimeVBox = new VBox(playtimeTitle,playtimeText);
+        VBox playtimeVBox = new VBox(playtimeTitle, playtimeText);
 
         ImageView deleteImageView = new ImageView(new Image(getClass().getResource("/org/example/desktopclient/icons/settingsIcon.png").toExternalForm()));
         deleteImageView.setFitHeight(33);
@@ -58,10 +58,10 @@ public class UserGameInCollectionDetailsComponent {
         Button deleteButton = new Button("", deleteImageView);
         deleteButton.setStyle("-fx-background-color:transparent; -fx-cursor: hand");
 
-        HBox hbox = new HBox(actionButton, lastPlayedVBox,playtimeVBox);
-        HBox.setHgrow(hbox,Priority.ALWAYS);
+        HBox hbox = new HBox(actionButton, lastPlayedVBox, playtimeVBox);
+        HBox.setHgrow(hbox, Priority.ALWAYS);
         hbox.setSpacing(22);
-        actionAndStatsHbox.getChildren().addAll(hbox,deleteButton);
+        actionAndStatsHbox.getChildren().addAll(hbox, deleteButton);
 
         Text descriptionText = new Text("Description");
         descriptionText.setStyle("-fx-fill: #8079CB; -fx-font-size: 20px; -fx-font-weight: 700;");
@@ -71,7 +71,7 @@ public class UserGameInCollectionDetailsComponent {
         descriptionLabel.setMaxWidth(350); // Postavi na širinu pri kojoj treba da se wrapuje
         descriptionLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white");
         descriptionLabel.setMinHeight(Region.USE_PREF_SIZE);
-        descriptionLabel.setPadding(new Insets(8,0,0,0));
+        descriptionLabel.setPadding(new Insets(8, 0, 0, 0));
 
         VBox descriptionVbox = new VBox(descriptionText, descriptionLabel);
         descriptionVbox.setStyle("-fx-background-color: #333352");
@@ -83,10 +83,12 @@ public class UserGameInCollectionDetailsComponent {
         descriptionAndFriendsHBox.setSpacing(15);
 
         ScrollComponent scrollComponent = new ScrollComponent();
-       VBox vBox = new VBox(imageAndActionVbox, descriptionAndFriendsHBox);
-       vBox.setSpacing(15);
 
-        layout.getChildren().addAll( scrollComponent.getComponent(vBox));
+        VBox vBox = new VBox(imageAndActionVbox, descriptionAndFriendsHBox);
+        vBox.setSpacing(15);
+
+        layout.getChildren().addAll(scrollComponent.getComponent(vBox));
+        scrollComponent.setPaddingX(0);
 
         return layout;
     }

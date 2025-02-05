@@ -36,6 +36,10 @@ public class ScrollComponent {
         stackPane.setPadding(new Insets(0, padding, 0, padding));
     }
 
+    public void setPaddingX(Integer paddingX){
+        scrollPane.setPadding(new Insets(paddingX, 0, paddingX, 0));
+    }
+
     public void setBackgroundColor(String color){
         scrollPane.setStyle("-fx-background: "+color);
     }

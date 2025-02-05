@@ -13,7 +13,6 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        //GameCatalogScene gameProductPageScene = new GameCatalogScene(primaryStage);
         UserGameCollectionScene gameProductPageScene = new UserGameCollectionScene(primaryStage);
         gameProductPageScene.createScene();
 
