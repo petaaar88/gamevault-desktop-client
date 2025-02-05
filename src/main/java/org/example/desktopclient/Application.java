@@ -1,6 +1,7 @@
 package org.example.desktopclient;
 
 import javafx.stage.Stage;
+import org.example.desktopclient.component.UserGameInCollectionDetailsComponent;
 import org.example.desktopclient.scene.GameCatalogScene;
 import org.example.desktopclient.scene.GameProductPageScene;
 import org.example.desktopclient.scene.UserGameCollectionScene;
@@ -12,6 +13,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+        //GameCatalogScene gameProductPageScene = new GameCatalogScene(primaryStage);
         UserGameCollectionScene gameProductPageScene = new UserGameCollectionScene(primaryStage);
         gameProductPageScene.createScene();
 

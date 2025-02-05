@@ -7,9 +7,12 @@ import javafx.scene.layout.StackPane;
 
 public class ScrollComponent {
 
-    public StackPane getComponent(Node item){
+    private StackPane stackPane;
+    private ScrollPane scrollPane;
 
-        ScrollPane scrollPane = new ScrollPane(item);
+    public StackPane getComponent(Node item) {
+
+        scrollPane = new ScrollPane(item);
         scrollPane.setFitToWidth(true); // Osigurava da StackPane zauzima celu širinu
         scrollPane.setFitToHeight(true); // Prilagođava visinu
 
@@ -23,9 +26,17 @@ public class ScrollComponent {
         scrollPane.getStylesheets().add(css);
         scrollPane.getStyleClass().add("scroll-pane");
 
-        StackPane stackPane = new StackPane(scrollPane);
-        stackPane.setPadding(new Insets(0,6,0,6));
+        stackPane = new StackPane(scrollPane);
+        stackPane.setPadding(new Insets(0, 6, 0, 6));
 
-        return  stackPane;
+        return stackPane;
+    }
+
+    public void setPaddingInline(Integer padding) {
+        stackPane.setPadding(new Insets(0, padding, 0, padding));
+    }
+
+    public void setBackgroundColor(String color){
+        scrollPane.setStyle("-fx-background: "+color);
     }
 }

@@ -26,6 +26,8 @@ public class UsersGamesCollectionController {
 
     public void setGames() {
         games = Arrays.asList(Map.of("id", "1", "image", "https://static.vecteezy.com/system/resources/previews/027/127/593/non_2x/grand-theft-auto-gta-v-logo-grand-theft-auto-gta-v-icon-transparent-free-png.png", "title", "Grand Threft Auto 5"), Map.of("id", "2", "image", "https://img.icons8.com/?size=192&id=iExfEgcZKka2&format=png", "title", "Rainbow Six Siege"));
+
+
     }
 
     public void initializeGameCollectionComponent() {

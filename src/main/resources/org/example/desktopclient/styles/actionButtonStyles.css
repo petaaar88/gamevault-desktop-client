@@ -16,7 +16,7 @@
     -fx-cursor: hand;
 }
 
-.normal-action-button:hover, .large-action-button{
+.normal-action-button:hover, .large-action-button:hover{
     -fx-background-color: #0057A7;
 }
 
