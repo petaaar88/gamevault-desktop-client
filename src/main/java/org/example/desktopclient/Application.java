@@ -2,9 +2,8 @@ package org.example.desktopclient;
 
 import javafx.stage.Stage;
 import org.example.desktopclient.component.MenuComponent;
-import org.example.desktopclient.component.UserGameInCollectionDetailsComponent;
 import org.example.desktopclient.controller.MenuController;
-import org.example.desktopclient.model.User;
+import org.example.desktopclient.model.user.User;
 import org.example.desktopclient.scene.FriendsScene;
 import org.example.desktopclient.scene.GameCatalogScene;
 import org.example.desktopclient.scene.GameProductPageScene;
@@ -19,10 +18,12 @@ public class Application extends javafx.application.Application {
     public void start(Stage primaryStage) throws IOException {
 
         ApplicationContextService applicationContextService = new ApplicationContextService();
-        applicationContextService.setUser(new User(1,"Korinsik123","http://slika123.jpg"));
+        applicationContextService.setUser(new User(1,"Korinsik123","https://cdn-icons-png.flaticon.com/512/9187/9187604.png"));
 
         MenuComponent menuComponent = new MenuComponent();
         MenuController menuController = new MenuController(menuComponent, primaryStage);
+        menuController.setUser(applicationContextService.getUser());
+
 
 
 
@@ -32,14 +33,14 @@ public class Application extends javafx.application.Application {
         UserGameCollectionScene userGameCollectionSceneInstance = UserGameCollectionScene.getInstance(primaryStage,menuController);
         userGameCollectionSceneInstance.setApplicationContextService(applicationContextService);
 
+        FriendsScene friendsSceneInstance = FriendsScene.getInstance(primaryStage,menuController);
+        friendsSceneInstance.setApplicationContextService(applicationContextService);
+
         //TODO scena nije zadnja inicijlaizovana, nece se rendervoati meni i sadrzaj na njoj
         GameCatalogScene gameCatalogSceneInstance = GameCatalogScene.getInstance(primaryStage, menuController);
         gameCatalogSceneInstance.setApplicationContextService(applicationContextService);
 
         gameCatalogSceneInstance.createScene();
-
-       // primaryStage.setMinWidth(1048);
-       // primaryStage.setMinHeight(550);
 
         primaryStage.show();
 

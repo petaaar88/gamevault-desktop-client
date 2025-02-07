@@ -4,7 +4,7 @@ package org.example.desktopclient.service;
 //treba da sadrzi podatak o tokenima ili sesiji
 //bez ovog konteksta nemogu da imam pristup aplikaciji
 
-import org.example.desktopclient.model.User;
+import org.example.desktopclient.model.user.User;
 
 public class ApplicationContextService {
     private User user;

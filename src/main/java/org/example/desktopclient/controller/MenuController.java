@@ -1,28 +1,26 @@
 package org.example.desktopclient.controller;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.MenuComponent;
-import org.example.desktopclient.scene.CustomScene;
-import org.example.desktopclient.scene.GameCatalogScene;
-import org.example.desktopclient.scene.GameProductPageScene;
-import org.example.desktopclient.scene.UserGameCollectionScene;
+import org.example.desktopclient.model.user.User;
+import org.example.desktopclient.scene.*;
 
-import javax.swing.*;
 import java.util.Arrays;
 
 public class MenuController {
     private MenuComponent component;
     private String activePage;
     private Stage primaryStage;
+    private User user;
 
     public MenuController(MenuComponent component, Stage primaryStage) {
         this.component = component;
         this.primaryStage = primaryStage;
         this.handleClick();
+        this.handleProfileButtonClick();
+        this.handleLogoutButtonClick();
     }
 
 
@@ -42,6 +40,20 @@ public class MenuController {
         return activePage;
     }
 
+    public void handleProfileButtonClick() {
+        component.getProfileButton().setOnMouseClicked(e -> {
+            component.getLogoutButton().setVisible(!component.getLogoutButton().isVisible());
+        });
+    }
+
+    public void handleLogoutButtonClick() {
+        component.getLogoutButton().setOnMouseClicked(e -> {
+            if ( component.getLogoutButton().isVisible()) {
+                component.getLogoutButton().setVisible(false); // Sakrij dropdown dugme
+            }
+        });
+    }
+
     public void handleClick() {
 
         component.getCatalogText().setOnMouseClicked(e -> {
@@ -53,6 +65,11 @@ public class MenuController {
         component.getMyGamesText().setOnMouseClicked(e -> {
             if (activePage != "My Games")
                 changeScene("My Games", UserGameCollectionScene.getInstance());
+        });
+
+        component.getFriendsText().setOnMouseClicked(e->{
+            if(activePage != "Friends")
+                changeScene("Friends", FriendsScene.getInstance());
         });
 
 
@@ -119,6 +136,16 @@ public class MenuController {
         component.getLeftSide().getChildren().clear();
         component.getLeftSide().getChildren().addAll(component.getMenuItems());
 
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        component.setContent(user);
+
+    }
+
+    public User getUser() {
+        return user;
     }
 
 

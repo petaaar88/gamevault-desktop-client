@@ -1,4 +1,4 @@
-package org.example.desktopclient.model;
+package org.example.desktopclient.model.user;
 
 public class User {
     private Integer id;

@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
+import org.example.desktopclient.controller.GamesCatalogController;
 import org.example.desktopclient.controller.MenuController;
 
 import java.util.Arrays;
@@ -41,7 +42,11 @@ public class GameCatalogScene extends CustomScene {
 
         SearchComponent searchComponent = new SearchComponent();
         searchComponent.settingFocus(scene);
+
         GamesCatalogVerticalMainComponent gamesCatalogVerticalMainComponent = new GamesCatalogVerticalMainComponent();
+        GamesCatalogController gamesCatalogController = new GamesCatalogController(gamesCatalogVerticalMainComponent);
+        gamesCatalogController.setContent();
+
 
         ScrollComponent scrollComponent = new ScrollComponent();
 

@@ -4,17 +4,17 @@ package org.example.desktopclient.component;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import org.example.desktopclient.model.user.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class MenuComponent {
@@ -31,6 +31,11 @@ public class MenuComponent {
     private Text myGamesText;
     private Text friendsText;
     private Text profileText;
+    private HBox rightSide;
+    private Text usernameText;
+    private ImageView profileIcon;
+    private Button logoutButton;
+    private Button profileButton;
 
     public MenuComponent() {
         layout = new HBox();
@@ -59,82 +64,49 @@ public class MenuComponent {
         myGamesText.getStyleClass().add("menu-item");
         friendsText.getStyleClass().add("menu-item");
         profileText.getStyleClass().add("menu-item");
-    }
 
-    public HBox getComponent() {
-
-
-        ////////////////////////////////////////////////
-
-       // String activePage = "catalog";
-
-
-//        switch (activePage){
-//            case "catalog":
-//                leftBorder =10;
-//                activeText = catalogText;
-//                startLinePosition = 10;
-//                endLinePosition = 80;
-//                menuItems = Arrays.asList(activePageBox, myGamesText,friendsText,profileText);
-//                break;
-//            case "myGames":
-//                leftBorder =10;
-//                activeText = myGamesText;
-//                startLinePosition = 10;
-//                endLinePosition = 114;
-//                menuItems = Arrays.asList(catalogText, activePageBox,friendsText,profileText);
-//                break;
-//            case "friends":
-//                leftBorder =10;
-//                activeText = friendsText;
-//                startLinePosition = 10;
-//                endLinePosition = 70;
-//                menuItems = Arrays.asList(catalogText, myGamesText,activePageBox,profileText);
-//                break;
-//            case "profile":
-//                leftBorder =10;
-//                activeText = profileText;
-//                startLinePosition = 10;
-//                endLinePosition = 62;
-//                menuItems = Arrays.asList(catalogText, myGamesText,friendsText,activePageBox);
-//                break;
-//            default:
-//                break;
-//        }
-
-
-//        activePageBottomLine.setStartX(startLinePosition); // Uvučenje s leve strane
-//        activePageBottomLine.setEndX(endLinePosition); // Dužina linije
-
-//        VBox.setMargin(activePageBottomLine, new Insets(7, 0, 0, leftBorder)); // Pomera liniju dole i ulevo
-//        activePageBox.getChildren().addAll(activeText, activePageBottomLine);
-//
-//
-//        leftSide.getChildren().addAll(menuItems);
-
-
-        //////////////////////////////////////////////////////
-
-
-        HBox rightSide = new HBox();
-        Text usernameText = new Text("username");
+        rightSide = new HBox();
+        usernameText = new Text("username");
         HBox.setMargin(usernameText, new Insets(5, 0, 0, 5));
 
         usernameText.getStyleClass().add("menu-username");
 
-        Image image = new Image("https://cdn-icons-png.flaticon.com/512/9187/9187604.png");
-        ImageView profileIcon = new ImageView(image);
+
+        profileIcon = new ImageView();
         profileIcon.setFitWidth(40);
         profileIcon.setFitHeight(40);
 
-        rightSide.getChildren().addAll(profileIcon, usernameText);
+        profileButton = new Button("", new HBox(profileIcon, usernameText));
+        profileButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        profileButton.setOnMouseEntered(e->{
+            profileButton.setStyle("-fx-background-color: #333352; -fx-cursor: hand;");
+        });
+        profileButton.setOnMouseExited(e->{
+            profileButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        });
+
+        logoutButton = new Button("Logout");
+        logoutButton.setVisible(false); // U početku dugme nije vidljivo
+        logoutButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-cursor: hand;-fx-font-weight: bold;-fx-font-size: 15px;-fx-padding: 5 18;");
+
+        VBox profileBox = new VBox(profileButton, logoutButton);
+        profileBox.setAlignment(Pos.CENTER_RIGHT);
+
+
+        rightSide.getChildren().addAll(profileBox);
 
         HBox.setHgrow(leftSide, Priority.SOMETIMES);
-        //TODO: prepravi ovo
-        layout.getChildren().clear();
-        layout.getChildren().addAll(leftSide, rightSide);
 
+        layout.getChildren().addAll(leftSide, rightSide);
+    }
+
+    public HBox getComponent() {
         return layout;
+    }
+
+    public void setContent(User user) {
+        usernameText.setText(user.getUsername());
+        profileIcon.setImage(new Image(user.getImageUrl()));
     }
 
 
@@ -249,5 +221,21 @@ public class MenuComponent {
 
     public void setProfileText(Text profileText) {
         this.profileText = profileText;
+    }
+
+    public Button getLogoutButton() {
+        return logoutButton;
+    }
+
+    public void setLogoutButton(Button logoutButton) {
+        this.logoutButton = logoutButton;
+    }
+
+    public Button getProfileButton() {
+        return profileButton;
+    }
+
+    public void setProfileButton(Button profileButton) {
+        this.profileButton = profileButton;
     }
 }
