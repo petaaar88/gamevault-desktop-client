@@ -18,8 +18,9 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
         layout.setPadding(new Insets(20,0,0,0));
 
         AddFriendComponent  addFriendComponent = new AddFriendComponent();
+        FriendRequestsComponent friendRequestsComponent = new FriendRequestsComponent();
 
-        HBox addFriendAndReceivedRequestsHBox = new HBox(addFriendComponent.getComponent());
+        HBox addFriendAndReceivedRequestsHBox = new HBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
         addFriendAndReceivedRequestsHBox.setStyle("-fx-background-color: #333352");
         addFriendAndReceivedRequestsHBox.setMinWidth(1000);
         addFriendAndReceivedRequestsHBox.setMaxWidth(1000);

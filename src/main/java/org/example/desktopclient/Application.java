@@ -14,7 +14,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FriendsScene gameProductPageScene = new FriendsScene(primaryStage);
+        GameCatalogScene gameProductPageScene = new GameCatalogScene(primaryStage);
         gameProductPageScene.createScene();
 
         primaryStage.setMinWidth(1048);
