@@ -17,9 +17,11 @@ import java.util.Arrays;
 public class MenuController {
     private MenuComponent component;
     private String activePage;
+    private Stage primaryStage;
 
-    public MenuController(MenuComponent component) {
+    public MenuController(MenuComponent component, Stage primaryStage) {
         this.component = component;
+        this.primaryStage = primaryStage;
         this.handleClick();
     }
 
@@ -58,7 +60,12 @@ public class MenuController {
 
     public void changeScene(String activePage, CustomScene customScene) {
         setActivePage(activePage);
+        Double width =  primaryStage.getWidth();
+        Double height =  primaryStage.getHeight();
+
         customScene.getPrimaryStage().setScene(customScene.createScene());
+        primaryStage.setWidth(width.doubleValue());
+        primaryStage.setHeight(height.doubleValue());
     }
 
 

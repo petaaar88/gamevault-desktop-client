@@ -22,7 +22,7 @@ public class Application extends javafx.application.Application {
         applicationContextService.setUser(new User(1,"Korinsik123","http://slika123.jpg"));
 
         MenuComponent menuComponent = new MenuComponent();
-        MenuController menuController = new MenuController(menuComponent);
+        MenuController menuController = new MenuController(menuComponent, primaryStage);
 
 
 

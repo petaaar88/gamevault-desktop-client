@@ -70,6 +70,8 @@ public abstract class CustomScene {
 
         layout.getChildren().addAll(elements);
         root.setCenter(layout);
+        primaryStage.setWidth(scene.getWidth()+0.001);
+        primaryStage.setHeight(scene.getHeight()+0.001);
 
     }
 
@@ -87,5 +89,11 @@ public abstract class CustomScene {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+    public BorderPane getRoot() {
+        return root;
+    }
+    public Scene getScene() {
+        return scene;
     }
 }
