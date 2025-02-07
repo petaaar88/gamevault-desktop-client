@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.FooterComponent;
 import org.example.desktopclient.component.TitleBarComponent;
+import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.util.ResizeUtil;
 
 import java.util.Collection;
@@ -22,6 +23,7 @@ public abstract class CustomScene {
     protected BorderPane root;
     protected Scene scene;
     protected VBox layout;
+    protected ApplicationContextService applicationContextService;
 
     public CustomScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -64,9 +66,26 @@ public abstract class CustomScene {
     }
 
     public void addNodesToLayout(Collection<Node> elements){
+        layout.getChildren().clear();
+
         layout.getChildren().addAll(elements);
         root.setCenter(layout);
 
     }
 
+    public ApplicationContextService getApplicationContextService() {
+        return applicationContextService;
+    }
+
+    public void setApplicationContextService(ApplicationContextService applicationContextService) {
+        this.applicationContextService = applicationContextService;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 }

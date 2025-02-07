@@ -4,28 +4,57 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
+import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.service.ApplicationContextService;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-public class UserGameCollectionScene extends CustomScene{
-    public UserGameCollectionScene(Stage primaryStage) {
+public class UserGameCollectionScene extends CustomScene {
+
+    private static UserGameCollectionScene instance;
+    private ApplicationContextService applicationContextService;
+    private MenuController menuController;
+
+    public static UserGameCollectionScene getInstance(Stage primaryStage, MenuController menuController) {
+        if (instance == null) {
+            instance = new UserGameCollectionScene(primaryStage, menuController);
+        }
+        return instance;
+    }
+
+    public static UserGameCollectionScene getInstance() {
+        return instance;
+    }
+
+    private UserGameCollectionScene(Stage primaryStage, MenuController menuController) {
         super(primaryStage);
         this.setup();
-
+        this.menuController = menuController;
     }
 
     @Override
     public Scene createScene() {
 
-        MenuComponent menuComponent = new MenuComponent();
+        menuController.setActiveItemInMenu("My Games");
+
         UserGameCollectionHorizontalMainComponent userGameCollectionHorizontalMainComponent = new UserGameCollectionHorizontalMainComponent();
 
 
-        Collection<Node> elements = Arrays.asList(menuComponent.getComponent(), userGameCollectionHorizontalMainComponent.getComponent());
+        Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), userGameCollectionHorizontalMainComponent.getComponent());
 
         this.addNodesToLayout(elements);
 
         return scene;
+    }
+
+    @Override
+    public ApplicationContextService getApplicationContextService() {
+        return applicationContextService;
+    }
+
+    @Override
+    public void setApplicationContextService(ApplicationContextService applicationContextService) {
+        this.applicationContextService = applicationContextService;
     }
 }
