@@ -13,10 +13,12 @@ import javafx.scene.layout.StackPane;
 
 public class SearchComponent {
 
-    TextField textField;
+    private TextField textField;
+    private Button button;
+    private HBox layout;
 
-    public HBox getComponent(String placeholder) {
-        HBox layout = new HBox();
+    public SearchComponent() {
+        layout = new HBox();
 
         String css = getClass().getResource("/org/example/desktopclient/styles/searchComponent.css").toExternalForm();
         layout.getStylesheets().add(css);
@@ -29,7 +31,7 @@ public class SearchComponent {
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
 
-        Button button = new Button("", imageView);
+        button = new Button("", imageView);
         button.getStyleClass().add("search-button");
         StackPane stackPane = new StackPane(button);
         stackPane.setMaxHeight(33); // Veličina dugmeta
@@ -39,13 +41,17 @@ public class SearchComponent {
 
         textField.requestFocus();
 
-        textField.setPromptText(placeholder);
+
         layout.setMaxWidth(1000);
         layout.setMinWidth(1000);
         layout.getChildren().addAll(textField, stackPane);
 
         layout.setPadding(new Insets(0, 0, 30, 0));
 
+    }
+
+    public HBox getComponent(String placeholder) {
+        textField.setPromptText(placeholder);
         return layout;
     }
 
@@ -60,5 +66,20 @@ public class SearchComponent {
         });
     }
 
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    public TextField getTextField() {
+        return textField;
+    }
+
+    public void setTextField(TextField textField) {
+        this.textField = textField;
+    }
 }
 

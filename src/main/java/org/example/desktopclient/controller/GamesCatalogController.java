@@ -13,57 +13,62 @@ import org.example.desktopclient.service.game.GameService;
 
 import java.util.List;
 
-public class GamesCatalogController {
+public class GamesCatalogController implements ISearchable {
 
     private GamesCatalogVerticalMainComponent component;
+    private SearchController searchController;
     private GameService gameService;
     private final Integer LIMIT = 6;
     private final Integer COLUMNS_PER_ROW = 3;
 
-    public GamesCatalogController(GamesCatalogVerticalMainComponent component) {
+    public GamesCatalogController(GamesCatalogVerticalMainComponent component, SearchController searchController) {
         this.component = component;
+        this.searchController = searchController;
         gameService = new GameService();
 
     }
 
-    public void setContent() {
+    public void setContent(String title) {
         Text loadingText = new Text("Loading...");
         loadingText.setStyle("-fx-fill: #575C96;-fx-font-size: 24px;-fx-font-weight: 700;-fx-padding: 350;");
 
-
-
-        ImageView imageView = new ImageView(new Image(getClass().getResource("/org/example/desktopclient/icons/loadingSpinner.gif").toExternalForm()));
-        // Timer za osvežavanje prikaza
-
+        component.getGridPane().getChildren().clear();
         component.getGridPane().add(loadingText, 1, 0);
         component.getPaginationComponent().getCompoenent().setVisible(false);
 
-
-
-        gameService.fetchGames(1, LIMIT, pages -> {
+        gameService.fetchGames(1, LIMIT,title, pages -> {
             Platform.runLater(() -> {
                         if (pages != null) {
                             List<GameOverview> games = pages.getResoult();
-                            int col = 0;
-                            int row = 0;
                             component.getGridPane().getChildren().clear();
-                            component.getPaginationComponent().getCompoenent().setVisible(true);
 
-                            for (int i = 1; i <= games.size(); i++) {
-                                CatalogGameComponent catalogGameComponent = new CatalogGameComponent();
-                                CatalogGameController catalogGameController = new CatalogGameController(catalogGameComponent);
+                            if(games.size() != 0) {
+                                int col = 0;
+                                int row = 0;
+                                component.getPaginationComponent().getCompoenent().setVisible(true);
 
-                                catalogGameComponent.setContent(games.get(i-1));
-                                catalogGameController.setGameId(games.get(i-1).getId());
+                                for (int i = 1; i <= games.size(); i++) {
+                                    CatalogGameComponent catalogGameComponent = new CatalogGameComponent();
+                                    CatalogGameController catalogGameController = new CatalogGameController(catalogGameComponent);
 
-                                component.getGridPane().add(catalogGameController.getComponent().getComponent(), col, row);
+                                    catalogGameComponent.setContent(games.get(i - 1));
+                                    catalogGameController.setGameId(games.get(i - 1).getId());
 
-                                col++; // Pomeramo kolonu
-                                if (col == COLUMNS_PER_ROW) { // Ako smo dodali 3 elementa, pređemo u novi red
-                                    col = 0;
-                                    row++;
+                                    component.getGridPane().add(catalogGameController.getComponent().getComponent(), col, row);
+
+                                    col++; // Pomeramo kolonu
+                                    if (col == COLUMNS_PER_ROW) { // Ako smo dodali 3 elementa, pređemo u novi red
+                                        col = 0;
+                                        row++;
+                                    }
+
                                 }
+                            }
+                            else{
+                                Text noGameFound = new Text("Game Not Found");
+                                noGameFound.setStyle("-fx-fill: #575C96;-fx-font-size: 24px;-fx-font-weight: 700;-fx-padding: 350;");
 
+                                component.getGridPane().add(noGameFound,1,0);
                             }
                         } else {
                             //TODO: dodaj text
@@ -75,5 +80,25 @@ public class GamesCatalogController {
         });
 
 
+    }
+    @Override
+    public void search(String text) {
+        this.setContent(text);
+    }
+
+    public SearchController getSearchController() {
+        return searchController;
+    }
+
+    public void setSearchController(SearchController searchController) {
+        this.searchController = searchController;
+    }
+
+    public GamesCatalogVerticalMainComponent getComponent() {
+        return component;
+    }
+
+    public void setComponent(GamesCatalogVerticalMainComponent component) {
+        this.component = component;
     }
 }

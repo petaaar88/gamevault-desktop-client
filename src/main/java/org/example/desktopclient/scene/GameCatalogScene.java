@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
 import org.example.desktopclient.controller.GamesCatalogController;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.SearchController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,10 +43,12 @@ public class GameCatalogScene extends CustomScene {
 
         SearchComponent searchComponent = new SearchComponent();
         searchComponent.settingFocus(scene);
+        SearchController searchController = new SearchController(searchComponent);
 
         GamesCatalogVerticalMainComponent gamesCatalogVerticalMainComponent = new GamesCatalogVerticalMainComponent();
-        GamesCatalogController gamesCatalogController = new GamesCatalogController(gamesCatalogVerticalMainComponent);
-        gamesCatalogController.setContent();
+        GamesCatalogController gamesCatalogController = new GamesCatalogController(gamesCatalogVerticalMainComponent, searchController);
+        gamesCatalogController.setContent("");
+        searchController.setSearchableController(gamesCatalogController);
 
 
         ScrollComponent scrollComponent = new ScrollComponent();

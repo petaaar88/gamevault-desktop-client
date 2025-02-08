@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.desktopclient.model.game.GameOverview;
 import org.example.desktopclient.model.page.Pages;
 
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -22,10 +24,18 @@ public class GameService {
         objectMapper = new ObjectMapper();
     }
 
-    public void fetchGames(Integer page, Integer limit, Consumer<Pages<GameOverview>> callback) {
+    public void fetchGames(Integer page, Integer limit, String title, Consumer<Pages<GameOverview>> callback) {
+
+        String gameTitle;
+        try {
+            gameTitle = URLEncoder.encode(title, "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games?page=" + page.toString() + "&limit=" + limit.toString()))
+                .uri(URI.create("http://localhost:8080/games?page=" + page.toString() + "&limit=" + limit.toString() + "&title=" + gameTitle))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
