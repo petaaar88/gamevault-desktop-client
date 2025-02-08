@@ -47,6 +47,7 @@ public class GameService {
 
     private Pages<GameOverview> parseJson(String json) {
         try {
+            System.out.println(json);
             Pages<GameOverview> games = objectMapper.readValue(json, new TypeReference<>() {
             });
             return games;

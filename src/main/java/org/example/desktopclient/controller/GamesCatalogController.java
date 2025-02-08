@@ -17,7 +17,7 @@ public class GamesCatalogController {
 
     private GamesCatalogVerticalMainComponent component;
     private GameService gameService;
-    private final Integer LIMIT = 4;
+    private final Integer LIMIT = 6;
     private final Integer COLUMNS_PER_ROW = 3;
 
     public GamesCatalogController(GamesCatalogVerticalMainComponent component) {
@@ -50,7 +50,13 @@ public class GamesCatalogController {
                             component.getPaginationComponent().getCompoenent().setVisible(true);
 
                             for (int i = 1; i <= games.size(); i++) {
-                                component.getGridPane().add(new CatalogGameComponent().getComponent(), col, row);
+                                CatalogGameComponent catalogGameComponent = new CatalogGameComponent();
+                                CatalogGameController catalogGameController = new CatalogGameController(catalogGameComponent);
+
+                                catalogGameComponent.setContent(games.get(i-1));
+                                catalogGameController.setGameId(games.get(i-1).getId());
+
+                                component.getGridPane().add(catalogGameController.getComponent().getComponent(), col, row);
 
                                 col++; // Pomeramo kolonu
                                 if (col == COLUMNS_PER_ROW) { // Ako smo dodali 3 elementa, pređemo u novi red
