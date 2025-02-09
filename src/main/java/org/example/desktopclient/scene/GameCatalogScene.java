@@ -49,6 +49,7 @@ public class GameCatalogScene extends CustomScene {
         GamesCatalogController gamesCatalogController = new GamesCatalogController(gamesCatalogVerticalMainComponent, searchController);
         gamesCatalogController.setContent("");
         searchController.setSearchableController(gamesCatalogController);
+        gamesCatalogController.getComponent().getPaginationController().setPaginableController(gamesCatalogController);
 
 
         ScrollComponent scrollComponent = new ScrollComponent();

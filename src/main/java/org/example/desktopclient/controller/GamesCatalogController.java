@@ -13,13 +13,15 @@ import org.example.desktopclient.service.game.GameService;
 
 import java.util.List;
 
-public class GamesCatalogController implements ISearchable {
+public class GamesCatalogController implements ISearchable, IPaginable {
 
     private GamesCatalogVerticalMainComponent component;
     private SearchController searchController;
     private GameService gameService;
     private final Integer LIMIT = 6;
     private final Integer COLUMNS_PER_ROW = 3;
+    private String gameTitle;
+    private Integer currentPage = 1;
 
     public GamesCatalogController(GamesCatalogVerticalMainComponent component, SearchController searchController) {
         this.component = component;
@@ -32,20 +34,43 @@ public class GamesCatalogController implements ISearchable {
         Text loadingText = new Text("Loading...");
         loadingText.setStyle("-fx-fill: #575C96;-fx-font-size: 24px;-fx-font-weight: 700;-fx-padding: 350;");
 
+        gameTitle = title;
+
         component.getGridPane().getChildren().clear();
         component.getGridPane().add(loadingText, 1, 0);
         component.getPaginationComponent().getCompoenent().setVisible(false);
 
-        gameService.fetchGames(1, LIMIT,title, pages -> {
+        gameService.fetchGames(currentPage, LIMIT, title, pages -> {
             Platform.runLater(() -> {
                         if (pages != null) {
                             List<GameOverview> games = pages.getResoult();
                             component.getGridPane().getChildren().clear();
 
-                            if(games.size() != 0) {
+                            if (games.size() != 0) {
                                 int col = 0;
                                 int row = 0;
-                                component.getPaginationComponent().getCompoenent().setVisible(true);
+
+                                /////////////////////////////////////////////////////////////////////
+
+                                if (pages.getPreviousPages().isEmpty() && pages.getNextPages().isEmpty()) {
+                                    component.getPaginationComponent().getCompoenent().setVisible(false);
+                                } else
+                                    component.getPaginationComponent().getCompoenent().setVisible(true);
+
+
+                                if (pages.getPreviousPages().isEmpty())
+                                    component.getPaginationComponent().getLeftArrow().setVisible(false);
+                                else
+                                    component.getPaginationComponent().getLeftArrow().setVisible(true);
+
+                                if (pages.getNextPages().isEmpty())
+                                    component.getPaginationComponent().getRightArrow().setVisible(false);
+                                else
+                                    component.getPaginationComponent().getRightArrow().setVisible(true);
+
+
+                                ////////////////////////////////////////////////////////////////////
+
 
                                 for (int i = 1; i <= games.size(); i++) {
                                     CatalogGameComponent catalogGameComponent = new CatalogGameComponent();
@@ -63,12 +88,11 @@ public class GamesCatalogController implements ISearchable {
                                     }
 
                                 }
-                            }
-                            else{
+                            } else {
                                 Text noGameFound = new Text("Game Not Found");
                                 noGameFound.setStyle("-fx-fill: #575C96;-fx-font-size: 24px;-fx-font-weight: 700;-fx-padding: 350;");
 
-                                component.getGridPane().add(noGameFound,1,0);
+                                component.getGridPane().add(noGameFound, 1, 0);
                             }
                         } else {
                             //TODO: dodaj text
@@ -81,8 +105,10 @@ public class GamesCatalogController implements ISearchable {
 
 
     }
+
     @Override
     public void search(String text) {
+        currentPage = 1;
         this.setContent(text);
     }
 
@@ -100,5 +126,25 @@ public class GamesCatalogController implements ISearchable {
 
     public void setComponent(GamesCatalogVerticalMainComponent component) {
         this.component = component;
+    }
+
+    @Override
+    public void nextPage() {
+        currentPage++;
+        setContent(gameTitle);
+    }
+
+    @Override
+    public void previousPage() {
+        currentPage--;
+        setContent(gameTitle);
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
     }
 }
