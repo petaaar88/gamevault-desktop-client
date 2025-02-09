@@ -81,8 +81,18 @@ public class PaginationComponent {
         return rightPageNumberButton;
     }
 
+    public Button getRightPageNumberButton(String pageNumber) {
+        rightPageNumberButton.setText(pageNumber);
+        return rightPageNumberButton;
+    }
+
     public void setRightPageNumberButton(Button rightPageNumberButton) {
         this.rightPageNumberButton = rightPageNumberButton;
+    }
+
+    public Button getLeftPageNumberButton(String pageNumber) {
+        leftPageNumberButton.setText(pageNumber);
+        return leftPageNumberButton;
     }
 
     public Button getLeftPageNumberButton() {
@@ -93,13 +103,16 @@ public class PaginationComponent {
         this.leftPageNumberButton = leftPageNumberButton;
     }
 
-    public Button getCurrentPageNumberButton() {
+    public Button getCurrentPageNumberButton(String pageNumber) {
+        currentPageNumberButton.setText(pageNumber);
         return currentPageNumberButton;
     }
 
     public void setCurrentPageNumberButton(Button currentPageNumberButton) {
         this.currentPageNumberButton = currentPageNumberButton;
     }
+
+
 
     //public void setContent()
 }

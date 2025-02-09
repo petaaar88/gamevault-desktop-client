@@ -26,6 +26,16 @@ public class PaginationController {
         component.getRightArrow().setOnMouseClicked(e->{
             paginableController.nextPage();
         });
+
+        component.getLeftPageNumberButton().setOnMouseClicked(e->{
+            Integer pageNumber = Integer.parseInt(component.getLeftPageNumberButton().getText());
+            paginableController.page(pageNumber);
+        });
+
+        component.getRightPageNumberButton().setOnMouseClicked(e->{
+            Integer pageNumber = Integer.parseInt(component.getRightPageNumberButton().getText());
+            paginableController.page(pageNumber);
+        });
     }
 
     public IPaginable getPaginableController() {
