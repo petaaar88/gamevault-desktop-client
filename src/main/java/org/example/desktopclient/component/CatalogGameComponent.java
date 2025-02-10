@@ -124,7 +124,7 @@ public class CatalogGameComponent {
 
         rating = rating.toLowerCase();
 
-        String[] words = rating.split("_"); // Razdvajamo po donjoj crti
+        String[] words = rating.split(" "); // Razdvajamo po donjoj crti
         StringBuilder camelCaseString = new StringBuilder(words[0]); // Prvi deo ostaje mali
 
         for (int i = 1; i < words.length; i++) {

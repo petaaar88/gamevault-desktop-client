@@ -14,8 +14,15 @@ import java.util.Locale;
 
 public class GameDetailsComponent {
 
-    public VBox getComponent() {
-        VBox layout = new VBox();
+    private VBox layout;
+    private Label gameDescriptionLabel;
+    private Text releaseDateText;
+    private Text gameDeveloperNameText;
+    private Text reviewNumber;
+    private Text review;
+
+    public GameDetailsComponent(){
+        layout = new VBox();
         layout.setMaxHeight(Region.USE_PREF_SIZE);
 
         layout.setStyle("-fx-background-color:#333352");
@@ -23,7 +30,7 @@ public class GameDetailsComponent {
         String css = getClass().getResource("/org/example/desktopclient/styles/gameDetailsComponentStyles.css").toExternalForm();
         layout.getStylesheets().add(css);
 
-        Label gameDescriptionLabel = new Label("Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC.");
+        gameDescriptionLabel = new Label("");
         gameDescriptionLabel.setWrapText(true);
         gameDescriptionLabel.setFont(new Font(13.6));
         gameDescriptionLabel.setMinHeight(Region.USE_PREF_SIZE);
@@ -41,22 +48,21 @@ public class GameDetailsComponent {
 
         Text gameReviewText = new Text("Reviews");
         gameReviewText.getStyleClass().add("game-description-text-heading");
-        Text review = new Text("Negative");
+        review = new Text("");
         review.getStyleClass().add("game-description-text-body");
         review.getStyleClass().add(reviewTextClass);
 
-        NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
-        Integer reviewNumberInteger = 12334;
-        Text reviewNumber = new Text("(" + nf.format(reviewNumberInteger) + ")");
+        reviewNumber = new Text("");
         reviewNumber.getStyleClass().add("game-description-text-body");
         HBox reviewsAndNumber = new HBox(review, reviewNumber);
+        reviewsAndNumber.setSpacing(3);
         VBox gameReviewVbox = new VBox(gameReviewText, reviewsAndNumber);
 
         HBox.setHgrow(gameReviewVbox, Priority.ALWAYS);
 
         Text gameReleaseDateText = new Text("Release Date");
         gameReleaseDateText.getStyleClass().add("game-description-text-heading");
-        Text releaseDateText = new Text("29. Oct 2023");
+        releaseDateText = new Text("29. Oct 2023");
         releaseDateText.getStyleClass().add("game-description-text-body");
         VBox gameReleaseVbox = new VBox(gameReleaseDateText, releaseDateText);
 
@@ -67,7 +73,7 @@ public class GameDetailsComponent {
 
         Text gameDeveloperText = new Text("Developer");
         gameDeveloperText.getStyleClass().add("game-description-text-heading");
-        Text gameDeveloperNameText = new Text("Rocstar Games");
+        gameDeveloperNameText = new Text("");
         gameDeveloperNameText.getStyleClass().add("game-description-text-body");
         gameDeveloperVbox.getChildren().addAll(gameDeveloperText, gameDeveloperNameText);
 
@@ -82,7 +88,57 @@ public class GameDetailsComponent {
 
         layout.getChildren().addAll(gameDescriptionLabel, reviewAndReleaseDateHbox, gameDeveloperVbox, gameGenresVbox);
 
-        return layout;
+    }
 
+    public VBox getComponent() {
+        return layout;
+    }
+
+    public VBox getLayout() {
+        return layout;
+    }
+
+    public void setLayout(VBox layout) {
+        this.layout = layout;
+    }
+
+    public Label getGameDescriptionLabel() {
+        return gameDescriptionLabel;
+    }
+
+    public void setGameDescriptionLabel(Label gameDescriptionLabel) {
+        this.gameDescriptionLabel = gameDescriptionLabel;
+    }
+
+    public Text getReleaseDateText() {
+        return releaseDateText;
+    }
+
+    public void setReleaseDateText(Text releaseDateText) {
+        this.releaseDateText = releaseDateText;
+    }
+
+    public Text getGameDeveloperNameText() {
+        return gameDeveloperNameText;
+    }
+
+    public void setGameDeveloperNameText(Text gameDeveloperNameText) {
+        this.gameDeveloperNameText = gameDeveloperNameText;
+    }
+
+    public Text getReviewNumber() {
+        return reviewNumber;
+    }
+
+    public void setReviewNumber(Text reviewNumber) {
+        this.reviewNumber = reviewNumber;
+    }
+
+    public Text getReview() {
+        return review;
+    }
+
+    public void setReview(Text review) {
+        this.review = review;
     }
 }

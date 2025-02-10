@@ -11,6 +11,8 @@ public class GameProductPageMainController {
         this.component = component;
         this.component.getGameDescriptionController().setGameId(gameId);
         this.component.getGameDescriptionController().setContent();
+        this.component.getGameDescriptionController().getComponent().getGameDetailsController().setGameId(gameId);
+        this.component.getGameDescriptionController().getComponent().getGameDetailsController().setContent();
     }
 
     public GameProductPageVerticalMainComponent getComponent() {
