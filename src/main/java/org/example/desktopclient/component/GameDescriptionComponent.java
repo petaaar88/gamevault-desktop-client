@@ -7,6 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.example.desktopclient.controller.GameDetailsController;
+import org.example.desktopclient.controller.ImageSliderController;
 
 public class GameDescriptionComponent {
 
@@ -33,6 +34,7 @@ public class GameDescriptionComponent {
 
         imageSliderAndDetailsHbox = new HBox();
         ImagesSliderComponent imagesSliderComponent = new ImagesSliderComponent();
+        ImageSliderController imageSliderController = new ImageSliderController(imagesSliderComponent);
 
 
         GameDetailsComponent gameDetailsComponent = new GameDetailsComponent();
