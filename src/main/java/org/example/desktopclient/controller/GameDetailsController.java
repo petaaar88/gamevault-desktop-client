@@ -1,5 +1,6 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import javafx.scene.text.Text;
 import org.example.desktopclient.component.GameDetailsComponent;
 import org.example.desktopclient.service.game.GameService;
@@ -22,47 +23,53 @@ public class GameDetailsController {
     public void setContent() {
 
         gameService.fetchGameDescriptionForProductPage(gameId, gameDescriptionDTO -> {
-            component.getGameDescriptionLabel().setText(gameDescriptionDTO.getDescription());
-            String dateString = gameDescriptionDTO.getRelease();
+            Platform.runLater(() -> {
 
-            // Parsiranje stringa u LocalDate
-            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(dateString, inputFormatter);
+                component.getGameDescriptionLabel().setText(gameDescriptionDTO.getDescription());
+                String dateString = gameDescriptionDTO.getRelease();
 
-            // Formatiranje u željeni izlazni format
-            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d. MMM yyyy", Locale.ENGLISH);
-            String formattedDate = date.format(outputFormatter);
-            component.getReleaseDateText().setText(formattedDate);
+                // Parsiranje stringa u LocalDate
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(dateString, inputFormatter);
 
-            component.getGameDeveloperNameText().setText(gameDescriptionDTO.getDeveloper());
-            component.getGameGenresController().setContent(gameDescriptionDTO.getGenres());
+                // Formatiranje u željeni izlazni format
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d. MMM yyyy", Locale.ENGLISH);
+                String formattedDate = date.format(outputFormatter);
+                component.getReleaseDateText().setText(formattedDate);
 
-            gameService.fetchOverallRating(gameId, gameOverallRatingDTO -> {
-                NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
-                Integer reviewNumberInteger = gameOverallRatingDTO.getNumberOfReviews();
-                component.getReviewNumber().setText(("(" + nf.format(reviewNumberInteger) + ")"));
-                String rating = gameOverallRatingDTO.getRating();
+                component.getGameDeveloperNameText().setText(gameDescriptionDTO.getDeveloper());
+                component.getGameGenresController().setContent(gameDescriptionDTO.getGenres());
 
-                String reviewTextTypeString;
+                gameService.fetchOverallRating(gameId, gameOverallRatingDTO -> {
+                    Platform.runLater(() -> {
 
 
-                if(rating == null){
-                    rating = "TBO";
-                    reviewTextTypeString = "mixed";
-                }
-                else{
-                    reviewTextTypeString = rating.toLowerCase();
-                }
-                component.getReview().setText(rating);
+                        NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
+                        Integer reviewNumberInteger = gameOverallRatingDTO.getNumberOfReviews();
+                        component.getReviewNumber().setText(("(" + nf.format(reviewNumberInteger) + ")"));
+                        String rating = gameOverallRatingDTO.getRating();
 
-                reviewTextTypeString = reviewTextTypeString.toLowerCase().replace(' ','_');
+                        String reviewTextTypeString;
 
-                String reviewTextClass = "game-description-review-" + reviewTextTypeString + "-color";
-                component.getReview().getStyleClass().removeLast();
-                component.getReview().getStyleClass().add(reviewTextClass);
+
+                        if (rating == null) {
+                            rating = "TBO";
+                            reviewTextTypeString = "mixed";
+                        } else {
+                            reviewTextTypeString = rating.toLowerCase();
+                        }
+                        component.getReview().setText(rating);
+
+                        reviewTextTypeString = reviewTextTypeString.toLowerCase().replace(' ', '_');
+
+                        String reviewTextClass = "game-description-review-" + reviewTextTypeString + "-color";
+                        component.getReview().getStyleClass().removeLast();
+                        component.getReview().getStyleClass().add(reviewTextClass);
+                    });
+
+                });
 
             });
-
 
 
         });

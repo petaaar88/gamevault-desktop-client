@@ -1,5 +1,6 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import org.example.desktopclient.component.GameDescriptionComponent;
 import org.example.desktopclient.service.game.GameService;
 
@@ -17,7 +18,10 @@ public class GameDescriptionController {
 
     public void setContent(){
         gameService.fetchGameDescriptionForProductPage(gameId,gameDescriptionDTO -> {
+            Platform.runLater(()->{
             component.getGameTitleText().setText(gameDescriptionDTO.getTitle());
+
+            });
         });
     }
 

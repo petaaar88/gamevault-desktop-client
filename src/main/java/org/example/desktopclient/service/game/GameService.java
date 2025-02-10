@@ -143,7 +143,6 @@ public class GameService {
 
     private GameDescriptionDTO parseFetchGameDescriptionProductPage(String json){
         try {
-            System.out.println(json);
             GameDescriptionDTO gameDescriptionDTO = objectMapper.readValue(json, new TypeReference<>() {
             });
             return gameDescriptionDTO;
@@ -163,7 +162,6 @@ public class GameService {
 
     private GameOverallRatingDTO parseOverallRating(String json){
         try {
-            System.out.println(json);
             GameOverallRatingDTO overallRating = objectMapper.readValue(json, new TypeReference<>() {
             });
             return overallRating;

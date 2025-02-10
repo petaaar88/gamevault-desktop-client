@@ -64,7 +64,7 @@ public class GameDetailsComponent {
 
         Text gameReleaseDateText = new Text("Release Date");
         gameReleaseDateText.getStyleClass().add("game-description-text-heading");
-        releaseDateText = new Text("29. Oct 2023");
+        releaseDateText = new Text("");
         releaseDateText.getStyleClass().add("game-description-text-body");
         VBox gameReleaseVbox = new VBox(gameReleaseDateText, releaseDateText);
 
