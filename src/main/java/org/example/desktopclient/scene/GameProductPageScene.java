@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import org.example.desktopclient.component.GameProductPageVerticalMainComponent;
 import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.component.ScrollComponent;
+import org.example.desktopclient.controller.GameProductPageMainController;
 import org.example.desktopclient.controller.MenuController;
 import org.example.desktopclient.service.ApplicationContextService;
 
@@ -17,6 +18,7 @@ public class GameProductPageScene extends CustomScene{
     private static GameProductPageScene instance;
     private ApplicationContextService applicationContextService;
     private MenuController menuController;
+    private Integer gameId;
 
     public static GameProductPageScene getInstance(Stage primaryStage, MenuController menuController) {
         if (instance == null) {
@@ -40,6 +42,8 @@ public class GameProductPageScene extends CustomScene{
         menuController.setActiveItemInMenu("Catalog");
 
         GameProductPageVerticalMainComponent gameProductPageVerticalMainComponent = new GameProductPageVerticalMainComponent();
+        GameProductPageMainController gameProductPageMainController = new GameProductPageMainController(gameProductPageVerticalMainComponent, gameId);
+        gameProductPageMainController.setGameId(gameId);
         ScrollComponent scrollComponent = new ScrollComponent();
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), scrollComponent.getComponent(gameProductPageVerticalMainComponent.getComponent()));
@@ -56,5 +60,13 @@ public class GameProductPageScene extends CustomScene{
     @Override
     public void setApplicationContextService(ApplicationContextService applicationContextService) {
         this.applicationContextService = applicationContextService;
+    }
+
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
     }
 }

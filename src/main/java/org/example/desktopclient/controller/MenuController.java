@@ -48,7 +48,7 @@ public class MenuController {
 
     public void handleLogoutButtonClick() {
         component.getLogoutButton().setOnMouseClicked(e -> {
-            if ( component.getLogoutButton().isVisible()) {
+            if (component.getLogoutButton().isVisible()) {
                 component.getLogoutButton().setVisible(false); // Sakrij dropdown dugme
             }
         });
@@ -57,8 +57,7 @@ public class MenuController {
     public void handleClick() {
 
         component.getCatalogText().setOnMouseClicked(e -> {
-            if (activePage != "Catalog")
-                changeScene("Catalog", GameCatalogScene.getInstance());
+            changeScene("Catalog", GameCatalogScene.getInstance());
 
         });
 
@@ -67,8 +66,8 @@ public class MenuController {
                 changeScene("My Games", UserGameCollectionScene.getInstance());
         });
 
-        component.getFriendsText().setOnMouseClicked(e->{
-            if(activePage != "Friends")
+        component.getFriendsText().setOnMouseClicked(e -> {
+            if (activePage != "Friends")
                 changeScene("Friends", FriendsScene.getInstance());
         });
 
@@ -77,8 +76,8 @@ public class MenuController {
 
     public void changeScene(String activePage, CustomScene customScene) {
         setActivePage(activePage);
-        Double width =  primaryStage.getWidth();
-        Double height =  primaryStage.getHeight();
+        Double width = primaryStage.getWidth();
+        Double height = primaryStage.getHeight();
 
         customScene.getPrimaryStage().setScene(customScene.createScene());
         primaryStage.setWidth(width.doubleValue());
@@ -90,7 +89,7 @@ public class MenuController {
 
         this.activePage = activePage;
         //if(!component.getMenuItems().isEmpty() || component.getMenuItems() !=null)
-       // component.getMenuItems().clear();
+        // component.getMenuItems().clear();
 
         switch (activePage) {
             case "Catalog":

@@ -1,6 +1,9 @@
 package org.example.desktopclient.controller;
 
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.example.desktopclient.component.CatalogGameComponent;
+import org.example.desktopclient.scene.GameProductPageScene;
 
 public class CatalogGameController {
     private CatalogGameComponent component;
@@ -22,7 +25,19 @@ public class CatalogGameController {
 
     public void handleButtonClick(){
         component.getButton().setOnMouseClicked(e->{
-            System.out.println(gameId);
+
+            GameProductPageScene gameProductPageScene = GameProductPageScene.getInstance();
+            gameProductPageScene.setGameId(gameId);
+            gameProductPageScene.getPrimaryStage().setScene(gameProductPageScene.createScene());
+
+            Stage primaryStage = gameProductPageScene.getPrimaryStage();
+
+            Double width =  primaryStage.getWidth();
+            Double height =  primaryStage.getHeight();
+
+            primaryStage.setWidth(width.doubleValue());
+            primaryStage.setHeight(height.doubleValue());
+
         });
     }
 

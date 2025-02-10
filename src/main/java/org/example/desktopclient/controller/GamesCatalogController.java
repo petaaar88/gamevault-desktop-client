@@ -52,57 +52,7 @@ public class GamesCatalogController implements ISearchable, IPaginable {
 
                                 /////////////////////////////////////////////////////////////////////
 
-                                component.getPaginationComponent().getPagesHbox().getChildren().clear();
-
-                                if (pages.getPreviousPages().isEmpty() && pages.getNextPages().isEmpty()) {
-                                    component.getPaginationComponent().getCompoenent().setVisible(false);
-                                } else
-                                    component.getPaginationComponent().getCompoenent().setVisible(true);
-
-
-                                if (pages.getPreviousPages().isEmpty())
-                                    component.getPaginationComponent().getLeftArrow().setVisible(false);
-                                else
-                                    component.getPaginationComponent().getLeftArrow().setVisible(true);
-
-                                if (pages.getNextPages().isEmpty())
-                                    component.getPaginationComponent().getRightArrow().setVisible(false);
-                                else
-                                    component.getPaginationComponent().getRightArrow().setVisible(true);
-
-                                if (pages.getPreviousPages().isEmpty()) {
-                                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
-                                    if(!pages.getNextPages().isEmpty()){
-                                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(pages.getNextPages().get(0).getPage().toString()));
-
-                                        if (pages.getNextPages().size() >= 2) {
-                                            Integer rightPageNumber = pages.getNextPages().get(1).getPage();
-                                            component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(rightPageNumber.toString()));
-
-                                        }
-
-                                    }
-                                }
-                                else{
-                                    if(!pages.getPreviousPages().isEmpty() && !pages.getNextPages().isEmpty()){
-                                        Integer previousPageNumber = pages.getPreviousPages().getLast().getPage();
-                                        Integer nextPageNumber = pages.getNextPages().getFirst().getPage();
-                                        component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(previousPageNumber.toString()));
-                                        component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
-                                        component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(nextPageNumber.toString()));
-                                    }
-                                    else if(pages.getNextPages().isEmpty()){
-                                        if(pages.getPreviousPages().size() >=2){
-                                            component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(pages.getPreviousPages().getFirst().getPage().toString()));
-                                            component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(pages.getPreviousPages().getLast().getPage().toString()));
-                                        }
-                                        else
-                                            component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(pages.getPreviousPages().getLast().getPage().toString()));
-
-
-                                        component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
-                                    }
-                                }
+                                this.setupPagination(pages);
 
                                 ////////////////////////////////////////////////////////////////////
 
@@ -139,6 +89,60 @@ public class GamesCatalogController implements ISearchable, IPaginable {
         });
 
 
+    }
+
+    private void setupPagination(Pages<GameOverview> pages){
+        component.getPaginationComponent().getPagesHbox().getChildren().clear();
+
+        if (pages.getPreviousPages().isEmpty() && pages.getNextPages().isEmpty()) {
+            component.getPaginationComponent().getCompoenent().setVisible(false);
+        } else
+            component.getPaginationComponent().getCompoenent().setVisible(true);
+
+
+        if (pages.getPreviousPages().isEmpty())
+            component.getPaginationComponent().getLeftArrow().setVisible(false);
+        else
+            component.getPaginationComponent().getLeftArrow().setVisible(true);
+
+        if (pages.getNextPages().isEmpty())
+            component.getPaginationComponent().getRightArrow().setVisible(false);
+        else
+            component.getPaginationComponent().getRightArrow().setVisible(true);
+
+        if (pages.getPreviousPages().isEmpty()) {
+            component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
+            if(!pages.getNextPages().isEmpty()){
+                component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(pages.getNextPages().get(0).getPage().toString()));
+
+                if (pages.getNextPages().size() >= 2) {
+                    Integer rightPageNumber = pages.getNextPages().get(1).getPage();
+                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(rightPageNumber.toString()));
+
+                }
+
+            }
+        }
+        else{
+            if(!pages.getPreviousPages().isEmpty() && !pages.getNextPages().isEmpty()){
+                Integer previousPageNumber = pages.getPreviousPages().getLast().getPage();
+                Integer nextPageNumber = pages.getNextPages().getFirst().getPage();
+                component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(previousPageNumber.toString()));
+                component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
+                component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(nextPageNumber.toString()));
+            }
+            else if(pages.getNextPages().isEmpty()){
+                if(pages.getPreviousPages().size() >=2){
+                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getLeftPageNumberButton(pages.getPreviousPages().getFirst().getPage().toString()));
+                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(pages.getPreviousPages().getLast().getPage().toString()));
+                }
+                else
+                    component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getRightPageNumberButton(pages.getPreviousPages().getLast().getPage().toString()));
+
+
+                component.getPaginationComponent().getPagesHbox().getChildren().add(component.getPaginationComponent().getCurrentPageNumberButton(currentPage.toString()));
+            }
+        }
     }
 
     @Override
