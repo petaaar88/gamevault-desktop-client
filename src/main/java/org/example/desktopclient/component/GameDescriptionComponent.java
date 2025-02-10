@@ -15,6 +15,7 @@ public class GameDescriptionComponent {
     private VBox layout;
     private HBox imageSliderAndDetailsHbox;
     private GameDetailsController gameDetailsController;
+    private ImageSliderController imageSliderController;
 
 
     public GameDescriptionComponent() {
@@ -33,12 +34,14 @@ public class GameDescriptionComponent {
         gameTitleText.getStyleClass().add("game-description-title");
 
         imageSliderAndDetailsHbox = new HBox();
-        ImagesSliderComponent imagesSliderComponent = new ImagesSliderComponent();
-        ImageSliderController imageSliderController = new ImageSliderController(imagesSliderComponent);
+
 
 
         GameDetailsComponent gameDetailsComponent = new GameDetailsComponent();
         gameDetailsController = new GameDetailsController(gameDetailsComponent);
+
+        ImagesSliderComponent imagesSliderComponent = new ImagesSliderComponent();
+        imageSliderController = new ImageSliderController(imagesSliderComponent);
 
         imageSliderAndDetailsHbox.setSpacing(24);
         imageSliderAndDetailsHbox.setPadding(new Insets(15,0,0,0));
@@ -84,5 +87,13 @@ public class GameDescriptionComponent {
 
     public void setGameDetailsController(GameDetailsController gameDetailsController) {
         this.gameDetailsController = gameDetailsController;
+    }
+
+    public ImageSliderController getImageSliderController() {
+        return imageSliderController;
+    }
+
+    public void setImageSliderController(ImageSliderController imageSliderController) {
+        this.imageSliderController = imageSliderController;
     }
 }

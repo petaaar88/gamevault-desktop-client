@@ -1,10 +1,13 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.example.desktopclient.component.ImagesSliderComponent;
+import org.example.desktopclient.service.game.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageSliderController {
@@ -24,6 +27,7 @@ public class ImageSliderController {
     private ImagesSliderComponent component;
     private List<Image> images;
 
+
     public ImageSliderController(ImagesSliderComponent component) {
 
         maxNumberOfImagesInSlider = 1;
@@ -40,11 +44,36 @@ public class ImageSliderController {
 
         this.component = component;
         images = component.getImages();
-        this.handleClicks();
-        this.setContent();
+
+    }
+
+
+
+    public void setImages(Integer gameId) {
+        GameService gameService = new GameService();
+
+        //while (!images.isEmpty())
+        //   images.removeFirst();
+
+        gameService.fetchGameProductPageImages(gameId, gameProductPageImages -> {
+            Platform.runLater(()->{
+
+            gameProductPageImages.getImages().forEach(image -> {
+                component.getImages().add(new Image(image.getImage()));
+            });
+            images = component.getImages();
+            this.setContent();
+            this.handleClicks();
+            });
+        });
     }
 
     public void setContent() {
+
+        component.getImagesInSliderHbox().getChildren().clear();
+        component.getCurrentImageView().setImage(images.get(0));
+        component.getAllImagesForSlider().removeAll(component.getAllImagesForSlider());
+
         maxNumberOfImagesInSlider = (MAX_IMAGES_IN_SLIDER > images.size()) ? images.size() : MAX_IMAGES_IN_SLIDER;
 
         currentImageIndex[0] = 0; // početna vrednost

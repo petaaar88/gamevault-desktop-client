@@ -18,6 +18,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+
         ApplicationContextService applicationContextService = new ApplicationContextService();
         applicationContextService.setUser(new User(1,"Korinsik123","https://cdn-icons-png.flaticon.com/512/9187/9187604.png"));
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.desktopclient.model.game.GameDescriptionDTO;
 import org.example.desktopclient.model.game.GameOverallRatingDTO;
 import org.example.desktopclient.model.game.GameOverview;
+import org.example.desktopclient.model.game.GameProductPageImages;
 import org.example.desktopclient.model.page.Pages;
 
 import java.io.UnsupportedEncodingException;
@@ -77,6 +78,28 @@ public class GameService {
                     return null;
                 });
     }
+
+    public void fetchGameProductPageImages(Integer gameId,Consumer<GameProductPageImages> callback){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/pp-images"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseProductPageImages)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
 
     public void fetchOverallRating(Integer gameId, Consumer<GameOverallRatingDTO> callback){
         HttpRequest request = HttpRequest.newBuilder()
@@ -155,6 +178,16 @@ public class GameService {
                 return null;
             }
 
+        }
+    }
+
+    private GameProductPageImages parseProductPageImages(String json){
+        try {
+            GameProductPageImages productPageImages = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return productPageImages;
+        } catch (JsonProcessingException e) {
+                return null;
         }
     }
 
