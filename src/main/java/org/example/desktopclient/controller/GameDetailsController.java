@@ -35,6 +35,8 @@ public class GameDetailsController {
             component.getReleaseDateText().setText(formattedDate);
 
             component.getGameDeveloperNameText().setText(gameDescriptionDTO.getDeveloper());
+            component.getGameGenresController().setContent(gameDescriptionDTO.getGenres());
+
             gameService.fetchOverallRating(gameId, gameOverallRatingDTO -> {
                 NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
                 Integer reviewNumberInteger = gameOverallRatingDTO.getNumberOfReviews();

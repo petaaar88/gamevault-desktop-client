@@ -8,6 +8,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.example.desktopclient.controller.GameGenresController;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -20,6 +21,7 @@ public class GameDetailsComponent {
     private Text gameDeveloperNameText;
     private Text reviewNumber;
     private Text review;
+    private GameGenresController gameGenresController;
 
     public GameDetailsComponent(){
         layout = new VBox();
@@ -82,6 +84,7 @@ public class GameDetailsComponent {
         Text gameGenresText = new Text("Genres");
         gameGenresText.getStyleClass().add("game-description-text-heading");
         GameGenresComponent gameGenresComponent = new GameGenresComponent();
+        gameGenresController = new GameGenresController(gameGenresComponent);
         gameGenresVbox.getChildren().addAll(gameGenresText, gameGenresComponent.getComponent());
 
 
@@ -140,5 +143,13 @@ public class GameDetailsComponent {
 
     public void setReview(Text review) {
         this.review = review;
+    }
+
+    public GameGenresController getGameGenresController() {
+        return gameGenresController;
+    }
+
+    public void setGameGenresController(GameGenresController gameGenresController) {
+        this.gameGenresController = gameGenresController;
     }
 }

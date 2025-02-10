@@ -9,25 +9,26 @@ import java.util.List;
 
 public class GameGenresComponent {
 
-    public GridPane getComponent() {
+    private GridPane layout;
 
-        GridPane layout = new GridPane();
+    public GameGenresComponent(){
+        layout = new GridPane();
         layout.setHgap(5);
 
         String css = getClass().getResource("/org/example/desktopclient/styles/gameGenresComponentStyles.css").toExternalForm();
         layout.getStylesheets().add(css);
+    }
 
-        List<String> genres = Arrays.asList("RPG","Action", "Adventure");
 
-        genres.forEach(genre->{
-            Label genreText = new Label(genre);
-            genreText.getStyleClass().add("game-genre");
-
-            layout.addRow(0, genreText);
-
-        });
-
+    public GridPane getComponent() {
         return layout;
+    }
 
+    public GridPane getLayout() {
+        return layout;
+    }
+
+    public void setLayout(GridPane layout) {
+        this.layout = layout;
     }
 }
