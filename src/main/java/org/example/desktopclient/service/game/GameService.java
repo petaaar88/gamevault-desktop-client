@@ -3,10 +3,7 @@ package org.example.desktopclient.service.game;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.desktopclient.model.game.GameDescriptionDTO;
-import org.example.desktopclient.model.game.GameOverallRatingDTO;
-import org.example.desktopclient.model.game.GameOverview;
-import org.example.desktopclient.model.game.GameProductPageImages;
+import org.example.desktopclient.model.game.*;
 import org.example.desktopclient.model.page.Pages;
 
 import java.io.UnsupportedEncodingException;
@@ -58,9 +55,9 @@ public class GameService {
 
     }
 
-    public void fetchGameDescriptionForProductPage(Integer gameId,Consumer<GameDescriptionDTO> callback){
+    public void fetchGameDescriptionForProductPage(Integer gameId, Consumer<GameDescriptionDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/description"))
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/description"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -79,9 +76,9 @@ public class GameService {
                 });
     }
 
-    public void fetchGameProductPageImages(Integer gameId,Consumer<GameProductPageImages> callback){
+    public void fetchGameProductPageImages(Integer gameId, Consumer<GameProductPageImages> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/pp-images"))
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/pp-images"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -100,10 +97,9 @@ public class GameService {
                 });
     }
 
-
-    public void fetchOverallRating(Integer gameId, Consumer<GameOverallRatingDTO> callback){
+    public void fetchOverallRating(Integer gameId, Consumer<GameOverallRatingDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/overal-rating"))
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/overal-rating"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -120,6 +116,37 @@ public class GameService {
                     }
                     return null;
                 });
+    }
+
+    public void fetchSystemRequirements(Integer gameId, Consumer<GameSystemRequirementsDTO> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/system-requirements"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseSystemRequirements)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+    public GameSystemRequirementsDTO parseSystemRequirements(String json) {
+        try {
+            GameSystemRequirementsDTO systemRequirements = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return systemRequirements;
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
     private Pages<GameOverview> parseFetchGamesJson(String json) {
@@ -141,7 +168,7 @@ public class GameService {
         }
     }
 
-    private GameDescriptionDTO parseFetchGameDescriptionProductPage(String json){
+    private GameDescriptionDTO parseFetchGameDescriptionProductPage(String json) {
         try {
             GameDescriptionDTO gameDescriptionDTO = objectMapper.readValue(json, new TypeReference<>() {
             });
@@ -160,7 +187,7 @@ public class GameService {
         }
     }
 
-    private GameOverallRatingDTO parseOverallRating(String json){
+    private GameOverallRatingDTO parseOverallRating(String json) {
         try {
             GameOverallRatingDTO overallRating = objectMapper.readValue(json, new TypeReference<>() {
             });
@@ -179,13 +206,13 @@ public class GameService {
         }
     }
 
-    private GameProductPageImages parseProductPageImages(String json){
+    private GameProductPageImages parseProductPageImages(String json) {
         try {
             GameProductPageImages productPageImages = objectMapper.readValue(json, new TypeReference<>() {
             });
             return productPageImages;
         } catch (JsonProcessingException e) {
-                return null;
+            return null;
         }
     }
 

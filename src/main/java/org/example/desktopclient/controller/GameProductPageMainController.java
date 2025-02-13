@@ -6,6 +6,7 @@ public class GameProductPageMainController {
     private GameProductPageVerticalMainComponent component;
     private Integer gameId;
 
+    //TODO: ovde se inicijazliuju svi kontroleri u jednoj sceni
     public GameProductPageMainController(GameProductPageVerticalMainComponent component,Integer gameId){
         this.gameId = gameId;
         this.component = component;
@@ -17,6 +18,9 @@ public class GameProductPageMainController {
 
         this.component.getGetGameController().setGameId(gameId);
         this.component.getGetGameController().handleClick();
+
+        this.component.getGameSystemRequirementsController().setGameId(gameId);
+        this.component.getGameSystemRequirementsController().setContent();
     }
 
     public GameProductPageVerticalMainComponent getComponent() {

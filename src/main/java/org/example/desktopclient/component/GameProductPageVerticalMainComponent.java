@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.desktopclient.controller.GameDescriptionController;
+import org.example.desktopclient.controller.GameSystemRequirementsController;
 import org.example.desktopclient.controller.GetGameController;
 
 import java.util.Arrays;
@@ -16,6 +17,8 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
     private GameDescriptionComponent gameDescriptionComponent;
     private GetGameComponent getGameComponent;
     private GetGameController getGameController;
+    private GameSystemRequirementsComponent gameSystemRequirementsComponent;
+    private GameSystemRequirementsController gameSystemRequirementsController;
 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
@@ -23,6 +26,8 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         getGameComponent = new GetGameComponent();
         getGameController = new GetGameController(getGameComponent);
 
+        gameSystemRequirementsComponent = new GameSystemRequirementsComponent();
+        gameSystemRequirementsController = new GameSystemRequirementsController(gameSystemRequirementsComponent);
     }
 
     @Override
@@ -38,10 +43,10 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         systemRequirementAndFriendsHBox.setMaxWidth(1000);
 
 
-        GameSystemRequirements gameSystemRequirements = new GameSystemRequirements();
+
         TextInputComponent textInputComponent = new TextInputComponent();
 
-        VBox vBox = new VBox(getGameComponent.getComponent("Red Dead Redemption 2", "Http://nlse.com"), gameSystemRequirements.getComponent(), textInputComponent.getWithRatingComponent());
+        VBox vBox = new VBox(getGameComponent.getComponent("Red Dead Redemption 2", "Http://nlse.com"), gameSystemRequirementsComponent.getComponent(), textInputComponent.getWithRatingComponent());
         vBox.setSpacing(20);
         vBox.setPadding(new Insets(0, 0, 20, 0));
 
@@ -85,5 +90,21 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     public void setGetGameController(GetGameController getGameController) {
         this.getGameController = getGameController;
+    }
+
+    public GameSystemRequirementsController getGameSystemRequirementsController() {
+        return gameSystemRequirementsController;
+    }
+
+    public void setGameSystemRequirementsController(GameSystemRequirementsController gameSystemRequirementsController) {
+        this.gameSystemRequirementsController = gameSystemRequirementsController;
+    }
+
+    public GameSystemRequirementsComponent getGameSystemRequirementsComponent() {
+        return gameSystemRequirementsComponent;
+    }
+
+    public void setGameSystemRequirementsComponent(GameSystemRequirementsComponent gameSystemRequirementsComponent) {
+        this.gameSystemRequirementsComponent = gameSystemRequirementsComponent;
     }
 }
