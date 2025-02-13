@@ -9,7 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import org.example.desktopclient.model.user.User;
@@ -46,6 +49,7 @@ public class MenuComponent {
         layout.setMinWidth(1000);
 
         leftSide = new HBox(18);
+        leftSide.setPadding(new Insets(5,0,0,0));
         // Pravimo VBox za Catalog tekst i liniju
         activePageBox = new VBox();
 
@@ -67,7 +71,7 @@ public class MenuComponent {
 
         rightSide = new HBox();
         usernameText = new Text("username");
-        HBox.setMargin(usernameText, new Insets(5, 0, 0, 5));
+        HBox.setMargin(usernameText, new Insets(8, 0, 0, 3));
 
         usernameText.getStyleClass().add("menu-username");
 
@@ -75,8 +79,19 @@ public class MenuComponent {
         profileIcon = new ImageView();
         profileIcon.setFitWidth(40);
         profileIcon.setFitHeight(40);
+        profileIcon.setStyle("-fx-border-radius: 50px");
+        Circle clip = new Circle(20, 20, 20);
+        profileIcon.setClip(clip);
 
-        profileButton = new Button("", new HBox(profileIcon, usernameText));
+        Circle profileBorder = new Circle(23);
+        profileBorder.setFill(Paint.valueOf("#0084FF"));
+
+        StackPane profileIconStack = new StackPane(profileBorder, profileIcon);
+
+        HBox hBox = new HBox(profileIconStack, usernameText);
+        hBox.setSpacing(7);
+
+        profileButton = new Button("", hBox);
         profileButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         profileButton.setOnMouseEntered(e->{
             profileButton.setStyle("-fx-background-color: #333352; -fx-cursor: hand;");
