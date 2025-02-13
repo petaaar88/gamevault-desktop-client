@@ -47,7 +47,7 @@ public class GetGameComponent {
 
     }
 
-    public VBox getComponent(String title, String downloadUrl){
+    public VBox getComponent(){
         return layout;
     }
 

@@ -139,6 +139,63 @@ public class GameService {
                 });
     }
 
+    public void doesUserHaveGame(Integer userId, Integer gameId, Consumer<Boolean> callback){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" +userId.toString()+"/"+ gameId.toString() + "/has-game"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+    public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/"+ userId.toString()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response->{
+
+                    if(response.statusCode() == 201)
+                        return "Game added to collection!";
+                    else if(response.statusCode() == 409){
+                        ErrorMessage message = null;
+                        try {
+                            message = objectMapper.readValue(response.body(), new TypeReference<>(){});
+                        } catch (JsonProcessingException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        return "Already In Collection!";
+                    }
+                    else
+                        return "Error";
+                })
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+
+    }
+
     public GameSystemRequirementsDTO parseSystemRequirements(String json) {
         try {
             GameSystemRequirementsDTO systemRequirements = objectMapper.readValue(json, new TypeReference<>() {

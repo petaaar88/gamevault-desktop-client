@@ -19,6 +19,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
     private GetGameController getGameController;
     private GameSystemRequirementsComponent gameSystemRequirementsComponent;
     private GameSystemRequirementsController gameSystemRequirementsController;
+    private VBox requirementsGettingAndReviewVbox;
 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
@@ -46,12 +47,11 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
         TextInputComponent textInputComponent = new TextInputComponent();
 
-        VBox vBox = new VBox(getGameComponent.getComponent("Red Dead Redemption 2", "Http://nlse.com"), gameSystemRequirementsComponent.getComponent(), textInputComponent.getWithRatingComponent());
-        vBox.setSpacing(20);
-        vBox.setPadding(new Insets(0, 0, 20, 0));
+        requirementsGettingAndReviewVbox = new VBox(getGameComponent.getComponent(), gameSystemRequirementsComponent.getComponent(), textInputComponent.getWithRatingComponent());
+        requirementsGettingAndReviewVbox.setSpacing(20);
+        requirementsGettingAndReviewVbox.setPadding(new Insets(0, 0, 20, 0));
 
-
-        systemRequirementAndFriendsHBox.getChildren().add(vBox);
+        systemRequirementAndFriendsHBox.getChildren().add(requirementsGettingAndReviewVbox);
 
         FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
         systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
@@ -106,5 +106,13 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     public void setGameSystemRequirementsComponent(GameSystemRequirementsComponent gameSystemRequirementsComponent) {
         this.gameSystemRequirementsComponent = gameSystemRequirementsComponent;
+    }
+
+    public VBox getRequirementsGettingAndReviewVbox() {
+        return requirementsGettingAndReviewVbox;
+    }
+
+    public void setRequirementsGettingAndReviewVbox(VBox requirementsGettingAndReviewVbox) {
+        this.requirementsGettingAndReviewVbox = requirementsGettingAndReviewVbox;
     }
 }

@@ -1,5 +1,6 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,30 +12,39 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.GetGameComponent;
+import org.example.desktopclient.service.game.GameService;
 import org.w3c.dom.Text;
 
 public class GetGameController {
     private GetGameComponent component;
     private Integer gameId;
+    private Integer userId;
+    private GameService gameService;
 
-    public GetGameController(GetGameComponent component){
+    public GetGameController(GetGameComponent component) {
         this.component = component;
+        this.gameService = new GameService();
     }
 
-    public void handleClick(){
+    public void handleClick() {
         //TODO: dodaj da se dodaje u kolekciju
-        component.getAddInCollectionButton().setOnMouseClicked(e->{
-            showAlert();
+        component.getAddInCollectionButton().setOnMouseClicked(e -> {
+            gameService.addGameToUserCollection(userId, gameId, callback -> {
+                Platform.runLater(() -> {
+                    showAlert(callback);
+
+                });
+            });
         });
     }
 
-    public void showAlert(){
+    public void showAlert(String message) {
         Stage alertStage = new Stage();
         alertStage.initStyle(StageStyle.UNDECORATED); // Uklanja naslovnu traku
         alertStage.initModality(Modality.APPLICATION_MODAL); // Blokira interakciju sa glavnim prozorom dok je alert otvoren
 
         // Tekst poruke
-        Label alertText = new Label("Game added to collection!");
+        Label alertText = new Label(message);
         alertText.setStyle("-fx-font-size: 25px;-fx-text-fill: white");
 
         // Dugme za zatvaranje
@@ -54,7 +64,7 @@ public class GetGameController {
         alertStage.showAndWait();
     }
 
-    public GetGameComponent getComponent(){
+    public GetGameComponent getComponent() {
         return component;
     }
 
@@ -68,5 +78,13 @@ public class GetGameController {
 
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

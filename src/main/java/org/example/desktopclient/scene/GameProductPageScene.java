@@ -42,8 +42,7 @@ public class GameProductPageScene extends CustomScene{
         menuController.setActiveItemInMenu("Catalog");
 
         GameProductPageVerticalMainComponent gameProductPageVerticalMainComponent = new GameProductPageVerticalMainComponent();
-        GameProductPageMainController gameProductPageMainController = new GameProductPageMainController(gameProductPageVerticalMainComponent, gameId);
-        gameProductPageMainController.setGameId(gameId);
+        GameProductPageMainController gameProductPageMainController = new GameProductPageMainController(gameProductPageVerticalMainComponent, gameId, applicationContextService.getUser().getId());
         ScrollComponent scrollComponent = new ScrollComponent();
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), scrollComponent.getComponent(gameProductPageVerticalMainComponent.getComponent()));
