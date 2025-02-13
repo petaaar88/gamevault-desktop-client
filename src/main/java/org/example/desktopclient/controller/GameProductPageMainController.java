@@ -13,8 +13,10 @@ public class GameProductPageMainController {
         this.component.getGameDescriptionController().setContent();
         this.component.getGameDescriptionController().getComponent().getGameDetailsController().setGameId(gameId);
         this.component.getGameDescriptionController().getComponent().getGameDetailsController().setContent();
-
         this.component.getGameDescriptionController().getComponent().getImageSliderController().setImages(gameId);
+
+        this.component.getGetGameController().setGameId(gameId);
+        this.component.getGetGameController().handleClick();
     }
 
     public GameProductPageVerticalMainComponent getComponent() {

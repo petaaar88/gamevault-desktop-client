@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.desktopclient.controller.GameDescriptionController;
+import org.example.desktopclient.controller.GetGameController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,10 +14,15 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     private GameDescriptionController gameDescriptionController;
     private GameDescriptionComponent gameDescriptionComponent;
+    private GetGameComponent getGameComponent;
+    private GetGameController getGameController;
 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
         gameDescriptionController = new GameDescriptionController(gameDescriptionComponent);
+        getGameComponent = new GetGameComponent();
+        getGameController = new GetGameController(getGameComponent);
+
     }
 
     @Override
@@ -31,7 +37,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         systemRequirementAndFriendsHBox.setMinWidth(1000);
         systemRequirementAndFriendsHBox.setMaxWidth(1000);
 
-        GetGameComponent getGameComponent = new GetGameComponent();
+
         GameSystemRequirements gameSystemRequirements = new GameSystemRequirements();
         TextInputComponent textInputComponent = new TextInputComponent();
 
@@ -63,5 +69,21 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     public void setGameDescriptionController(GameDescriptionController gameDescriptionController) {
         this.gameDescriptionController = gameDescriptionController;
+    }
+
+    public GetGameComponent getGetGameComponent() {
+        return getGameComponent;
+    }
+
+    public void setGetGameComponent(GetGameComponent getGameComponent) {
+        this.getGameComponent = getGameComponent;
+    }
+
+    public GetGameController getGetGameController() {
+        return getGameController;
+    }
+
+    public void setGetGameController(GetGameController getGameController) {
+        this.getGameController = getGameController;
     }
 }
