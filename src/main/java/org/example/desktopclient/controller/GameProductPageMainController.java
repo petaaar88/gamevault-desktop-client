@@ -2,19 +2,25 @@ package org.example.desktopclient.controller;
 
 import javafx.application.Platform;
 import javafx.scene.text.Text;
+import org.example.desktopclient.component.CustomerReviewsComponent;
 import org.example.desktopclient.component.GameProductPageVerticalMainComponent;
 import org.example.desktopclient.component.GetGameComponent;
 import org.example.desktopclient.component.TextInputComponent;
 import org.example.desktopclient.service.game.GameService;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class GameProductPageMainController {
     private GameProductPageVerticalMainComponent component;
     private Integer gameId;
     private Integer userId;
     private GameService gameService;
+    private Integer currentPage = 1;
+    private final Integer LIMIT = 2;
 
     //TODO: ovde se inicijazliuju svi kontroleri u jednoj sceni
-    public GameProductPageMainController(GameProductPageVerticalMainComponent component,Integer gameId,Integer userId){
+    public GameProductPageMainController(GameProductPageVerticalMainComponent component, Integer gameId, Integer userId) {
         gameService = new GameService();
 
         this.gameId = gameId;
@@ -35,15 +41,17 @@ public class GameProductPageMainController {
         this.component.getFriendsThatPlayGameController().setGameId(gameId);
         this.component.getFriendsThatPlayGameController().setUserId(userId);
         this.component.getFriendsThatPlayGameController().setContent();
+
+
     }
 
-    public void hideContent(){
-        gameService.doesUserHaveGame(userId,gameId,callback->{
-            Platform.runLater(()->{
-                if(callback){
-                    gameService.doesUserHaveReviewOnGame(userId,gameId,hasReview->{
-                        Platform.runLater(()->{
-                            if(!hasReview){
+    public void hideContent() {
+        gameService.doesUserHaveGame(userId, gameId, callback -> {
+            Platform.runLater(() -> {
+                if (callback) {
+                    gameService.doesUserHaveReviewOnGame(userId, gameId, hasReview -> {
+                        Platform.runLater(() -> {
+                            if (!hasReview) {
                                 TextInputComponent textInputComponent = new TextInputComponent();
                                 textInputComponent.getTitleLabel().setText("Write A Review");
 
@@ -55,8 +63,7 @@ public class GameProductPageMainController {
                             }
                         });
                     });
-                }
-                else{
+                } else {
 
                     GetGameComponent getGameComponent = new GetGameComponent();
                     GetGameController getGameController = new GetGameController(getGameComponent);
@@ -68,9 +75,9 @@ public class GameProductPageMainController {
             });
         });
 
-        gameService.doesUserHaveFriendsThatPlayGame(userId, gameId, callback->{
-            Platform.runLater(()->{
-                if(!callback)
+        gameService.doesUserHaveFriendsThatPlayGame(userId, gameId, callback -> {
+            Platform.runLater(() -> {
+                if (!callback)
                     this.component.getFriendsThatPlayGameComponent().getComponent().setVisible(false);
                 else
                     this.component.getFriendsThatPlayGameComponent().getComponent().setVisible(true);
@@ -78,7 +85,42 @@ public class GameProductPageMainController {
             });
         });
 
+        gameService.doesGameHaveReviews(gameId, callback -> {
+            Platform.runLater(() -> {
+                if (callback) {
+                    CustomerReviewsComponent customerReviewsComponent = new CustomerReviewsComponent();
+                    CustomerReviewsController customerReviewsController = new CustomerReviewsController(customerReviewsComponent);
 
+                    gameService.fetchOverallRating(gameId, callback1 -> {
+                        Platform.runLater(() -> {
+                            String ratingStyleClass = callback1.getRating().toLowerCase().replace(' ', '_');
+
+                            customerReviewsController.getComponent().getReview().setText(callback1.getRating());
+                            customerReviewsController.getComponent().getReview().getStyleClass().add("game-description-review-" + ratingStyleClass + "-color");
+                            NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
+                            Integer reviewNumberInteger = callback1.getNumberOfReviews();
+                            customerReviewsController.getComponent().getReviewNumber().setText(("(" + nf.format(reviewNumberInteger) + ")"));
+
+                        });
+                    });
+
+                    gameService.fetchGamerReviews(gameId, currentPage, LIMIT, callback1 -> {
+                        Platform.runLater(() -> {
+                            customerReviewsController.setCurrentPage(currentPage);
+                            customerReviewsController.setContent(callback1);
+                        });
+                    });
+
+
+                    this.component.getPaddingHbox().getChildren().add(customerReviewsComponent.getComponent());
+                } else {
+                    Text noReviewsText = new Text("No Reviews Yet");
+                    noReviewsText.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-fill: #575C96;");
+
+                    this.component.getPaddingHbox().getChildren().add(noReviewsText);
+                }
+            });
+        });
     }
 
     public GameProductPageVerticalMainComponent getComponent() {

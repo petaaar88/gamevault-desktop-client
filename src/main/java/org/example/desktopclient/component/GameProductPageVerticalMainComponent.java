@@ -21,6 +21,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
     private VBox requirementsGettingAndReviewVbox;
     private FriendsThatPlayGameComponent friendsThatPlayGameComponent;
     private FriendsThatPlayGameController friendsThatPlayGameController;
+    private HBox paddingHbox;
 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
@@ -57,8 +58,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
         systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
 
-        CustomerReviewsComponent customerReviewsComponent = new CustomerReviewsComponent();
-        HBox paddingHbox = new HBox(customerReviewsComponent.getComponent());
+        paddingHbox = new HBox();
         paddingHbox.setMinWidth(1000);
         paddingHbox.setMaxWidth(1000);
         paddingHbox.setPadding(new Insets(0, 0, 20, 0));
@@ -124,5 +124,13 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     public void setFriendsThatPlayGameController(FriendsThatPlayGameController friendsThatPlayGameController) {
         this.friendsThatPlayGameController = friendsThatPlayGameController;
+    }
+
+    public HBox getPaddingHbox() {
+        return paddingHbox;
+    }
+
+    public void setPaddingHbox(HBox paddingHbox) {
+        this.paddingHbox = paddingHbox;
     }
 }

@@ -7,13 +7,20 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class CustomerReviewsComponent {
 
-    public VBox getComponent(){
-        VBox layout = new VBox();
+    private VBox layout;
+    private Text review;
+    private Text reviewNumber;
+    private VBox reviewsVbox;
+    private PaginationComponent paginationComponent;
+
+    public CustomerReviewsComponent() {
+        layout = new VBox();
         layout.setMinWidth(1000);
         layout.setMaxWidth(1000);
         layout.setStyle("-fx-background-color: #333352");
@@ -35,17 +42,13 @@ public class CustomerReviewsComponent {
         String css = getClass().getResource("/org/example/desktopclient/styles/gameDetailsComponentStyles.css").toExternalForm();
         reviewRatingHbox.getStylesheets().add(css);
 
-        String reviewTextTypeString = "negative";
-        String reviewTextClass = "game-description-review-" + reviewTextTypeString + "-color";
 
-        Text review = new Text("Negative");
+        review = new Text("");
         review.setStyle("-fx-font-size: 16px");
         review.getStyleClass().add("game-description-text-body");
-        review.getStyleClass().add(reviewTextClass);
 
-        NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMANY);
-        Integer reviewNumberInteger = 12334;
-        Text reviewNumber = new Text("(" + nf.format(reviewNumberInteger) + ")");
+
+        reviewNumber = new Text("");
         reviewNumber.setStyle("-fx-font-size: 16px");
         reviewNumber.getStyleClass().add("game-description-text-body");
 
@@ -53,13 +56,56 @@ public class CustomerReviewsComponent {
         overallReviewHbox.getChildren().add(reviewRatingHbox);
         overallReviewHbox.setAlignment(Pos.CENTER);
 
-        VBox reviewsVbox = new VBox();
-        PaginationComponent paginationComponent = new PaginationComponent();
+        reviewsVbox = new VBox();
+        paginationComponent = new PaginationComponent();
         reviewsVbox.setSpacing(6);
 
-        reviewsVbox.getChildren().addAll(new CustomerReviewComponent().getComponent(), new CustomerReviewComponent().getComponent(),paginationComponent.getCompoenent());
 
         layout.getChildren().addAll(title,overallReviewHbox,reviewsVbox);
+
+    }
+
+    public PaginationComponent getPaginationComponent() {
+        return paginationComponent;
+    }
+
+    public void setPaginationComponent(PaginationComponent paginationComponent) {
+        this.paginationComponent = paginationComponent;
+    }
+
+    public VBox getLayout() {
         return layout;
+    }
+
+    public void setLayout(VBox layout) {
+        this.layout = layout;
+    }
+
+    public Text getReview() {
+        return review;
+    }
+
+    public void setReview(Text review) {
+        this.review = review;
+    }
+
+    public VBox getComponent(){
+        return layout;
+    }
+
+    public Text getReviewNumber() {
+        return reviewNumber;
+    }
+
+    public void setReviewNumber(Text reviewNumber) {
+        this.reviewNumber = reviewNumber;
+    }
+
+    public VBox getReviewsVbox() {
+        return reviewsVbox;
+    }
+
+    public void setReviewsVbox(VBox reviewsVbox) {
+        this.reviewsVbox = reviewsVbox;
     }
 }

@@ -225,7 +225,6 @@ public class GameService {
                 });
     }
 
-
     public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()))
