@@ -204,6 +204,28 @@ public class GameService {
                 });
     }
 
+    public void doesGameHaveReviews(Integer gameId, Consumer<Boolean> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/has-reviews"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+
     public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()))
@@ -267,7 +289,7 @@ public class GameService {
             String json = new ObjectMapper().writeValueAsString(reviewDTO);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()+"/reviews"))
+                    .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/reviews"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -286,7 +308,7 @@ public class GameService {
                                 System.out.println(e.getMessage());
                             }
                             return "Already posted!";
-                        } else{
+                        } else {
                             System.out.println(response.statusCode());
                             return "Error";
                         }
@@ -302,100 +324,141 @@ public class GameService {
                     });
 
 
-
         } catch (JsonProcessingException e) {
             System.out.println(e.getMessage());
         }
 
 
-}
-
-public List<FriendDTO> parseFriendsThatPlayGame(String json) {
-    try {
-        List<FriendDTO> friends = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return friends;
-    } catch (JsonProcessingException e) {
-        System.out.println(e.getMessage());
-        return null;
     }
-}
 
-public GameSystemRequirementsDTO parseSystemRequirements(String json) {
-    try {
-        GameSystemRequirementsDTO systemRequirements = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return systemRequirements;
-    } catch (JsonProcessingException e) {
-        return null;
+    public void fetchGamerReviews(Integer gameId, Integer page, Integer limit, Consumer<Pages<GameReviewDTO>> callback) {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/reviews?page=" + page.toString() + "&limit=" + limit.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseGamerReviews)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
     }
-}
 
-private Pages<GameOverview> parseFetchGamesJson(String json) {
-    try {
-        Pages<GameOverview> games = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return games;
-    } catch (JsonProcessingException e) {
+    public Pages<GameReviewDTO> parseGamerReviews(String json) {
         try {
-            ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+            System.out.println(json);
+            Pages<GameReviewDTO> reviews = objectMapper.readValue(json, new TypeReference<>() {
             });
-            System.out.println(message.getMessage());
-            return null;
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
+            return reviews;
+        } catch (JsonProcessingException e) {
+            try {
+                ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+                });
+                System.out.println(message.getMessage());
+                return null;
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+
+        }
+    }
+
+    public List<FriendDTO> parseFriendsThatPlayGame(String json) {
+        try {
+            List<FriendDTO> friends = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return friends;
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
             return null;
         }
-
     }
-}
 
-private GameDescriptionDTO parseFetchGameDescriptionProductPage(String json) {
-    try {
-        GameDescriptionDTO gameDescriptionDTO = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return gameDescriptionDTO;
-    } catch (JsonProcessingException e) {
+    public GameSystemRequirementsDTO parseSystemRequirements(String json) {
         try {
-            ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+            GameSystemRequirementsDTO systemRequirements = objectMapper.readValue(json, new TypeReference<>() {
             });
-            System.out.println(message.getMessage());
-            return null;
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
+            return systemRequirements;
+        } catch (JsonProcessingException e) {
             return null;
         }
-
     }
-}
 
-private GameOverallRatingDTO parseOverallRating(String json) {
-    try {
-        GameOverallRatingDTO overallRating = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return overallRating;
-    } catch (JsonProcessingException e) {
+    private Pages<GameOverview> parseFetchGamesJson(String json) {
         try {
-            ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+            Pages<GameOverview> games = objectMapper.readValue(json, new TypeReference<>() {
             });
-            System.out.println(message.getMessage());
-            return null;
-        } catch (JsonProcessingException ex) {
-            ex.printStackTrace();
+            return games;
+        } catch (JsonProcessingException e) {
+            try {
+                ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+                });
+                System.out.println(message.getMessage());
+                return null;
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+
+        }
+    }
+
+    private GameDescriptionDTO parseFetchGameDescriptionProductPage(String json) {
+        try {
+            GameDescriptionDTO gameDescriptionDTO = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return gameDescriptionDTO;
+        } catch (JsonProcessingException e) {
+            try {
+                ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+                });
+                System.out.println(message.getMessage());
+                return null;
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+
+        }
+    }
+
+    private GameOverallRatingDTO parseOverallRating(String json) {
+        try {
+            GameOverallRatingDTO overallRating = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return overallRating;
+        } catch (JsonProcessingException e) {
+            try {
+                ErrorMessage message = objectMapper.readValue(json, new TypeReference<>() {
+                });
+                System.out.println(message.getMessage());
+                return null;
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+
+        }
+    }
+
+    private GameProductPageImages parseProductPageImages(String json) {
+        try {
+            GameProductPageImages productPageImages = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return productPageImages;
+        } catch (JsonProcessingException e) {
             return null;
         }
-
     }
-}
-
-private GameProductPageImages parseProductPageImages(String json) {
-    try {
-        GameProductPageImages productPageImages = objectMapper.readValue(json, new TypeReference<>() {
-        });
-        return productPageImages;
-    } catch (JsonProcessingException e) {
-        return null;
-    }
-}
 
 }
