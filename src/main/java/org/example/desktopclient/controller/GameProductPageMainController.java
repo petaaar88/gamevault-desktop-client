@@ -1,7 +1,10 @@
 package org.example.desktopclient.controller;
 
 import javafx.application.Platform;
+import javafx.scene.text.Text;
 import org.example.desktopclient.component.GameProductPageVerticalMainComponent;
+import org.example.desktopclient.component.GetGameComponent;
+import org.example.desktopclient.component.TextInputComponent;
 import org.example.desktopclient.service.game.GameService;
 
 public class GameProductPageMainController {
@@ -26,10 +29,6 @@ public class GameProductPageMainController {
         this.component.getGameDescriptionController().getComponent().getGameDetailsController().setContent();
         this.component.getGameDescriptionController().getComponent().getImageSliderController().setImages(gameId);
 
-        this.component.getGetGameController().setGameId(gameId);
-        this.component.getGetGameController().setUserId(userId);
-        this.component.getGetGameController().handleClick();
-
         this.component.getGameSystemRequirementsController().setGameId(gameId);
         this.component.getGameSystemRequirementsController().setContent();
 
@@ -41,10 +40,27 @@ public class GameProductPageMainController {
     public void hideContent(){
         gameService.doesUserHaveGame(userId,gameId,callback->{
             Platform.runLater(()->{
-                if(callback)
-                    this.component.getRequirementsGettingAndReviewVbox().getChildren().removeFirst();
-                else
-                    this.component.getRequirementsGettingAndReviewVbox().getChildren().removeLast();
+                if(callback){
+                    gameService.doesUserHaveReviewOnGame(userId,gameId,hasReview->{
+                        Platform.runLater(()->{
+                            if(!hasReview){
+                                TextInputComponent textInputComponent = new TextInputComponent();
+                                UserGameReviewInputController userGameReviewInputController = new UserGameReviewInputController(textInputComponent);
+                                textInputComponent.getTitleLabel().setText("Write A Review");
+                                this.component.getRequirementsGettingAndReviewVbox().getChildren().add(textInputComponent.getComponent());
+                            }
+                        });
+                    });
+                }
+                else{
+
+                    GetGameComponent getGameComponent = new GetGameComponent();
+                    GetGameController getGameController = new GetGameController(getGameComponent);
+                    getGameController.setGameId(gameId);
+                    getGameController.setUserId(userId);
+                    getGameController.handleClick();
+                    this.component.getRequirementsGettingAndReviewVbox().getChildren().addFirst(getGameComponent.getComponent());
+                }
             });
         });
 
@@ -57,6 +73,8 @@ public class GameProductPageMainController {
 
             });
         });
+
+
     }
 
     public GameProductPageVerticalMainComponent getComponent() {

@@ -10,8 +10,15 @@ import javafx.scene.layout.VBox;
 
 public class TextInputComponent {
 
-    public VBox getWithRatingComponent() {
-        VBox layout = new VBox();
+    private VBox layout;
+    private Label titleLabel;
+    private TextArea textArea;
+    private Button submitButton;
+    private HBox ratingAndButtonHbox;
+    private RatingComponent ratingComponent;
+
+    public TextInputComponent(){
+        layout = new VBox();
         layout.setStyle("-fx-background-color: #333352;");
         layout.setPadding(new Insets(19));
         layout.setMaxHeight(Region.USE_PREF_SIZE);
@@ -19,11 +26,11 @@ public class TextInputComponent {
         String css = getClass().getResource("/org/example/desktopclient/styles/actionButtonStyles.css").toExternalForm();
         layout.getStylesheets().add(css);
 
-        Label titleLabel = new Label("Write A Review for Red Dead Redemption");
+        titleLabel = new Label("");
         titleLabel.setStyle("-fx-text-fill: white; -fx-font-size: 20px");
 
 
-        TextArea textArea = new TextArea();
+        textArea = new TextArea();
         textArea.setMaxHeight(190);
         textArea.setMinHeight(190);
         textArea.setWrapText(true);
@@ -36,19 +43,67 @@ public class TextInputComponent {
         textArea.setPromptText("Enter review...");
 
 
-        RatingComponent ratingComponent = new RatingComponent();
+        ratingComponent = new RatingComponent();
 
-        Button submitButton = new Button("Submit");
+        submitButton = new Button("Submit");
         submitButton.getStyleClass().add("normal-action-button");
 
-        HBox hBox = new HBox(ratingComponent.getComponent(), submitButton);
-        hBox.setAlignment(Pos.CENTER);
+        ratingAndButtonHbox = new HBox(submitButton);
+        ratingAndButtonHbox.setAlignment(Pos.CENTER_RIGHT);
         HBox.setHgrow(ratingComponent.getComponent(), Priority.ALWAYS);
 
-        layout.getChildren().addAll(titleLabel, textArea, hBox);
+        layout.getChildren().addAll(titleLabel, textArea, ratingAndButtonHbox);
+    }
 
+    public VBox getComponent() {
         return layout;
     }
 
+    public VBox getLayout() {
+        return layout;
+    }
 
+    public void setLayout(VBox layout) {
+        this.layout = layout;
+    }
+
+    public Label getTitleLabel() {
+        return titleLabel;
+    }
+
+    public void setTitleLabel(Label titleLabel) {
+        this.titleLabel = titleLabel;
+    }
+
+    public TextArea getTextArea() {
+        return textArea;
+    }
+
+    public void setTextArea(TextArea textArea) {
+        this.textArea = textArea;
+    }
+
+    public Button getSubmitButton() {
+        return submitButton;
+    }
+
+    public void setSubmitButton(Button submitButton) {
+        this.submitButton = submitButton;
+    }
+
+    public HBox getRatingAndButtonHbox() {
+        return ratingAndButtonHbox;
+    }
+
+    public void setRatingAndButtonHbox(HBox ratingAndButtonHbox) {
+        this.ratingAndButtonHbox = ratingAndButtonHbox;
+    }
+
+    public RatingComponent getRatingComponent() {
+        return ratingComponent;
+    }
+
+    public void setRatingComponent(RatingComponent ratingComponent) {
+        this.ratingComponent = ratingComponent;
+    }
 }

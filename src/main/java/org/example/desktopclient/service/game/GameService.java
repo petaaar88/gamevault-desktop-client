@@ -183,6 +183,27 @@ public class GameService {
                 });
     }
 
+    public void doesUserHaveReviewOnGame(Integer userId, Integer gameId, Consumer<Boolean> callback){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/has-review"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
     public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()))

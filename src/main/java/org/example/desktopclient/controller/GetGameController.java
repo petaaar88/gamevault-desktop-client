@@ -27,7 +27,7 @@ public class GetGameController {
     }
 
     public void handleClick() {
-        //TODO: dodaj da se dodaje u kolekciju
+
         component.getAddInCollectionButton().setOnMouseClicked(e -> {
             gameService.addGameToUserCollection(userId, gameId, callback -> {
                 Platform.runLater(() -> {

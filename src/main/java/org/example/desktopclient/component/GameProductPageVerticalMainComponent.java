@@ -16,8 +16,6 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     private GameDescriptionController gameDescriptionController;
     private GameDescriptionComponent gameDescriptionComponent;
-    private GetGameComponent getGameComponent;
-    private GetGameController getGameController;
     private GameSystemRequirementsComponent gameSystemRequirementsComponent;
     private GameSystemRequirementsController gameSystemRequirementsController;
     private VBox requirementsGettingAndReviewVbox;
@@ -27,8 +25,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
         gameDescriptionController = new GameDescriptionController(gameDescriptionComponent);
-        getGameComponent = new GetGameComponent();
-        getGameController = new GetGameController(getGameComponent);
+
 
         gameSystemRequirementsComponent = new GameSystemRequirementsComponent();
         gameSystemRequirementsController = new GameSystemRequirementsController(gameSystemRequirementsComponent);
@@ -52,15 +49,13 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         systemRequirementAndFriendsHBox.setMaxWidth(1000);
 
 
-        TextInputComponent textInputComponent = new TextInputComponent();
-
-        requirementsGettingAndReviewVbox = new VBox(getGameComponent.getComponent(), gameSystemRequirementsComponent.getComponent(), textInputComponent.getWithRatingComponent());
+        requirementsGettingAndReviewVbox = new VBox(gameSystemRequirementsComponent.getComponent());
         requirementsGettingAndReviewVbox.setSpacing(20);
         requirementsGettingAndReviewVbox.setPadding(new Insets(0, 0, 20, 0));
 
         systemRequirementAndFriendsHBox.getChildren().add(requirementsGettingAndReviewVbox);
 
-       systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
+        systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
 
         CustomerReviewsComponent customerReviewsComponent = new CustomerReviewsComponent();
         HBox paddingHbox = new HBox(customerReviewsComponent.getComponent());
@@ -82,21 +77,6 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         this.gameDescriptionController = gameDescriptionController;
     }
 
-    public GetGameComponent getGetGameComponent() {
-        return getGameComponent;
-    }
-
-    public void setGetGameComponent(GetGameComponent getGameComponent) {
-        this.getGameComponent = getGameComponent;
-    }
-
-    public GetGameController getGetGameController() {
-        return getGameController;
-    }
-
-    public void setGetGameController(GetGameController getGameController) {
-        this.getGameController = getGameController;
-    }
 
     public GameSystemRequirementsController getGameSystemRequirementsController() {
         return gameSystemRequirementsController;
