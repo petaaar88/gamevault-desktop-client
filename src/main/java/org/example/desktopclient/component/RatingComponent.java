@@ -14,22 +14,26 @@ public class RatingComponent {
         layout = new HBox();
         layout.setSpacing(1);
 
-        addRatingButton("Mostly Negative");
-        addRatingButton("Negative");
-        addRatingButton("Mixed");
-        addRatingButton("Positive");
-        addRatingButton("Mostly Positive");
-
     }
 
     public HBox getComponent() {
-        buttons.forEach(button -> button.setOtherButtons(buttons.stream().filter(b -> b != button).toList()));
         return layout;
     }
 
-    public void addRatingButton(String ratingName) {
-        RatingButtonComponent ratingButtonComponent = new RatingButtonComponent(ratingName);
-        layout.getChildren().add(ratingButtonComponent.getComponent());
-        buttons.add(ratingButtonComponent);
+
+    public List<RatingButtonComponent> getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(List<RatingButtonComponent> buttons) {
+        this.buttons = buttons;
+    }
+
+    public HBox getLayout() {
+        return layout;
+    }
+
+    public void setLayout(HBox layout) {
+        this.layout = layout;
     }
 }

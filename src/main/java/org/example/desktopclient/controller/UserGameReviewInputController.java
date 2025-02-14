@@ -5,6 +5,7 @@ import org.example.desktopclient.component.TextInputComponent;
 
 public class UserGameReviewInputController {
     private TextInputComponent component;
+    private RatingController ratingController;
     private Integer gameId;
     private Integer userId;
 
@@ -13,6 +14,8 @@ public class UserGameReviewInputController {
         this.component = component;
         this.component.getRatingAndButtonHbox().getChildren().addFirst(this.component.getRatingComponent().getComponent());
         this.component.getRatingAndButtonHbox().setAlignment(Pos.CENTER);
+        ratingController = new RatingController(this.component.getRatingComponent());
+
         this.handleClick();
     }
 

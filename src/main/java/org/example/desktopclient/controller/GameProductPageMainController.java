@@ -45,8 +45,9 @@ public class GameProductPageMainController {
                         Platform.runLater(()->{
                             if(!hasReview){
                                 TextInputComponent textInputComponent = new TextInputComponent();
-                                UserGameReviewInputController userGameReviewInputController = new UserGameReviewInputController(textInputComponent);
                                 textInputComponent.getTitleLabel().setText("Write A Review");
+
+                                UserGameReviewInputController userGameReviewInputController = new UserGameReviewInputController(textInputComponent);
                                 this.component.getRequirementsGettingAndReviewVbox().getChildren().add(textInputComponent.getComponent());
                             }
                         });
