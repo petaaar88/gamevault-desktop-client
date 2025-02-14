@@ -3,6 +3,7 @@ package org.example.desktopclient;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.model.game.CreateGameReviewDTO;
 import org.example.desktopclient.model.user.User;
 import org.example.desktopclient.scene.FriendsScene;
 import org.example.desktopclient.scene.GameCatalogScene;

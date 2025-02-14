@@ -48,6 +48,9 @@ public class GameProductPageMainController {
                                 textInputComponent.getTitleLabel().setText("Write A Review");
 
                                 UserGameReviewInputController userGameReviewInputController = new UserGameReviewInputController(textInputComponent);
+                                userGameReviewInputController.setGameId(gameId);
+                                userGameReviewInputController.setUserId(userId);
+                                userGameReviewInputController.handleClick();
                                 this.component.getRequirementsGettingAndReviewVbox().getChildren().add(textInputComponent.getComponent());
                             }
                         });
