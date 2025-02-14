@@ -1,9 +1,13 @@
 package org.example.desktopclient.controller;
 
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import org.example.desktopclient.component.FriendComponent;
 import org.example.desktopclient.component.FriendsThatPlayGameComponent;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.util.RoundNumberUtil;
+
+import java.text.DecimalFormat;
 
 public class FriendsThatPlayGameController {
 
@@ -19,15 +23,27 @@ public class FriendsThatPlayGameController {
     }
 
     public void setContent() {
-        gameService.doesUserHaveFriendsThatPlayGame(userId,gameId,callback->{
-            Platform.runLater(()->{
-                if(callback)
-                    gameService.fetchAllFriendsThatPlayGame(userId,gameId,friends->{
-                        Platform.runLater(()->{
-                        friends.forEach(friend->{
-                           component.getFriendsVbox().getChildren().addAll(new FriendComponent().getComponent("https://cdn-icons-png.flaticon.com/512/3135/3135823.png",friend.getUsername(),friend.getHoursPlayed().toString()));
+        gameService.doesUserHaveFriendsThatPlayGame(userId, gameId, callback -> {
+            Platform.runLater(() -> {
+                if (callback)
+                    gameService.fetchAllFriendsThatPlayGame(userId, gameId, friends -> {
+                        Platform.runLater(() -> {
+                            friends.forEach(friend -> {
 
-                        });
+                                FriendComponent friendComponent = new FriendComponent();
+                                FriendController friendController = new FriendController(friendComponent);
+                                friendController.setUserId(friend.getId());
+
+
+                                friendController.getComponent().getTextLabel().setText(RoundNumberUtil.roundDecimals(friend.getHoursPlayed()) + " Hours");
+                                friendController.getComponent().getImageView().setImage(new Image(friend.getIcon()));
+                                friendController.getComponent().getUsernameLabel().setText(friend.getUsername());
+                                friendController.handleClick();
+
+
+                                component.getFriendsVbox().getChildren().addAll(friendComponent.getComponent());
+
+                            });
 
                         });
                     });
