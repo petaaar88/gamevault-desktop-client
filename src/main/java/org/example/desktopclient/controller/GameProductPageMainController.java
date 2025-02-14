@@ -17,7 +17,7 @@ public class GameProductPageMainController {
     private Integer userId;
     private GameService gameService;
     private Integer currentPage = 1;
-    private final Integer LIMIT = 2;
+    private final Integer LIMIT = 3;
 
     //TODO: ovde se inicijazliuju svi kontroleri u jednoj sceni
     public GameProductPageMainController(GameProductPageVerticalMainComponent component, Integer gameId, Integer userId) {
@@ -91,6 +91,10 @@ public class GameProductPageMainController {
                     CustomerReviewsComponent customerReviewsComponent = new CustomerReviewsComponent();
                     CustomerReviewsController customerReviewsController = new CustomerReviewsController(customerReviewsComponent);
 
+                    PaginationController paginationController = new PaginationController(customerReviewsController.getComponent().getPaginationComponent());
+                    paginationController.handleClick();
+                    paginationController.setPaginableController(customerReviewsController);
+
                     gameService.fetchOverallRating(gameId, callback1 -> {
                         Platform.runLater(() -> {
                             String ratingStyleClass = callback1.getRating().toLowerCase().replace(' ', '_');
@@ -106,7 +110,9 @@ public class GameProductPageMainController {
 
                     gameService.fetchGamerReviews(gameId, currentPage, LIMIT, callback1 -> {
                         Platform.runLater(() -> {
+                            customerReviewsController.setGameId(gameId);
                             customerReviewsController.setCurrentPage(currentPage);
+                            customerReviewsController.setLimit(LIMIT);
                             customerReviewsController.setContent(callback1);
                         });
                     });

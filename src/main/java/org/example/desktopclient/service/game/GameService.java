@@ -354,7 +354,6 @@ public class GameService {
 
     public Pages<GameReviewDTO> parseGamerReviews(String json) {
         try {
-            System.out.println(json);
             Pages<GameReviewDTO> reviews = objectMapper.readValue(json, new TypeReference<>() {
             });
             return reviews;

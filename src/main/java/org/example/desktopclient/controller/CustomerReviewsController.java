@@ -1,27 +1,34 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.CustomerReviewComponent;
 import org.example.desktopclient.component.CustomerReviewsComponent;
 import org.example.desktopclient.model.game.GameOverview;
 import org.example.desktopclient.model.game.GameReviewDTO;
 import org.example.desktopclient.model.page.Pages;
+import org.example.desktopclient.service.game.GameService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-public class CustomerReviewsController {
+public class CustomerReviewsController implements IPaginable {
     private CustomerReviewsComponent component;
     private Integer currentPage;
+    private Integer limit;
+    private Integer gameId;
+    private GameService gameService;
 
     public CustomerReviewsController(CustomerReviewsComponent component) {
         this.component = component;
+        this.gameService = new GameService();
     }
 
     public void setContent(Pages<GameReviewDTO> reviewDTOPages){
         this.setupPagination(reviewDTOPages);
+        component.getReviewsVbox().getChildren().clear();
         List<GameReviewDTO> reviews = reviewDTOPages.getResoult();
 
         reviews.forEach(review->{
@@ -116,5 +123,51 @@ public class CustomerReviewsController {
 
     public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
+    }
+
+    @Override
+    public void nextPage() {
+        currentPage++;
+        gameService.fetchGamerReviews(gameId, currentPage, limit, callback1 -> {
+            Platform.runLater(() -> {
+                this.setContent(callback1);
+            });
+        });
+    }
+
+    @Override
+    public void previousPage() {
+        currentPage--;
+        gameService.fetchGamerReviews(gameId, currentPage, limit, callback1 -> {
+            Platform.runLater(() -> {
+                this.setContent(callback1);
+            });
+        });
+    }
+
+    @Override
+    public void page(int page) {
+        currentPage = page;
+        gameService.fetchGamerReviews(gameId, currentPage, limit, callback1 -> {
+            Platform.runLater(() -> {
+                this.setContent(callback1);
+            });
+        });
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Integer gameId) {
+        this.gameId = gameId;
     }
 }
