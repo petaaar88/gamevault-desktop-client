@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.example.desktopclient.controller.FriendsThatPlayGameController;
 import org.example.desktopclient.controller.GameDescriptionController;
 import org.example.desktopclient.controller.GameSystemRequirementsController;
 import org.example.desktopclient.controller.GetGameController;
@@ -20,6 +21,8 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
     private GameSystemRequirementsComponent gameSystemRequirementsComponent;
     private GameSystemRequirementsController gameSystemRequirementsController;
     private VBox requirementsGettingAndReviewVbox;
+    private FriendsThatPlayGameComponent friendsThatPlayGameComponent;
+    private FriendsThatPlayGameController friendsThatPlayGameController;
 
     public GameProductPageVerticalMainComponent() {
         gameDescriptionComponent = new GameDescriptionComponent();
@@ -29,6 +32,11 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
         gameSystemRequirementsComponent = new GameSystemRequirementsComponent();
         gameSystemRequirementsController = new GameSystemRequirementsController(gameSystemRequirementsComponent);
+
+        friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
+        friendsThatPlayGameComponent.getComponent().setVisible(false);
+        friendsThatPlayGameController = new FriendsThatPlayGameController(friendsThatPlayGameComponent);
+
     }
 
     @Override
@@ -44,7 +52,6 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
         systemRequirementAndFriendsHBox.setMaxWidth(1000);
 
 
-
         TextInputComponent textInputComponent = new TextInputComponent();
 
         requirementsGettingAndReviewVbox = new VBox(getGameComponent.getComponent(), gameSystemRequirementsComponent.getComponent(), textInputComponent.getWithRatingComponent());
@@ -53,8 +60,7 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
         systemRequirementAndFriendsHBox.getChildren().add(requirementsGettingAndReviewVbox);
 
-        FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
-        systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
+       systemRequirementAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
 
         CustomerReviewsComponent customerReviewsComponent = new CustomerReviewsComponent();
         HBox paddingHbox = new HBox(customerReviewsComponent.getComponent());
@@ -114,5 +120,29 @@ public class GameProductPageVerticalMainComponent extends VerticalMainComponent 
 
     public void setRequirementsGettingAndReviewVbox(VBox requirementsGettingAndReviewVbox) {
         this.requirementsGettingAndReviewVbox = requirementsGettingAndReviewVbox;
+    }
+
+    public FriendsThatPlayGameComponent getFriendsThatPlayGameComponent() {
+        return friendsThatPlayGameComponent;
+    }
+
+    public void setFriendsThatPlayGameComponent(FriendsThatPlayGameComponent friendsThatPlayGameComponent) {
+        this.friendsThatPlayGameComponent = friendsThatPlayGameComponent;
+    }
+
+    public GameDescriptionComponent getGameDescriptionComponent() {
+        return gameDescriptionComponent;
+    }
+
+    public void setGameDescriptionComponent(GameDescriptionComponent gameDescriptionComponent) {
+        this.gameDescriptionComponent = gameDescriptionComponent;
+    }
+
+    public FriendsThatPlayGameController getFriendsThatPlayGameController() {
+        return friendsThatPlayGameController;
+    }
+
+    public void setFriendsThatPlayGameController(FriendsThatPlayGameController friendsThatPlayGameController) {
+        this.friendsThatPlayGameController = friendsThatPlayGameController;
     }
 }

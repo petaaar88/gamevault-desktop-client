@@ -32,6 +32,10 @@ public class GameProductPageMainController {
 
         this.component.getGameSystemRequirementsController().setGameId(gameId);
         this.component.getGameSystemRequirementsController().setContent();
+
+        this.component.getFriendsThatPlayGameController().setGameId(gameId);
+        this.component.getFriendsThatPlayGameController().setUserId(userId);
+        this.component.getFriendsThatPlayGameController().setContent();
     }
 
     public void hideContent(){
@@ -39,6 +43,18 @@ public class GameProductPageMainController {
             Platform.runLater(()->{
                 if(callback)
                     this.component.getRequirementsGettingAndReviewVbox().getChildren().removeFirst();
+                else
+                    this.component.getRequirementsGettingAndReviewVbox().getChildren().removeLast();
+            });
+        });
+
+        gameService.doesUserHaveFriendsThatPlayGame(userId, gameId, callback->{
+            Platform.runLater(()->{
+                if(!callback)
+                    this.component.getFriendsThatPlayGameComponent().getComponent().setVisible(false);
+                else
+                    this.component.getFriendsThatPlayGameComponent().getComponent().setVisible(true);
+
             });
         });
     }

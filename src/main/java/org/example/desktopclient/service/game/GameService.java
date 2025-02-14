@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.desktopclient.model.game.*;
 import org.example.desktopclient.model.page.Pages;
+import org.example.desktopclient.model.user.FriendDTO;
 
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
@@ -13,6 +14,7 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class GameService {
@@ -139,9 +141,9 @@ public class GameService {
                 });
     }
 
-    public void doesUserHaveGame(Integer userId, Integer gameId, Consumer<Boolean> callback){
+    public void doesUserHaveGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" +userId.toString()+"/"+ gameId.toString() + "/has-game"))
+                .uri(URI.create("http://localhost:8080/games/" + userId.toString() + "/" + gameId.toString() + "/has-game"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -160,27 +162,48 @@ public class GameService {
                 });
     }
 
-    public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback){
+    public void doesUserHaveFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" +gameId.toString()+"/"+ userId.toString()))
+                .uri(URI.create("http://localhost:8080/games/" + userId.toString() + "/" + gameId.toString() + "/has-friends-that-own-game"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+    public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(response->{
+                .thenApply(response -> {
 
-                    if(response.statusCode() == 201)
+                    if (response.statusCode() == 201)
                         return "Game added to collection!";
-                    else if(response.statusCode() == 409){
+                    else if (response.statusCode() == 409) {
                         ErrorMessage message = null;
                         try {
-                            message = objectMapper.readValue(response.body(), new TypeReference<>(){});
+                            message = objectMapper.readValue(response.body(), new TypeReference<>() {
+                            });
                         } catch (JsonProcessingException e) {
                             System.out.println(e.getMessage());
                         }
                         return "Already In Collection!";
-                    }
-                    else
+                    } else
                         return "Error";
                 })
                 .thenAccept(callback)
@@ -194,6 +217,37 @@ public class GameService {
                 });
 
 
+    }
+
+    public void fetchAllFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<List<FriendDTO>> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/friends"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseFriendsThatPlayGame)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+    public List<FriendDTO> parseFriendsThatPlayGame(String json) {
+        try {
+            List<FriendDTO> friends = objectMapper.readValue(json, new TypeReference<>() {});
+            return friends;
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public GameSystemRequirementsDTO parseSystemRequirements(String json) {
