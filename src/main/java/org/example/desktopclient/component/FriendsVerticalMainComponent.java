@@ -20,13 +20,13 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
         AddFriendComponent  addFriendComponent = new AddFriendComponent();
         FriendRequestsComponent friendRequestsComponent = new FriendRequestsComponent();
 
-        HBox addFriendAndReceivedRequestsHBox = new HBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
-        addFriendAndReceivedRequestsHBox.setStyle("-fx-background-color: #333352");
-        addFriendAndReceivedRequestsHBox.setMinWidth(1000);
-        addFriendAndReceivedRequestsHBox.setMaxWidth(1000);
-        addFriendAndReceivedRequestsHBox.setPadding(new Insets(23));
+        VBox addFriendAndReceivedRequestsVBox = new VBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
+        addFriendAndReceivedRequestsVBox.setStyle("-fx-background-color: #333352");
+        addFriendAndReceivedRequestsVBox.setMinWidth(1000);
+        addFriendAndReceivedRequestsVBox.setMaxWidth(1000);
+        addFriendAndReceivedRequestsVBox.setPadding(new Insets(23));
 
-        Collection<Node> elements = Arrays.asList(addFriendAndReceivedRequestsHBox);
+        Collection<Node> elements = Arrays.asList(addFriendAndReceivedRequestsVBox);
 
         this.addElements(elements);
 
