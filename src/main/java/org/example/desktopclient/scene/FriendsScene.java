@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
+import org.example.desktopclient.controller.FriendsVerticalMainController;
 import org.example.desktopclient.controller.MenuController;
-import org.example.desktopclient.service.ApplicationContextService;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +13,6 @@ import java.util.Collection;
 public class FriendsScene extends CustomScene{
 
     private static FriendsScene instance;
-    private ApplicationContextService applicationContextService;
     private MenuController menuController;
 
     public static FriendsScene getInstance(Stage primaryStage, MenuController menuController) {
@@ -40,6 +39,7 @@ public class FriendsScene extends CustomScene{
         menuController.setActiveItemInMenu("Friends");
 
         FriendsVerticalMainComponent friendsVerticalMainComponent = new FriendsVerticalMainComponent();
+        FriendsVerticalMainController friendsVerticalMainController = new FriendsVerticalMainController(friendsVerticalMainComponent, applicationContextService.getUser().getId());
         ScrollComponent scrollComponent = new ScrollComponent();
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(friendsVerticalMainComponent.getComponent()));

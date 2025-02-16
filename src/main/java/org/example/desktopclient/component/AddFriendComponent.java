@@ -12,6 +12,7 @@ public class AddFriendComponent {
 
     private VBox layout;
     private GridPane foundUsers;
+    private SearchComponent searchComponent;
 
     public AddFriendComponent() {
         layout = new VBox();
@@ -22,7 +23,7 @@ public class AddFriendComponent {
         title.setText("Add Friend");
         title.setStyle("-fx-fill: white; -fx-font-size: 25px; -fx-font-weight: bold;");
 
-        SearchComponent searchComponent = new SearchComponent();
+        searchComponent = new SearchComponent();
         HBox searchComponentHBox = searchComponent.getComponent("Search Users");
         searchComponentHBox.setPadding(new Insets(10, 0, 10, 0));
 
@@ -57,5 +58,13 @@ public class AddFriendComponent {
 
     public void setFoundUsers(GridPane foundUsers) {
         this.foundUsers = foundUsers;
+    }
+
+    public SearchComponent getSearchComponent() {
+        return searchComponent;
+    }
+
+    public void setSearchComponent(SearchComponent searchComponent) {
+        this.searchComponent = searchComponent;
     }
 }

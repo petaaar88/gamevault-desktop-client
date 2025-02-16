@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.desktopclient.model.game.*;
 import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.FriendDTO;
+import org.example.desktopclient.service.AbstractService;
 
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
@@ -17,13 +18,10 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class GameService {
-    private HttpClient client;
-    private ObjectMapper objectMapper;
+public class GameService extends AbstractService {
 
     public GameService() {
-        this.client = HttpClient.newHttpClient();
-        objectMapper = new ObjectMapper();
+        super();
     }
 
     public void fetchGames(Integer page, Integer limit, String title, Consumer<Pages<GameOverview>> callback) {

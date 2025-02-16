@@ -12,12 +12,17 @@ import java.util.Collection;
 
 
 public class FriendsVerticalMainComponent extends VerticalMainComponent{
+    private AddFriendComponent  addFriendComponent;
+
+    public FriendsVerticalMainComponent() {
+        addFriendComponent = new AddFriendComponent();
+    }
+
     @Override
     public VBox getComponent() {
         this.setup();
         layout.setPadding(new Insets(20,0,0,0));
 
-        AddFriendComponent  addFriendComponent = new AddFriendComponent();
         FriendRequestsComponent friendRequestsComponent = new FriendRequestsComponent();
 
         VBox addFriendAndReceivedRequestsVBox = new VBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
@@ -31,5 +36,13 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
         this.addElements(elements);
 
         return layout;
+    }
+
+    public AddFriendComponent getAddFriendComponent() {
+        return addFriendComponent;
+    }
+
+    public void setAddFriendComponent(AddFriendComponent addFriendComponent) {
+        this.addFriendComponent = addFriendComponent;
     }
 }
