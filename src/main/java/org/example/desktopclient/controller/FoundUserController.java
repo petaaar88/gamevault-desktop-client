@@ -1,5 +1,6 @@
 package org.example.desktopclient.controller;
 
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.FoundUserComponent;
 import org.example.desktopclient.model.user.FriendDTO;
@@ -9,6 +10,7 @@ public class FoundUserController {
     private FoundUserComponent component;
     private Integer userId;
     private UserService userService;
+    private Integer senderId;
 
     public FoundUserController(FoundUserComponent component) {
         this.component = component;
@@ -17,11 +19,14 @@ public class FoundUserController {
 
     public void handleClick(){
         component.getSendRequestButton().setOnMouseClicked(e->{
-            //TODO: dodaj logiku da se prebaci na profile stranicu
-            System.out.println(userId);
+
+            Platform.runLater(()->{
+            userService.sendFriendRequest(senderId, userId, message -> System.out.println(message));
 
             component.getSendRequestButton().setDisable(true);
             component.getSendRequestButton().setText("Request Sent");
+
+            });
         });
     }
 
@@ -48,5 +53,13 @@ public class FoundUserController {
 
     public Integer getUserId() {
         return userId;
+    }
+
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
     }
 }

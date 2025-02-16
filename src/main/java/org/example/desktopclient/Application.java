@@ -11,6 +11,7 @@ import org.example.desktopclient.scene.GameProductPageScene;
 import org.example.desktopclient.scene.UserGameCollectionScene;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.service.user.UserService;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage primaryStage) throws IOException {
 
         ApplicationContextService applicationContextService = new ApplicationContextService();
-        applicationContextService.setUser(new User(7,"Petar","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNNNXsl0n7l8OJWD05DUpYjWeNnYsg0bQneQ&s"));
+        applicationContextService.setUser(new User(1,"Petar","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNNNXsl0n7l8OJWD05DUpYjWeNnYsg0bQneQ&s"));
 
         MenuComponent menuComponent = new MenuComponent();
         MenuController menuController = new MenuController(menuComponent, primaryStage);

@@ -70,6 +70,7 @@ public class AddFriendController implements ISearchable {
                                     foundUserController.getComponent().getSendRequestButton().setText("Received");
                                     foundUserController.getComponent().getSendRequestButton().setDisable(true);
                                 } else {
+                                    foundUserController.setSenderId(userId);
                                     foundUserController.handleClick();
                                 }
 

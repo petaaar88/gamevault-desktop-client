@@ -77,4 +77,41 @@ public class UserService extends AbstractService {
                 });
 
     }
+
+    public void sendFriendRequest(Integer userId, Integer friendId,Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .uri(URI.create("http://localhost:8080/requests/send/" + userId.toString() + "/" + friendId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+
+                    if (response.statusCode() == 201)
+                        return "Request Sent!";
+                    else if (response.statusCode() == 409) {
+                        ErrorMessage message = null;
+                        try {
+                            message = objectMapper.readValue(response.body(), new TypeReference<>() {
+                            });
+                            return message.getMessage();
+                        } catch (JsonProcessingException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        return "Already Sent";
+                    } else
+                        return "Error";
+                })
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+
+    }
 }
