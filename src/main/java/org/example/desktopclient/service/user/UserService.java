@@ -78,7 +78,7 @@ public class UserService extends AbstractService {
 
     }
 
-    public void sendFriendRequest(Integer userId, Integer friendId,Consumer<String> callback) {
+    public void sendFriendRequest(Integer userId, Integer friendId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create("http://localhost:8080/requests/send/" + userId.toString() + "/" + friendId.toString()))
@@ -125,6 +125,30 @@ public class UserService extends AbstractService {
                 .thenApply(response -> {
                     if (response.statusCode() == 204)
                         return "Request Deleted!";
+                    else
+                        return "Error";
+                })
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    public void acceptFriendRequest(Integer userId, Integer requestId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/requests/" + userId.toString() + "/" + requestId.toString()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+                    if (response.statusCode() == 201)
+                        return "Request Accepted!";
                     else
                         return "Error";
                 })

@@ -18,14 +18,14 @@ public class FoundUserController {
         userService = new UserService();
     }
 
-    public void handleClick(){
-        component.getSendRequestButton().setOnMouseClicked(e->{
+    public void handleClick() {
+        component.getSendRequestButton().setOnMouseClicked(e -> {
 
-            Platform.runLater(()->{
-            userService.sendFriendRequest(senderId, userId, message -> System.out.println(message));
+            Platform.runLater(() -> {
+                userService.sendFriendRequest(senderId, userId, message -> System.out.println(message));
 
-            component.getSendRequestButton().setDisable(true);
-            component.getSendRequestButton().setText("Request Sent");
+                component.getSendRequestButton().setDisable(true);
+                component.getSendRequestButton().setText("Request Sent");
 
             });
         });
@@ -33,15 +33,22 @@ public class FoundUserController {
 
     }
 
-    public void handleAcceptButtonClick(){
-        component.getSendRequestButton().setOnMouseClicked(e->{
-            component.getSendRequestButton().setDisable(true);
-            component.getDeleteRequestButton().setDisable(true);
-            component.getSendRequestButton().setText("Accepted");
+    public void handleAcceptButtonClick() {
+        component.getSendRequestButton().setOnMouseClicked(e -> {
+            userService.acceptFriendRequest(userId, requestId, message -> {
+                Platform.runLater(() -> {
+                    component.getSendRequestButton().setDisable(true);
+                    component.getDeleteRequestButton().setDisable(true);
+                    component.getSendRequestButton().setText("Accepted");
+                    System.out.println(message);
+
+                });
+
+            });
         });
     }
 
-    public void handleDeleteButtonClick(){
+    public void handleDeleteButtonClick() {
         component.getDeleteRequestButton().setOnMouseClicked(e -> {
 
             Platform.runLater(() -> {
@@ -59,7 +66,7 @@ public class FoundUserController {
     }
 
 
-    public void setContent(FriendDTO user){
+    public void setContent(FriendDTO user) {
         FriendController friendController = new FriendController(component.getFriendComponent());
         friendController.setUserId(user.getId());
         friendController.getComponent().getUsernameLabel().setText(user.getUsername());

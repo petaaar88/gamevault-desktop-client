@@ -64,6 +64,7 @@ public class FriendRequestsController {
                         foundUserController.setUserId(receivedRequests.get(i - 1).getUser().getId());
                         foundUserController.setRequestId(receivedRequests.get(i - 1).getRequestId());
                         foundUserController.setSenderId(userId);
+                        foundUserController.setUserId(userId);
                         foundUserController.handleAcceptButtonClick();
                         foundUserController.handleDeleteButtonClick();
 
