@@ -16,6 +16,15 @@
     -fx-cursor: hand;
 }
 
+.small-red-action-button{
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-padding: 3 14;
+    -fx-cursor: hand;
+}
+
 .large-action-button {
     -fx-background-color: #0084FF;
     -fx-text-fill: white;
@@ -28,7 +37,13 @@
 .normal-action-button:hover, .large-action-button:hover, .small-action-button:hover{
     -fx-background-color: #0057A7;
 }
-
+.small-red-action-button:hover{
+    -fx-background-color: #910303;
+}
 .normal-action-button:pressed, .large-action-button:pressed, .small-action-button:pressed{
     -fx-background-color: #013E77;
+}
+
+.small-red-action-button:pressed{
+    -fx-background-color: #690202;
 }

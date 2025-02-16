@@ -11,16 +11,21 @@ public class FoundUserComponent {
     private VBox layout;
     private Button sendRequestButton;
     private FriendComponent friendComponent;
+    private Button deleteRequestButton;
+    private HBox hBox;
 
     public FoundUserComponent() {
         layout = new VBox();
-        HBox hBox = new HBox(-20);
+        hBox = new HBox(-20);
         hBox.setPadding(new Insets(0,15,0,8));
         hBox.setStyle("-fx-background-color: #191B2E;");
 
         friendComponent = new FriendComponent();
         sendRequestButton = new Button("Send Request");
         sendRequestButton.getStyleClass().add("small-action-button");
+
+        deleteRequestButton = new Button("Delete");
+        deleteRequestButton.getStyleClass().add("small-red-action-button");
 
         VBox friendComponentVBox = friendComponent.getComponent();
         friendComponentVBox.setMinWidth(200);
@@ -60,5 +65,21 @@ public class FoundUserComponent {
 
     public void setFriendComponent(FriendComponent friendComponent) {
         this.friendComponent = friendComponent;
+    }
+
+    public Button getDeleteRequestButton() {
+        return deleteRequestButton;
+    }
+
+    public void setDeleteRequestButton(Button deleteRequestButton) {
+        this.deleteRequestButton = deleteRequestButton;
+    }
+
+    public HBox gethBox() {
+        return hBox;
+    }
+
+    public void sethBox(HBox hBox) {
+        this.hBox = hBox;
     }
 }

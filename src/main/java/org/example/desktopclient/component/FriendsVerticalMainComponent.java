@@ -13,9 +13,11 @@ import java.util.Collection;
 
 public class FriendsVerticalMainComponent extends VerticalMainComponent{
     private AddFriendComponent  addFriendComponent;
+    private FriendRequestsComponent friendRequestsComponent;
 
     public FriendsVerticalMainComponent() {
         addFriendComponent = new AddFriendComponent();
+        friendRequestsComponent = new FriendRequestsComponent();
     }
 
     @Override
@@ -23,15 +25,15 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
         this.setup();
         layout.setPadding(new Insets(20,0,0,0));
 
-        FriendRequestsComponent friendRequestsComponent = new FriendRequestsComponent();
 
-        VBox addFriendAndReceivedRequestsVBox = new VBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
-        addFriendAndReceivedRequestsVBox.setStyle("-fx-background-color: #333352");
-        addFriendAndReceivedRequestsVBox.setMinWidth(1000);
-        addFriendAndReceivedRequestsVBox.setMaxWidth(1000);
-        addFriendAndReceivedRequestsVBox.setPadding(new Insets(23));
+        VBox mainContentVbox = new VBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
+        mainContentVbox.setSpacing(24);
+        mainContentVbox.setStyle("-fx-background-color: #333352");
+        mainContentVbox.setMinWidth(1000);
+        mainContentVbox.setMaxWidth(1000);
+        mainContentVbox.setPadding(new Insets(23));
 
-        Collection<Node> elements = Arrays.asList(addFriendAndReceivedRequestsVBox);
+        Collection<Node> elements = Arrays.asList(mainContentVbox);
 
         this.addElements(elements);
 
@@ -44,5 +46,13 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
 
     public void setAddFriendComponent(AddFriendComponent addFriendComponent) {
         this.addFriendComponent = addFriendComponent;
+    }
+
+    public FriendRequestsComponent getFriendRequestsComponent() {
+        return friendRequestsComponent;
+    }
+
+    public void setFriendRequestsComponent(FriendRequestsComponent friendRequestsComponent) {
+        this.friendRequestsComponent = friendRequestsComponent;
     }
 }

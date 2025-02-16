@@ -5,6 +5,7 @@ import org.example.desktopclient.component.FriendsVerticalMainComponent;
 public class FriendsVerticalMainController {
     private FriendsVerticalMainComponent component;
     private AddFriendController addFriendController;
+    private FriendRequestsController friendRequestsController;
     private Integer userId;
 
     public FriendsVerticalMainController(FriendsVerticalMainComponent component,Integer userId) {
@@ -13,6 +14,10 @@ public class FriendsVerticalMainController {
 
         addFriendController = new AddFriendController(this.component.getAddFriendComponent());
         addFriendController.setUserId(userId);
+
+        friendRequestsController = new FriendRequestsController(this.component.getFriendRequestsComponent());
+        friendRequestsController.setUserId(userId);
+        friendRequestsController.initialize();
 
     }
 

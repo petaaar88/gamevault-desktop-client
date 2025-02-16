@@ -11,6 +11,7 @@ public class FoundUserController {
     private Integer userId;
     private UserService userService;
     private Integer senderId;
+    private Integer requestId;
 
     public FoundUserController(FoundUserComponent component) {
         this.component = component;
@@ -27,6 +28,25 @@ public class FoundUserController {
             component.getSendRequestButton().setText("Request Sent");
 
             });
+        });
+
+
+    }
+
+    public void handleAcceptButtonClick(){
+        component.getSendRequestButton().setOnMouseClicked(e->{
+            component.getSendRequestButton().setDisable(true);
+            component.getDeleteRequestButton().setDisable(true);
+            component.getSendRequestButton().setText("Accepted");
+        });
+    }
+
+    public void handleDeleteButtonClick(){
+        component.getDeleteRequestButton().setOnMouseClicked(e->{
+
+            component.getDeleteRequestButton().setDisable(true);
+            component.getSendRequestButton().setDisable(true);
+            component.getDeleteRequestButton().setText("Deleted");
         });
     }
 
@@ -61,5 +81,13 @@ public class FoundUserController {
 
     public void setSenderId(Integer senderId) {
         this.senderId = senderId;
+    }
+
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
 }
