@@ -31,11 +31,6 @@ public class AddFriendComponent {
         foundUsers.setVgap(7);
         foundUsers.setHgap(7);
 
-        foundUsers.add(new FoundUserComponent().getComponent(), 0, 0);
-        foundUsers.add(new FoundUserComponent().getComponent(), 1, 0);
-        foundUsers.add(new FoundUserComponent().getComponent(), 2, 0);
-        foundUsers.add(new FoundUserComponent().getComponent(), 0, 1);
-        foundUsers.add(new FoundUserComponent().getComponent(), 1, 1);
 
         layout.getChildren().addAll(title, searchComponentHBox, foundUsers);
     }

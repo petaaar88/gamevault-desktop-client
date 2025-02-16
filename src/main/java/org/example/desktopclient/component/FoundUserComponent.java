@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 public class FoundUserComponent {
 
     private VBox layout;
+    private Button sendRequestButton;
+    private FriendComponent friendComponent;
 
     public FoundUserComponent() {
         layout = new VBox();
@@ -16,11 +18,11 @@ public class FoundUserComponent {
         hBox.setPadding(new Insets(0,15,0,8));
         hBox.setStyle("-fx-background-color: #191B2E;");
 
-        FriendComponent friendComponent = new FriendComponent();
-        Button sendRequestButton = new Button("Send Request");
+        friendComponent = new FriendComponent();
+        sendRequestButton = new Button("Send Request");
         sendRequestButton.getStyleClass().add("small-action-button");
 
-        VBox friendComponentVBox = friendComponent.getComponent("https://cdn-icons-png.flaticon.com/512/219/219986.png", "user123", "");
+        VBox friendComponentVBox = friendComponent.getComponent();
         friendComponentVBox.setMinWidth(200);
         friendComponentVBox.setMaxWidth(200);
 
@@ -33,7 +35,30 @@ public class FoundUserComponent {
     }
 
     public VBox getComponent() {
-
         return layout;
+    }
+
+    public VBox getLayout() {
+        return layout;
+    }
+
+    public void setLayout(VBox layout) {
+        this.layout = layout;
+    }
+
+    public Button getSendRequestButton() {
+        return sendRequestButton;
+    }
+
+    public void setSendRequestButton(Button sendRequestButton) {
+        this.sendRequestButton = sendRequestButton;
+    }
+
+    public FriendComponent getFriendComponent() {
+        return friendComponent;
+    }
+
+    public void setFriendComponent(FriendComponent friendComponent) {
+        this.friendComponent = friendComponent;
     }
 }
