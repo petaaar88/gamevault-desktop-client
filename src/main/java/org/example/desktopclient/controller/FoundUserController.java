@@ -42,13 +42,22 @@ public class FoundUserController {
     }
 
     public void handleDeleteButtonClick(){
-        component.getDeleteRequestButton().setOnMouseClicked(e->{
+        component.getDeleteRequestButton().setOnMouseClicked(e -> {
 
-            component.getDeleteRequestButton().setDisable(true);
-            component.getSendRequestButton().setDisable(true);
-            component.getDeleteRequestButton().setText("Deleted");
+            Platform.runLater(() -> {
+                userService.deleteFriendRequest(requestId, message -> {
+
+                    Platform.runLater(() -> {
+                        component.getDeleteRequestButton().setDisable(true);
+                        component.getSendRequestButton().setDisable(true);
+                        component.getDeleteRequestButton().setText("Deleted");
+                        System.out.println(message);
+                    });
+                });
+            });
         });
     }
+
 
     public void setContent(FriendDTO user){
         FriendController friendController = new FriendController(component.getFriendComponent());
