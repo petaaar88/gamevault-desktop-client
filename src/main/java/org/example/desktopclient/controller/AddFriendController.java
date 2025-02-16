@@ -9,6 +9,7 @@ import org.example.desktopclient.model.user.FriendDTO;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddFriendController implements ISearchable {
@@ -17,7 +18,7 @@ public class AddFriendController implements ISearchable {
     private SearchController searchController;
     private UserService userService;
     private final Integer LIMIT = 6;
-    private final Integer COLUMNS_PER_ROW= 3;
+    private final Integer COLUMNS_PER_ROW = 3;
 
     public AddFriendController(AddFriendComponent component) {
         this.component = component;
@@ -30,7 +31,7 @@ public class AddFriendController implements ISearchable {
     @Override
     public void search(String username) {
 
-        if(username.isEmpty()) {
+        if (username.isEmpty()) {
             return;
         }
         this.component.getFoundUsers().getChildren().clear();
@@ -38,44 +39,60 @@ public class AddFriendController implements ISearchable {
         loadingText.setStyle("-fx-fill: #575C96;-fx-font-size: 19px;-fx-font-weight: 700;-fx-padding: 350;");
         this.component.getFoundUsers().add(loadingText, 1, 0);
 
-        userService.fetchUsers(1, LIMIT,userId, username, pages -> {
+        userService.fetchUsers(1, LIMIT, userId, username, pages -> {
             Platform.runLater(() -> {
                 List<FriendDTO> users = pages.getResoult();
+                List<Integer> userIdsThatUserSendRequest = new ArrayList<>();
+                List<Integer> userIdsThatUserReceiveRequest = new ArrayList<>();
 
-                if(!users.isEmpty()) {
-                    this.component.getFoundUsers().getChildren().clear();
-                    int col = 0;
-                    int row = 0;
+                userService.fetchFriendRequest(userId, friendRequestsDTO -> {
+                    Platform.runLater(() -> { // Dodajemo Platform.runLater ovde
+                        friendRequestsDTO.getReceived().forEach(singleFriendRequestDTO ->
+                                userIdsThatUserReceiveRequest.add(singleFriendRequestDTO.getUser().getId()));
 
-                    for (int i = 1; i <= users.size(); i++) {
+                        friendRequestsDTO.getSent().forEach(singleFriendRequestDTO ->
+                                userIdsThatUserSendRequest.add(singleFriendRequestDTO.getUser().getId()));
 
-                        FoundUserComponent foundUserComponent = new FoundUserComponent();
-                        FoundUserController foundUserController = new FoundUserController(foundUserComponent);
-                        foundUserController.setUserId(users.get(i-1).getId());
-                        foundUserController.handleClick();
+                        if (!users.isEmpty()) {
+                            component.getFoundUsers().getChildren().clear();
+                            int col = 0;
+                            int row = 0;
 
-                        foundUserController.setContent(users.get(i - 1));
+                            for (int i = 1; i <= users.size(); i++) {
+                                FoundUserComponent foundUserComponent = new FoundUserComponent();
+                                FoundUserController foundUserController = new FoundUserController(foundUserComponent);
+                                foundUserController.setUserId(users.get(i - 1).getId());
 
-                        component.getFoundUsers().add(foundUserComponent.getComponent(), col, row);
+                                if (userIdsThatUserSendRequest.contains(users.get(i - 1).getId())) {
+                                    foundUserController.getComponent().getSendRequestButton().setText("Request Sent");
+                                    foundUserController.getComponent().getSendRequestButton().setDisable(true);
+                                } else if (userIdsThatUserReceiveRequest.contains(users.get(i - 1).getId())) {
+                                    foundUserController.getComponent().getSendRequestButton().setText("Received");
+                                    foundUserController.getComponent().getSendRequestButton().setDisable(true);
+                                } else {
+                                    foundUserController.handleClick();
+                                }
 
-                        col++; // Pomeramo kolonu
-                        if (col == COLUMNS_PER_ROW) { // Ako smo dodali 3 elementa, pređemo u novi red
-                            col = 0;
-                            row++;
+                                foundUserController.setContent(users.get(i - 1));
+                                component.getFoundUsers().add(foundUserComponent.getComponent(), col, row);
+
+                                col++;
+                                if (col == COLUMNS_PER_ROW) {
+                                    col = 0;
+                                    row++;
+                                }
+                            }
+                        } else {
+                            component.getFoundUsers().getChildren().clear();
+                            Text noGameFound = new Text("No users found");
+                            noGameFound.setStyle("-fx-fill: #575C96;-fx-font-size: 19px;-fx-font-weight: 700;-fx-padding: 350;");
+                            component.getFoundUsers().add(noGameFound, 1, 0);
                         }
-
-                    }
-
-
-                }
-                else{
-                    this.component.getFoundUsers().getChildren().clear();
-                    Text noGameFound = new Text("No users found");
-                    noGameFound.setStyle("-fx-fill: #575C96;-fx-font-size: 19px;-fx-font-weight: 700;-fx-padding: 350;");
-                    this.component.getFoundUsers().add(noGameFound, 1, 0);
-                }
+                    });
+                });
             });
         });
+
     }
 
     public AddFriendComponent getComponent() {

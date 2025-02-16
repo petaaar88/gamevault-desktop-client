@@ -3,19 +3,23 @@ package org.example.desktopclient.controller;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.FoundUserComponent;
 import org.example.desktopclient.model.user.FriendDTO;
+import org.example.desktopclient.service.user.UserService;
 
 public class FoundUserController {
     private FoundUserComponent component;
     private Integer userId;
+    private UserService userService;
 
     public FoundUserController(FoundUserComponent component) {
         this.component = component;
+        userService = new UserService();
     }
 
     public void handleClick(){
         component.getSendRequestButton().setOnMouseClicked(e->{
             //TODO: dodaj logiku da se prebaci na profile stranicu
             System.out.println(userId);
+
             component.getSendRequestButton().setDisable(true);
             component.getSendRequestButton().setText("Request Sent");
         });

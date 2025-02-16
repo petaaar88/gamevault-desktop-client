@@ -1,10 +1,13 @@
 package org.example.desktopclient.service.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.example.desktopclient.model.game.GameOverview;
 import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.FriendDTO;
+import org.example.desktopclient.model.user.FriendRequestsDTO;
 import org.example.desktopclient.service.AbstractService;
+import org.example.desktopclient.service.game.ErrorMessage;
 
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
@@ -22,6 +25,7 @@ public class UserService extends AbstractService {
     }
 
     public void fetchUsers(Integer page, Integer limit, Integer userId, String username, Consumer<Pages<FriendDTO>> callback) {
+
 
         String encodedUsername;
         try {
@@ -47,6 +51,27 @@ public class UserService extends AbstractService {
                     } else {
                         e.printStackTrace();
 
+                    }
+                    return null;
+                });
+
+    }
+
+    public void fetchFriendRequest(Integer userId, Consumer<FriendRequestsDTO> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/requests/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> parseJson(response, new TypeReference<FriendRequestsDTO>() {
+                }))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
                     }
                     return null;
                 });
