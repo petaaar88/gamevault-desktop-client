@@ -14,10 +14,12 @@ import java.util.Collection;
 public class FriendsVerticalMainComponent extends VerticalMainComponent{
     private AddFriendComponent  addFriendComponent;
     private FriendRequestsComponent friendRequestsComponent;
+    private AllFriendsComponent allFriendsComponent;
 
     public FriendsVerticalMainComponent() {
         addFriendComponent = new AddFriendComponent();
         friendRequestsComponent = new FriendRequestsComponent();
+        allFriendsComponent = new AllFriendsComponent();
     }
 
     @Override
@@ -26,8 +28,8 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
         layout.setPadding(new Insets(20,0,0,0));
 
 
-        VBox mainContentVbox = new VBox(addFriendComponent.getComponent(),friendRequestsComponent.getComponent());
-        mainContentVbox.setSpacing(24);
+        VBox mainContentVbox = new VBox(addFriendComponent.getComponent(),allFriendsComponent.getComponent(),friendRequestsComponent.getComponent());
+        mainContentVbox.setSpacing(30);
         mainContentVbox.setStyle("-fx-background-color: #333352");
         mainContentVbox.setMinWidth(1000);
         mainContentVbox.setMaxWidth(1000);
@@ -54,5 +56,13 @@ public class FriendsVerticalMainComponent extends VerticalMainComponent{
 
     public void setFriendRequestsComponent(FriendRequestsComponent friendRequestsComponent) {
         this.friendRequestsComponent = friendRequestsComponent;
+    }
+
+    public AllFriendsComponent getAllFriendsComponent() {
+        return allFriendsComponent;
+    }
+
+    public void setAllFriendsComponent(AllFriendsComponent allFriendsComponent) {
+        this.allFriendsComponent = allFriendsComponent;
     }
 }

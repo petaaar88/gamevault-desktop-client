@@ -6,6 +6,7 @@ public class FriendsVerticalMainController {
     private FriendsVerticalMainComponent component;
     private AddFriendController addFriendController;
     private FriendRequestsController friendRequestsController;
+    private AllFriendsController allFriendsController;
     private Integer userId;
 
     public FriendsVerticalMainController(FriendsVerticalMainComponent component,Integer userId) {
@@ -18,6 +19,10 @@ public class FriendsVerticalMainController {
         friendRequestsController = new FriendRequestsController(this.component.getFriendRequestsComponent());
         friendRequestsController.setUserId(userId);
         friendRequestsController.initialize();
+
+        allFriendsController = new AllFriendsController(this.component.getAllFriendsComponent());
+        allFriendsController.setUserId(userId);
+        allFriendsController.initialize();
 
     }
 

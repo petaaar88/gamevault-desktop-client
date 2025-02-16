@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.example.desktopclient.model.game.GameOverview;
 import org.example.desktopclient.model.page.Pages;
+import org.example.desktopclient.model.user.AllFriendsDTO;
 import org.example.desktopclient.model.user.FriendDTO;
 import org.example.desktopclient.model.user.FriendRequestsDTO;
 import org.example.desktopclient.service.AbstractService;
@@ -162,4 +163,25 @@ public class UserService extends AbstractService {
                     return null;
                 });
     }
+
+    public void fetchAllFriends(Integer userId, Consumer<AllFriendsDTO> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/friends/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> parseJson(response, new TypeReference<AllFriendsDTO>() {
+                }))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
 }
