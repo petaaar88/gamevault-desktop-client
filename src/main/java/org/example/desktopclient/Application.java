@@ -9,6 +9,7 @@ import org.example.desktopclient.scene.*;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
+import org.example.desktopclient.util.ChangeSceneUtil;
 
 import java.io.IOException;
 
@@ -24,6 +25,7 @@ public class Application extends javafx.application.Application {
         MenuController menuController = new MenuController(menuComponent, primaryStage);
         menuController.setUser(applicationContextService.getUser());
 
+        ChangeSceneUtil.primaryStage = primaryStage;
 
         GameProductPageScene gameProductPageSceneInstance = GameProductPageScene.getInstance(primaryStage,menuController);
         gameProductPageSceneInstance.setApplicationContextService(applicationContextService);

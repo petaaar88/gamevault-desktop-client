@@ -72,6 +72,7 @@ public class MenuController {
         });
 
         component.getProfileText().setOnMouseClicked(e -> {
+            ProfilePageScene.getInstance().setUserId(user.getId());
             changeScene("Profile", ProfilePageScene.getInstance());
         });
 

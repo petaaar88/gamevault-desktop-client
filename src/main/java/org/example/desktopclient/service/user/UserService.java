@@ -7,6 +7,7 @@ import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.AllFriendsDTO;
 import org.example.desktopclient.model.user.FriendDTO;
 import org.example.desktopclient.model.user.FriendRequestsDTO;
+import org.example.desktopclient.model.user.UserDescriptionDTO;
 import org.example.desktopclient.service.AbstractService;
 import org.example.desktopclient.service.game.ErrorMessage;
 
@@ -184,4 +185,23 @@ public class UserService extends AbstractService {
                 });
     }
 
+    public void fetchUserDescription(Integer userId, Consumer<UserDescriptionDTO> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/profile/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> parseJson(response, new TypeReference<UserDescriptionDTO>() {
+                }))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
 }

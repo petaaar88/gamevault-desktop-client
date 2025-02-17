@@ -3,10 +3,10 @@ package org.example.desktopclient.scene;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.desktopclient.component.GameProductPageVerticalMainComponent;
+import org.example.desktopclient.component.ProfileVerticalMainComponent;
 import org.example.desktopclient.component.ScrollComponent;
-import org.example.desktopclient.controller.GameProductPageMainController;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.ProfileMainController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,8 +34,13 @@ public class ProfilePageScene extends CustomScene {
     public Scene createScene() {
         menuController.setActiveItemInMenu("Profile");
 
+        ProfileVerticalMainComponent profileVerticalMainComponent = new ProfileVerticalMainComponent();
+        ProfileMainController profileMainController = new ProfileMainController(profileVerticalMainComponent, applicationContextService.getUser().getId(),userId);
 
-        Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent());
+        ScrollComponent scrollComponent = new ScrollComponent();
+
+
+        Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(profileVerticalMainComponent.getComponent()));
         this.addNodesToLayout(elements);
 
         return scene;

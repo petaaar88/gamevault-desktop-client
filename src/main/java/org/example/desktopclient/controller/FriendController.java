@@ -1,6 +1,8 @@
 package org.example.desktopclient.controller;
 
 import org.example.desktopclient.component.FriendComponent;
+import org.example.desktopclient.scene.ProfilePageScene;
+import org.example.desktopclient.util.ChangeSceneUtil;
 
 public class FriendController {
     private Integer userId;
@@ -12,8 +14,10 @@ public class FriendController {
 
     public void handleClick(){
         component.getButton().setOnMouseClicked(e->{
-            //TODO: dodaj logiku da se prebaci na profile stranicu
-            System.out.println(userId);
+            ProfilePageScene.getInstance().setUserId(userId);
+
+            ChangeSceneUtil.changeScene(ProfilePageScene.getInstance().createScene());
+
         });
     }
 
