@@ -12,8 +12,8 @@ public class FriendController {
         this.component = component;
     }
 
-    public void handleClick(){
-        component.getButton().setOnMouseClicked(e->{
+    public void handleClick() {
+        component.getButton().setOnMouseClicked(e -> {
             ProfilePageScene.getInstance().setUserId(userId);
 
             ChangeSceneUtil.changeScene(ProfilePageScene.getInstance().createScene());

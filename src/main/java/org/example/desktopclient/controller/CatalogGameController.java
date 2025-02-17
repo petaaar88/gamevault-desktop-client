@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.CatalogGameComponent;
 import org.example.desktopclient.scene.GameProductPageScene;
+import org.example.desktopclient.util.ChangeSceneUtil;
 
 public class CatalogGameController {
     private CatalogGameComponent component;
@@ -25,19 +26,8 @@ public class CatalogGameController {
 
     public void handleButtonClick(){
         component.getButton().setOnMouseClicked(e->{
-
-            GameProductPageScene gameProductPageScene = GameProductPageScene.getInstance();
-            gameProductPageScene.setGameId(gameId);
-            gameProductPageScene.getPrimaryStage().setScene(gameProductPageScene.createScene());
-
-            Stage primaryStage = gameProductPageScene.getPrimaryStage();
-
-            Double width =  primaryStage.getWidth();
-            Double height =  primaryStage.getHeight();
-
-            primaryStage.setWidth(width.doubleValue());
-            primaryStage.setHeight(height.doubleValue());
-
+            GameProductPageScene.getInstance().setGameId(gameId);
+            ChangeSceneUtil.changeScene( GameProductPageScene.getInstance().createScene());
         });
     }
 

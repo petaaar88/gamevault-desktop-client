@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.text.Text;
 import org.example.desktopclient.component.GameDetailsComponent;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.util.CustomDateFormatter;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -26,16 +27,8 @@ public class GameDetailsController {
             Platform.runLater(() -> {
 
                 component.getGameDescriptionLabel().setText(gameDescriptionDTO.getDescription());
-                String dateString = gameDescriptionDTO.getRelease();
 
-                // Parsiranje stringa u LocalDate
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate date = LocalDate.parse(dateString, inputFormatter);
-
-                // Formatiranje u željeni izlazni format
-                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("d. MMM yyyy", Locale.ENGLISH);
-                String formattedDate = date.format(outputFormatter);
-                component.getReleaseDateText().setText(formattedDate);
+                component.getReleaseDateText().setText(CustomDateFormatter.formatDateOfPattern(gameDescriptionDTO.getRelease(),"d. MMM yyyy"));
 
                 component.getGameDeveloperNameText().setText(gameDescriptionDTO.getDeveloper());
                 component.getGameGenresController().setContent(gameDescriptionDTO.getGenres());

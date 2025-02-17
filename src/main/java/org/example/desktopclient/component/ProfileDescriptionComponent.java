@@ -25,15 +25,15 @@ public class ProfileDescriptionComponent {
         layout.setPadding(new Insets(25));
         layout.getStylesheets().add(getClass().getResource("/org/example/desktopclient/styles/actionButtonStyles.css").toExternalForm());
 
-        imageView = new ImageView(new Image("https://img.freepik.com/free-vector/cute-ninja-gaming-cartoon-vector-icon-illustration-people-technology-icon-concept-isolated-flat_138676-8079.jpg?semt=ais_hybrid"));
+        imageView = new ImageView();
         imageView.setFitHeight(160);
         imageView.setFitWidth(160);
 
 
-        username = new Label("Dragan__");
+        username = new Label("");
         username.setStyle("-fx-font-size: 27px;-fx-font-weight: 700;");
 
-        description = new Label("Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked.");
+        description = new Label("Loading...");
         description.setStyle("-fx-font-size: 15px;");
         description.setWrapText(true);
         description.setMinWidth(620);

@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.ProfileDescriptionComponent;
 import org.example.desktopclient.service.user.UserService;
+import org.example.desktopclient.util.CustomDateFormatter;
 
 import java.util.Objects;
 
@@ -28,7 +29,7 @@ public class ProfileDescriptionController {
                 } else
                     component.getDescription().setText(description.getDescription());
 
-                component.getCreatedAtDateLabel().setText(description.getCreatedAt());
+                component.getCreatedAtDateLabel().setText(CustomDateFormatter.formatDateOfPattern(description.getCreatedAt(), "d. MMM yyyy"));
                 component.getUsername().setText(description.getUsername());
                 component.getImageView().setImage(new Image(description.getIcon()));
 
