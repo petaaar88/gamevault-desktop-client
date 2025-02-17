@@ -71,6 +71,9 @@ public class MenuController {
                 changeScene("Friends", FriendsScene.getInstance());
         });
 
+        component.getProfileText().setOnMouseClicked(e -> {
+            changeScene("Profile", ProfilePageScene.getInstance());
+        });
 
     }
 

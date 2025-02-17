@@ -5,10 +5,7 @@ import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.controller.MenuController;
 import org.example.desktopclient.model.game.CreateGameReviewDTO;
 import org.example.desktopclient.model.user.User;
-import org.example.desktopclient.scene.FriendsScene;
-import org.example.desktopclient.scene.GameCatalogScene;
-import org.example.desktopclient.scene.GameProductPageScene;
-import org.example.desktopclient.scene.UserGameCollectionScene;
+import org.example.desktopclient.scene.*;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
@@ -37,9 +34,13 @@ public class Application extends javafx.application.Application {
         FriendsScene friendsSceneInstance = FriendsScene.getInstance(primaryStage,menuController);
         friendsSceneInstance.setApplicationContextService(applicationContextService);
 
+        ProfilePageScene profilePageSceneInstance = ProfilePageScene.getInstance(primaryStage,menuController);
+        profilePageSceneInstance.setApplicationContextService(applicationContextService);
+
         //TODO scena nije zadnja inicijlaizovana, nece se rendervoati meni i sadrzaj na njoj
         GameCatalogScene gameCatalogSceneInstance = GameCatalogScene.getInstance(primaryStage, menuController);
         gameCatalogSceneInstance.setApplicationContextService(applicationContextService);
+
 
         gameCatalogSceneInstance.createScene();
 
