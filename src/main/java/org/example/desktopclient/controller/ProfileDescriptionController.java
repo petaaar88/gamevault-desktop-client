@@ -34,7 +34,55 @@ public class ProfileDescriptionController {
                 component.getImageView().setImage(new Image(description.getIcon()));
 
 
+                if (!Objects.equals(mainUserId, viewUserId)) {
+                    userService.fetchUserRelationshipWithUser(mainUserId, viewUserId, relationship -> {
+                        Platform.runLater(() -> {
+
+                            component.getActionButton().setText(relationship);
+
+                            if (relationship.equals("Friends"))
+                                component.getActionButton().setDisable(true);
+                            else if (relationship.equals("Request Sent"))
+                                component.getActionButton().setDisable(true);
+                            else if (relationship.equals("Request Received")) {
+                                component.getActionButton().setDisable(true);
+                            } else {
+                                component.getActionButton().setDisable(false);
+                                component.getActionButton().setText("Send Friend Request");
+                                this.handleSendFriendRequestClick();
+                            }
+                        });
+                    });
+                } else {
+                    //TODO: hendjuj klik
+                    component.getActionButton().setDisable(false);
+                    component.getActionButton().setText("Edit Profile");
+
+                    this.handleEditProfileClick();
+                }
+
+
             });
+
+        });
+    }
+
+    public void handleSendFriendRequestClick() {
+        component.getActionButton().setOnMouseClicked(e -> {
+            userService.sendFriendRequest(mainUserId, viewUserId, message -> {
+                Platform.runLater(() -> {
+                    component.getActionButton().setDisable(true);
+                    component.getActionButton().setText("Request Sent");
+
+                });
+
+            });
+        });
+    }
+
+    public void handleEditProfileClick() {
+        component.getActionButton().setOnMouseClicked(e -> {
+            System.out.println("Profil za editovanje: " + mainUserId);
 
         });
     }

@@ -36,8 +36,8 @@ public class ProfileDescriptionComponent {
         description = new Label("Loading...");
         description.setStyle("-fx-font-size: 15px;");
         description.setWrapText(true);
-        description.setMinWidth(620);
-        description.setMaxWidth(620);
+        description.setMinWidth(560);
+        description.setMaxWidth(560);
 
         HBox createdAtHbox = new HBox();
         Label createdAtLabel = new Label("Since: ");
@@ -54,13 +54,18 @@ public class ProfileDescriptionComponent {
         VBox vBox = new VBox(usernameCreatedAtHbox, description);
         vBox.setSpacing(10);
 
-        actionButton = new Button("Edit Profile");
+        actionButton = new Button("Loading...");
         actionButton.getStyleClass().add("small-action-button");
+        actionButton.setDisable(true);
 
-        HBox hBox = new HBox(imageView, vBox);
+
+        HBox hBox = new HBox(imageView, vBox, actionButton);
+        hBox.setAlignment(Pos.CENTER);
+
+        HBox.setHgrow(vBox, Priority.ALWAYS);
         hBox.setSpacing(25);
 
-        layout.getChildren().addAll(hBox, actionButton);
+        layout.getChildren().add(hBox);
 
         HBox.setHgrow(hBox, Priority.ALWAYS);
         layout.setSpacing(10);
