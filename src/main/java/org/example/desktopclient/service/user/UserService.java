@@ -3,6 +3,7 @@ package org.example.desktopclient.service.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.example.desktopclient.model.game.GameOverview;
+import org.example.desktopclient.model.game.RecentPlayedGameDTO;
 import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.AllFriendsDTO;
 import org.example.desktopclient.model.user.FriendDTO;
@@ -17,6 +18,8 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 
@@ -205,7 +208,7 @@ public class UserService extends AbstractService {
                 });
     }
 
-    public void fetchUserRelationshipWithUser(Integer userId, Integer otherUserId, Consumer<String> callback){
+    public void fetchUserRelationshipWithUser(Integer userId, Integer otherUserId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/relationship/" + userId.toString() + "/" + otherUserId.toString()))
                 .build();
@@ -222,4 +225,35 @@ public class UserService extends AbstractService {
                     return null;
                 });
     }
+
+    public void fetchRecentPlayedGames(Integer userId, Integer page, Integer limit, Consumer<Pages<RecentPlayedGameDTO>> callback) {
+
+        String url = "http://localhost:8080/profile/games/" + userId.toString();
+
+        if (!Objects.isNull(page)) {
+            url += "?page=" + page.toString();
+            if (!Objects.isNull(limit))
+                url += "&limit=" + limit.toString();
+
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> parseJson(response, new TypeReference<Pages<RecentPlayedGameDTO>>() {
+                }))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
 }

@@ -17,6 +17,9 @@ public class ProfileMainController {
         profileDescriptionController.setViewUserId(viewUserId);
         profileDescriptionController.setContent();
 
+        RecentActivityController recentActivityController = new RecentActivityController(this.component.getRecentActivityComponent());
+        recentActivityController.setUserId(viewUserId);
+        recentActivityController.setContent();
 
     }
 
