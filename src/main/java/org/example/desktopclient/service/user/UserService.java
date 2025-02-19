@@ -2,13 +2,11 @@ package org.example.desktopclient.service.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.desktopclient.model.game.GameOverview;
 import org.example.desktopclient.model.game.RecentPlayedGameDTO;
 import org.example.desktopclient.model.page.Pages;
-import org.example.desktopclient.model.user.AllFriendsDTO;
-import org.example.desktopclient.model.user.FriendDTO;
-import org.example.desktopclient.model.user.FriendRequestsDTO;
-import org.example.desktopclient.model.user.UserDescriptionDTO;
+import org.example.desktopclient.model.user.*;
 import org.example.desktopclient.service.AbstractService;
 import org.example.desktopclient.service.game.ErrorMessage;
 
@@ -275,4 +273,67 @@ public class UserService extends AbstractService {
                 });
     }
 
+    public void doesUserPostedCommentOnFriendProfile(Integer userId, Integer friendId, Consumer<Boolean> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/does-user-post-comment/" + userId.toString() + "/" + friendId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+    }
+
+    public void postCommentOnFriendProfile(Integer userId, Integer friendId, CreateCommentDTO newComment, Consumer<String> callback) {
+
+        try {
+            String json = new ObjectMapper().writeValueAsString(newComment);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .header("Content-Type", "application/json")
+                    .uri(URI.create("http://localhost:8080/profile/comments/" + userId.toString() + "/" + friendId.toString()))
+                    .build();
+
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(response -> {
+
+                        if (response.statusCode() == 201)
+                            return "Friend Comment Added!";
+                        else if (response.statusCode() == 404) {
+                            ErrorMessage message = null;
+                            try {
+                                message = objectMapper.readValue(response.body(), new TypeReference<>() {
+                                });
+                            } catch (JsonProcessingException e) {
+                                System.out.println(e.getMessage());
+                            }
+                            return message.getMessage();
+                        } else {
+                            System.out.println(response.statusCode());
+                            return "Error";
+                        }
+                    })
+                    .thenAccept(callback)
+                    .exceptionally(e -> {
+                        if (e.getCause() instanceof ConnectException) {
+                            System.out.println("Could not connect to server!");
+                        } else {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

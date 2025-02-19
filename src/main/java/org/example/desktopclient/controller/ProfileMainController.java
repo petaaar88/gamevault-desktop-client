@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.text.Text;
 import org.example.desktopclient.component.FriendsOnProfileComponent;
 import org.example.desktopclient.component.ProfileVerticalMainComponent;
+import org.example.desktopclient.component.TextInputComponent;
 import org.example.desktopclient.service.user.UserService;
 
 public class ProfileMainController {
@@ -42,6 +43,30 @@ public class ProfileMainController {
             });
 
         });
+
+        if (mainUserId != viewUserId) {
+            userService.fetchUserRelationshipWithUser(mainUserId, viewUserId, relationship -> {
+                if (relationship.equals("Friends")) {
+                    userService.doesUserPostedCommentOnFriendProfile(mainUserId, viewUserId, doesUserHaveFriends -> {
+                        if (!doesUserHaveFriends) {
+                            Platform.runLater(() -> {
+                                TextInputComponent textInputComponent = new TextInputComponent();
+                                textInputComponent.getTitleLabel().setText("Write A Comment");
+                                textInputComponent.getTextArea().setPromptText("Enter a comment...");
+                                FriendCommentInputController friendCommentInputController = new FriendCommentInputController(textInputComponent, mainUserId, viewUserId);
+                                friendCommentInputController.handleClick();
+                                component.getMainContentVbox().getChildren().add(textInputComponent.getComponent());
+
+                            });
+
+                        }
+
+                    });
+
+                }
+            });
+
+        }
 
     }
 

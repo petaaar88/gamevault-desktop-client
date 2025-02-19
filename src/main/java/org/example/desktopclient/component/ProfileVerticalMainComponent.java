@@ -13,6 +13,7 @@ public class ProfileVerticalMainComponent extends VerticalMainComponent {
     private ProfileDescriptionComponent profileDescriptionComponent;
     private RecentActivityComponent recentActivityComponent;
     private HBox recentActivityAndFriendsHBox;
+    private VBox mainContentVbox;
 
     public ProfileVerticalMainComponent() {
         this.setup();
@@ -25,7 +26,7 @@ public class ProfileVerticalMainComponent extends VerticalMainComponent {
 
         HBox.setHgrow(recentActivityComponent.getComponent(), Priority.ALWAYS);
 
-        VBox mainContentVbox = new VBox(profileDescriptionComponent.getComponent(),recentActivityAndFriendsHBox);
+        mainContentVbox = new VBox(profileDescriptionComponent.getComponent(),recentActivityAndFriendsHBox);
         mainContentVbox.setSpacing(20);
         mainContentVbox.setMinWidth(1000);
         mainContentVbox.setMaxWidth(1000);
@@ -63,5 +64,13 @@ public class ProfileVerticalMainComponent extends VerticalMainComponent {
 
     public void setRecentActivityAndFriendsHBox(HBox recentActivityAndFriendsHBox) {
         this.recentActivityAndFriendsHBox = recentActivityAndFriendsHBox;
+    }
+
+    public VBox getMainContentVbox() {
+        return mainContentVbox;
+    }
+
+    public void setMainContentVbox(VBox mainContentVbox) {
+        this.mainContentVbox = mainContentVbox;
     }
 }
