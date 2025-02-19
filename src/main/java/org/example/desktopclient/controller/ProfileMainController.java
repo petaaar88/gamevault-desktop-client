@@ -2,6 +2,7 @@ package org.example.desktopclient.controller;
 
 import javafx.application.Platform;
 import javafx.scene.text.Text;
+import org.example.desktopclient.component.FriendsCommentsComponent;
 import org.example.desktopclient.component.FriendsOnProfileComponent;
 import org.example.desktopclient.component.ProfileVerticalMainComponent;
 import org.example.desktopclient.component.TextInputComponent;
@@ -68,6 +69,18 @@ public class ProfileMainController {
 
         }
 
+        userService.doesHaveComments(viewUserId, doesHaveComments -> {
+            Platform.runLater(() -> {
+                if (doesHaveComments) {
+                    FriendsCommentsComponent friendsCommentsComponent = new FriendsCommentsComponent();
+                    FriendsCommentsController friendsCommentsController = new FriendsCommentsController(friendsCommentsComponent, viewUserId);
+                    friendsCommentsController.setUserId(viewUserId);
+                    friendsCommentsController.setContent();
+                    component.getMainContentVbox().getChildren().add(friendsCommentsComponent.getComponent());
+                }
+
+            });
+        });
     }
 
     public ProfileVerticalMainComponent getComponent() {

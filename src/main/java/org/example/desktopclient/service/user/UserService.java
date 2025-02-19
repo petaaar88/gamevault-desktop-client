@@ -336,4 +336,45 @@ public class UserService extends AbstractService {
             throw new RuntimeException(e);
         }
     }
+
+    public void fetchAllCommentsOnUserProfile(Integer userId,Integer page, Integer limit, Consumer<Pages<FriendCommentDTO>> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/profile/comments/" + userId.toString()+"?page="+page.toString()+"&limit="+limit.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> parseJson(response, new TypeReference<Pages<FriendCommentDTO>>() {
+                }))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+    }
+
+    public void doesHaveComments(Integer userId, Consumer<Boolean> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/does-have-comments/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
 }

@@ -16,6 +16,7 @@ public class CustomerReviewComponent {
     private Label commentContentLabel;
     private FriendComponent friendComponent;
     private Text ratingTypeText;
+    private HBox ratingHbox;
 
     public CustomerReviewComponent() {
         layout = new VBox();
@@ -38,7 +39,7 @@ public class CustomerReviewComponent {
 
         HBox.setHgrow(friendComponentHbox, Priority.ALWAYS);
 
-        HBox ratingHbox = new HBox();
+        ratingHbox = new HBox();
         String css = getClass().getResource("/org/example/desktopclient/styles/gameDetailsComponentStyles.css").toExternalForm();
         ratingHbox.getStylesheets().add(css);
 
@@ -105,5 +106,13 @@ public class CustomerReviewComponent {
 
     public void setRatingTypeText(Text ratingTypeText) {
         this.ratingTypeText = ratingTypeText;
+    }
+
+    public HBox getRatingHbox() {
+        return ratingHbox;
+    }
+
+    public void setRatingHbox(HBox ratingHbox) {
+        this.ratingHbox = ratingHbox;
     }
 }
