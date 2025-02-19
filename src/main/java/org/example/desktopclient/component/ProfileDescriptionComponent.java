@@ -42,7 +42,7 @@ public class ProfileDescriptionComponent {
         HBox createdAtHbox = new HBox();
         Label createdAtLabel = new Label("Since: ");
         createdAtLabel.setStyle("-fx-font-size: 17px;-fx-text-fill: #8079CB;");
-        createdAtDateLabel = new Label("01.01.2022");
+        createdAtDateLabel = new Label("");
         createdAtDateLabel.setStyle("-fx-font-size: 17px;-fx-text-fill: #8079CB;");
         createdAtHbox.getChildren().addAll(createdAtLabel, createdAtDateLabel);
         createdAtHbox.setPadding(new Insets(0, 0, 0, 10));

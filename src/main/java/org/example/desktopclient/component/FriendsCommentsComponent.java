@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 public class FriendsCommentsComponent {
     private VBox layout;
     private VBox commentsVbox;
+    private PaginationComponent paginationComponent;
 
     public FriendsCommentsComponent() {
         layout = new VBox();
@@ -21,6 +22,8 @@ public class FriendsCommentsComponent {
         commentsVbox.setPadding(new Insets(12,0,0,0));
         commentsVbox.setSpacing(6);
         layout.getChildren().add(commentsVbox);
+
+        paginationComponent = new PaginationComponent();
     }
 
     public VBox getComponent() {
@@ -42,4 +45,13 @@ public class FriendsCommentsComponent {
     public void setCommentsVbox(VBox commentsVbox) {
         this.commentsVbox = commentsVbox;
     }
+
+    public PaginationComponent getPaginationComponent() {
+        return paginationComponent;
+    }
+
+    public void setPaginationComponent(PaginationComponent paginationComponent) {
+        this.paginationComponent = paginationComponent;
+    }
+
 }

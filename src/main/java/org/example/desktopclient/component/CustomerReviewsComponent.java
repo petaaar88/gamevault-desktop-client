@@ -7,10 +7,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class CustomerReviewsComponent {
 
     private VBox layout;
