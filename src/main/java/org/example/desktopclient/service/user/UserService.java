@@ -256,4 +256,23 @@ public class UserService extends AbstractService {
                 });
     }
 
+    public void doesUserHaveFriends(Integer userId, Consumer<Boolean> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/does-have-friends/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(response -> Boolean.valueOf(response))
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
 }

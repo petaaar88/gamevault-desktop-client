@@ -3,6 +3,7 @@ package org.example.desktopclient.component;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -16,6 +17,8 @@ public class RecentActivityComponent {
         this.layout = new VBox();
         layout.setStyle("-fx-background-color: #333352");
         layout.setPadding(new Insets(20));
+        layout.setMinHeight(Region.USE_PREF_SIZE);
+        layout.setMaxHeight(Region.USE_PREF_SIZE);
 
 
         Text titleText = new Text("Recent Activity");
