@@ -3,7 +3,10 @@ package org.example.desktopclient.controller;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.ProfileDescriptionComponent;
+import org.example.desktopclient.scene.EditProfileScene;
+import org.example.desktopclient.scene.GameProductPageScene;
 import org.example.desktopclient.service.user.UserService;
+import org.example.desktopclient.util.ChangeSceneUtil;
 import org.example.desktopclient.util.CustomDateFormatter;
 
 import java.util.Objects;
@@ -54,7 +57,6 @@ public class ProfileDescriptionController {
                         });
                     });
                 } else {
-                    //TODO: hendjuj klik
                     component.getActionButton().setDisable(false);
                     component.getActionButton().setText("Edit Profile");
 
@@ -82,8 +84,8 @@ public class ProfileDescriptionController {
 
     public void handleEditProfileClick() {
         component.getActionButton().setOnMouseClicked(e -> {
-            System.out.println("Profil za editovanje: " + mainUserId);
-
+            EditProfileScene.getInstance().setUserId(mainUserId);
+            ChangeSceneUtil.changeScene( EditProfileScene.getInstance().createScene());
         });
     }
 

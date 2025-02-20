@@ -3,7 +3,6 @@ package org.example.desktopclient;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.controller.MenuController;
-import org.example.desktopclient.model.game.CreateGameReviewDTO;
 import org.example.desktopclient.model.user.User;
 import org.example.desktopclient.scene.*;
 import org.example.desktopclient.service.ApplicationContextService;
@@ -11,6 +10,7 @@ import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
 import org.example.desktopclient.util.ChangeSceneUtil;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
@@ -38,6 +38,9 @@ public class Application extends javafx.application.Application {
 
         ProfilePageScene profilePageSceneInstance = ProfilePageScene.getInstance(primaryStage,menuController);
         profilePageSceneInstance.setApplicationContextService(applicationContextService);
+
+        EditProfileScene editProfileSceneInstance = EditProfileScene.getInstance(primaryStage,menuController);
+        editProfileSceneInstance.setApplicationContextService(applicationContextService);
 
         //TODO scena nije zadnja inicijlaizovana, nece se rendervoati meni i sadrzaj na njoj
         GameCatalogScene gameCatalogSceneInstance = GameCatalogScene.getInstance(primaryStage, menuController);
