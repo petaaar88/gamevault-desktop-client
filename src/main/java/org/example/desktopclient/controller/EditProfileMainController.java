@@ -16,6 +16,7 @@ import org.example.desktopclient.model.user.UpdateUserDTO;
 import org.example.desktopclient.service.user.UserService;
 
 import java.io.File;
+import java.util.Objects;
 
 public class EditProfileMainController {
     private EditProfileMainVerticalComponent component;
@@ -54,7 +55,7 @@ public class EditProfileMainController {
 
 
             String username = component.getUsernameTextField().getText().trim();
-            String description = component.getDescriptionTextArea().getText().trim();
+            String description = Objects.isNull(component.getDescriptionTextArea().getText()) ? "" : component.getDescriptionTextArea().getText().trim();
             File icon = imageUploaderController.getSelectedImageFile();
 
             if (username.matches("^(?=(.*[a-zA-Z]){2})[^\\s/,:*%@^()\\\\,;\"'={}^`$]{2,20}$")) {
@@ -66,8 +67,7 @@ public class EditProfileMainController {
                         showAlert(userDescriptionDTO);
                     });
 
-                }
-                else {
+                } else {
                     showAlert("Description is too long!");
                 }
 

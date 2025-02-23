@@ -35,7 +35,7 @@ public class EditProfileMainVerticalComponent extends VerticalMainComponent {
         titleText.setStyle("-fx-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;");
 
 
-        currentImageView = new ImageView(new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKC1J56nwUx_ffTCBXca_f3oUJbml5PUosvQ&s"));
+        currentImageView = new ImageView();
         currentImageView.setFitWidth(200);
         currentImageView.setFitHeight(200);
 
