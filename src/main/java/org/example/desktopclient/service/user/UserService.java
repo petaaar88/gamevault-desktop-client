@@ -411,10 +411,17 @@ public class UserService extends AbstractService {
 
                 String message = null;
 
-                if(response.getCode() == 204)
+                if (response.getCode() == 204)
                     message = "Profile Updated!";
-                else if(response.getCode() == 409)
+                else if (response.getCode() == 409)
                     message = "Username Already Taken!";
+                else if (response.getCode() == 400) {
+                    ErrorMessageUser errorMessage = objectMapper.readValue(response.getEntity().getContent(), ErrorMessageUser.class);
+                    if (errorMessage.getDescription() != null)
+                        message = errorMessage.getDescription();
+                    if (errorMessage.getUsername() != null)
+                        message = errorMessage.getUsername();
+                }
 
                 callback.accept(message);
             }
