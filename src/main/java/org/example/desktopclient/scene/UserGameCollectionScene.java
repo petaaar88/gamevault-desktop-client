@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.UserGameMainController;
 import org.example.desktopclient.service.ApplicationContextService;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class UserGameCollectionScene extends CustomScene {
         menuController.setActiveItemInMenu("My Games");
 
         UserGameCollectionHorizontalMainComponent userGameCollectionHorizontalMainComponent = new UserGameCollectionHorizontalMainComponent();
-
+        UserGameMainController userGameMainController = new UserGameMainController(userGameCollectionHorizontalMainComponent, applicationContextService.getUser().getId());
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), userGameCollectionHorizontalMainComponent.getComponent());
 

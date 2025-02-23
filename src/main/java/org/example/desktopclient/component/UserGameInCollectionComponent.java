@@ -27,16 +27,14 @@ public class UserGameInCollectionComponent {
         selectionButton.getStyleClass().add("game-in-collection-button");
         imageAndTitleHbox = new HBox();
         selectionButton = new Button("", imageAndTitleHbox);
-    }
 
-    public HBox getComponent() {
 
         iconImageView.setFitHeight(25);
         iconImageView.setFitWidth(25);
 
         gameNameLabel.setStyle("-fx-text-fill: white;-fx-font-size: 13px;-fx-font-weight: 700");
 
-       imageAndTitleHbox.getChildren().addAll(iconImageView, gameNameLabel);
+        imageAndTitleHbox.getChildren().addAll(iconImageView, gameNameLabel);
         imageAndTitleHbox.setSpacing(8);
         imageAndTitleHbox.setAlignment(Pos.CENTER_LEFT);
 
@@ -45,12 +43,15 @@ public class UserGameInCollectionComponent {
         selectionButton.setPadding(new Insets(1, 15, 1, 15));
         layout.getChildren().add(selectionButton);
 
+    }
+
+    public HBox getComponent() {
         return layout;
     }
 
     public void setContent(String iconUrl, String gameTitle){
-        iconImageView = new ImageView(new Image(iconUrl));
-        gameNameLabel = new Label(gameTitle);
+        iconImageView.setImage(new Image(iconUrl));
+        gameNameLabel.setText(gameTitle);
 
     }
 

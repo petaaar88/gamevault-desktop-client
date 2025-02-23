@@ -31,7 +31,6 @@ public class UsersGamesCollectionController {
     }
 
     public void initializeGameCollectionComponent() {
-        Collection<HBox> gamesHbox = new ArrayList<>();
 
         games.forEach(game -> {
             UserGameInCollectionComponent userGameInCollectionComponent = new UserGameInCollectionComponent();
@@ -41,13 +40,13 @@ public class UsersGamesCollectionController {
             Integer gameId = Integer.parseInt(game.get("id"));
 
             UserGameInCollectionController userGameInCollectionController = new UserGameInCollectionController(gameId,userGameInCollectionComponent,this);
-            gamesHbox.add(userGameInCollectionComponent.getComponent());
+            component.getGamesInCollectionVbox().getChildren().add(userGameInCollectionComponent.getComponent());
             gamesInCollectionControllers.add(userGameInCollectionController);
 
             userGameInCollectionController.setSelected(false);
+
         });
 
-        component.setContent(gamesHbox);
         selectedGameInCollectionController = gamesInCollectionControllers.getFirst();
         selectedGameInCollectionController.setSelected(true);
 

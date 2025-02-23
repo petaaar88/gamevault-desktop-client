@@ -2,44 +2,64 @@ package org.example.desktopclient.component;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.*;
 
 public class UsersGamesCollectionComponent {
 
-    Collection<HBox> gamesHbox;
+    private VBox layout;
+    private SearchComponent searchComponent;
+    private VBox gamesInCollectionVbox;
 
     public UsersGamesCollectionComponent() {
-        gamesHbox = new ArrayList<>();
-    }
 
-    public VBox getComponent(){
-
-        VBox layout = new VBox();
+        layout = new VBox();
         layout.setMinWidth(240);
         layout.setMaxWidth(240);
         layout.setStyle("-fx-background-color: #333352");
 
-        SearchComponent searchComponent = new SearchComponent();
+        searchComponent = new SearchComponent();
+        gamesInCollectionVbox = new VBox();
+
         VBox searchComponentVbox = new VBox(searchComponent.getComponent("Search Games"));
 
         searchComponentVbox.setAlignment(Pos.CENTER);
-        searchComponentVbox.setPadding(new Insets(0,0,0,12));
+        searchComponentVbox.setPadding(new Insets(0, 0, 0, 12));
 
-        VBox gamesInCollectionVbox = new VBox();
 
-        gamesInCollectionVbox.getChildren().addAll(gamesHbox);
         ScrollComponent scrollComponent = new ScrollComponent();
 
-        layout.getChildren().addAll(searchComponentVbox,scrollComponent.getComponent(gamesInCollectionVbox));
+        layout.getChildren().addAll(searchComponentVbox, scrollComponent.getComponent(gamesInCollectionVbox));
         scrollComponent.setPaddingInline(0);
         scrollComponent.setBackgroundColor("transparent");
+    }
+
+    public VBox getComponent() {
         return layout;
     }
 
-    public void setContent(Collection<HBox> gamesHbox){
-        this.gamesHbox = gamesHbox;
+    public VBox getLayout() {
+        return layout;
+    }
+
+    public void setLayout(VBox layout) {
+        this.layout = layout;
+    }
+
+    public SearchComponent getSearchComponent() {
+        return searchComponent;
+    }
+
+    public void setSearchComponent(SearchComponent searchComponent) {
+        this.searchComponent = searchComponent;
+    }
+
+    public VBox getGamesInCollectionVbox() {
+        return gamesInCollectionVbox;
+    }
+
+    public void setGamesInCollectionVbox(VBox gamesInCollectionVbox) {
+        this.gamesInCollectionVbox = gamesInCollectionVbox;
     }
 }
