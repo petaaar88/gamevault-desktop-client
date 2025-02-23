@@ -10,10 +10,11 @@ public class UserGameMainController {
         this.component = component;
         this.userId = userId;
 
-        UserGameInCollectionDetailsController userGameInCollectionDetailsController = new UserGameInCollectionDetailsController(component.getUserGameInCollectionDetailsComponent());
+        UserGameInCollectionDetailsController userGameInCollectionDetailsController = new UserGameInCollectionDetailsController(component.getUserGameInCollectionDetailsComponent(), userId);
 
         UsersGamesCollectionController usersGamesCollectionController = new UsersGamesCollectionController(component.getUsersGamesCollectionComponent(), userGameInCollectionDetailsController);
-
+        usersGamesCollectionController.setUserId(userId);
+        usersGamesCollectionController.initializeGameCollectionComponent();
 
     }
 

@@ -25,7 +25,7 @@ public class UsersGamesCollectionComponent {
         VBox searchComponentVbox = new VBox(searchComponent.getComponent("Search Games"));
 
         searchComponentVbox.setAlignment(Pos.CENTER);
-        searchComponentVbox.setPadding(new Insets(0, 0, 0, 12));
+        searchComponentVbox.setPadding(new Insets(32, 0, 0, 12));
 
 
         ScrollComponent scrollComponent = new ScrollComponent();

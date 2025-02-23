@@ -350,6 +350,70 @@ public class GameService extends AbstractService {
                 });
     }
 
+    public void fetchUserGameCollection(Integer userId, Consumer<List<GameInCollectionDTO>>callback){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseUserGameCollection)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+
+    }
+
+    public void fetchGameInUserCollection(Integer userId, Integer gameId, Consumer<GameInUserCollectionDetails> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenApply(this::parseGameInUserCollection)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+
+                    } else {
+                        e.printStackTrace();
+
+                    }
+                    return null;
+                });
+    }
+
+    public GameInUserCollectionDetails parseGameInUserCollection(String json) {
+        try {
+            GameInUserCollectionDetails game = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return game;
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<GameInCollectionDTO> parseUserGameCollection(String json) {
+        try {
+            List<GameInCollectionDTO> games = objectMapper.readValue(json, new TypeReference<>() {
+            });
+            return games;
+        } catch (JsonProcessingException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public Pages<GameReviewDTO> parseGamerReviews(String json) {
         try {
             Pages<GameReviewDTO> reviews = objectMapper.readValue(json, new TypeReference<>() {

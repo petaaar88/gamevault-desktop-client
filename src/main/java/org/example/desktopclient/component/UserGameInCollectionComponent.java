@@ -37,6 +37,7 @@ public class UserGameInCollectionComponent {
         imageAndTitleHbox.getChildren().addAll(iconImageView, gameNameLabel);
         imageAndTitleHbox.setSpacing(8);
         imageAndTitleHbox.setAlignment(Pos.CENTER_LEFT);
+        imageAndTitleHbox.setPadding(new Insets(4,0,4,0));
 
         HBox.setHgrow(selectionButton, Priority.ALWAYS);
         selectionButton.setMaxWidth(Double.MAX_VALUE);
