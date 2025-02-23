@@ -4,6 +4,8 @@ module org.example.desktopclient {
     requires java.desktop;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
+    requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.apache.httpcomponents.core5.httpcore5;
 
     opens org.example.desktopclient.model.page to com.fasterxml.jackson.databind;
     opens org.example.desktopclient.model.game to com.fasterxml.jackson.databind;

@@ -41,7 +41,7 @@ public class EditProfileScene extends CustomScene{
     public Scene createScene() {
 
         EditProfileMainVerticalComponent editProfileMainVerticalComponent = new EditProfileMainVerticalComponent();
-        EditProfileMainController editProfileMainController = new EditProfileMainController(editProfileMainVerticalComponent, userId);
+        EditProfileMainController editProfileMainController = new EditProfileMainController(editProfileMainVerticalComponent, userId, primaryStage);
 
         ScrollComponent scrollComponent = new ScrollComponent();
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(editProfileMainVerticalComponent.getComponent()));

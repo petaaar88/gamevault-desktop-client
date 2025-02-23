@@ -1,0 +1,8 @@
+.upload-button{
+    -fx-background-color: #0E0F1A;
+    -fx-cursor: hand;
+}
+
+.upload-button:hover{
+    -fx-background-color: #191B2E;
+}
