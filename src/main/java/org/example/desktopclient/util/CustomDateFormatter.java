@@ -30,4 +30,13 @@ public class CustomDateFormatter {
 
         return formattedDate;
     }
+
+    public static String formatDateTimeOfPattern2(String dateTimeString, String pattern) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime date = LocalDateTime.parse(dateTimeString, inputFormatter);
+
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        return date.format(outputFormatter);
+    }
+
 }

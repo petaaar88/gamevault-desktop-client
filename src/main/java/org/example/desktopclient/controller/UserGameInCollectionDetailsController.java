@@ -37,7 +37,7 @@ public class UserGameInCollectionDetailsController {
 
         gameService.fetchGameInUserCollection(userId, newGameId, game -> {
             Platform.runLater(() -> {
-                component.setNewContent(game.getImage());
+                component.setNewContent(game);
             });
         });
 

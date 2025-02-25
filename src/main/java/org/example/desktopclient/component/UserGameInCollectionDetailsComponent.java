@@ -4,19 +4,35 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import org.example.desktopclient.controller.FriendsThatPlayGameController;
+import org.example.desktopclient.model.game.GameInCollectionDTO;
+import org.example.desktopclient.model.game.GameInUserCollectionDetails;
+import org.example.desktopclient.scene.ProfilePageScene;
+import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.CustomDateFormatter;
+import org.example.desktopclient.util.RoundNumberUtil;
+
+import java.util.Objects;
 
 public class UserGameInCollectionDetailsComponent {
     private ImageView coverImage;
     private Button actionButton;
     private VBox layout;
-
+    private Label descriptionLabel;
+    private Text lastPlayedText;
+    private Text playtimeText;
+    private HBox descriptionAndFriendsHBox;
+    private Label gameTitleLabel;
 
     public UserGameInCollectionDetailsComponent() {
         coverImage = new ImageView();
@@ -26,29 +42,43 @@ public class UserGameInCollectionDetailsComponent {
         layout.getStylesheets().add(css);
 
         actionButton.getStyleClass().add("large-action-button");
-    }
 
-    public VBox getComponent() {
 
         coverImage.setFitWidth(760);
-        coverImage.setFitHeight(240);
+        coverImage.setFitHeight(260);
         layout.setSpacing(15);
+        gameTitleLabel = new Label("");
+        gameTitleLabel.setLayoutX(25);
+        gameTitleLabel.setLayoutY(205);
+        gameTitleLabel.setStyle("-fx-font-size: 32px;-fx-fill: white;-fx-font-weight: 700;-fx-stroke: black; -fx-stroke-width: 1;");
+        Rectangle gradientOverlay = new Rectangle(760, 260);
+        gradientOverlay.setFill(new LinearGradient(
+                0, 1, 0, 0,  // Od dole ka gore
+                true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.color(0, 0, 0, 0.6)),  // Tamnija nijansa na dnu
+                new Stop(1, Color.color(0, 0, 0, 0))     // Prozirno na vrhu
+        ));
 
+// Postavi blend mode da se lepo uklopi sa slikom
+        gradientOverlay.setBlendMode(BlendMode.MULTIPLY);
+        Pane coverImagePane = new Pane(coverImage,gradientOverlay, gameTitleLabel);
+        coverImagePane.setMinHeight(260);
+        coverImagePane.setMaxHeight(260);
 
         HBox actionAndStatsHbox = new HBox();
         actionAndStatsHbox.setPadding(new Insets(13, 18, 13, 18));
-        VBox imageAndActionVbox = new VBox(coverImage, actionAndStatsHbox);
+        VBox imageAndActionVbox = new VBox(coverImagePane, actionAndStatsHbox);
         actionAndStatsHbox.setStyle("-fx-background-color: #333352");
         actionButton.setText("Download");
         Text lastPlayedTitle = new Text("Last Played");
         lastPlayedTitle.setStyle("-fx-fill: white;-fx-font-size: 15px;-fx-font-weight: 700;");
-        Text lastPlayedText = new Text("12.3.2025.");
+        lastPlayedText = new Text("");
         lastPlayedText.setStyle("-fx-fill: white;-fx-font-size: 14px;-fx-font-weight: 600");
         VBox lastPlayedVBox = new VBox(lastPlayedTitle, lastPlayedText);
 
         Text playtimeTitle = new Text("Playtime");
         playtimeTitle.setStyle("-fx-fill: white;-fx-font-size: 15px;-fx-font-weight: 700;");
-        Text playtimeText = new Text("12h");
+        playtimeText = new Text("");
         playtimeText.setStyle("-fx-fill: white;-fx-font-size: 14px;-fx-font-weight: 600");
         VBox playtimeVBox = new VBox(playtimeTitle, playtimeText);
 
@@ -65,8 +95,7 @@ public class UserGameInCollectionDetailsComponent {
 
         Text descriptionText = new Text("Description");
         descriptionText.setStyle("-fx-fill: #8079CB; -fx-font-size: 20px; -fx-font-weight: 700;");
-        Label descriptionLabel = new Label("\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\"\n" +
-                "\"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.\"");
+        descriptionLabel = new Label("");
         descriptionLabel.setWrapText(true);
         descriptionLabel.setMaxWidth(350); // Postavi na širinu pri kojoj treba da se wrapuje
         descriptionLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: white");
@@ -76,9 +105,10 @@ public class UserGameInCollectionDetailsComponent {
         VBox descriptionVbox = new VBox(descriptionText, descriptionLabel);
         descriptionVbox.setStyle("-fx-background-color: #333352");
         descriptionVbox.setPadding(new Insets(10));
+        descriptionVbox.setMinHeight(250);
 
-        FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
-        HBox descriptionAndFriendsHBox = new HBox(descriptionVbox, friendsThatPlayGameComponent.getComponent());
+
+        descriptionAndFriendsHBox = new HBox(descriptionVbox);
         HBox.setHgrow(descriptionVbox, Priority.ALWAYS);
         descriptionAndFriendsHBox.setSpacing(15);
 
@@ -89,13 +119,51 @@ public class UserGameInCollectionDetailsComponent {
 
         layout.getChildren().addAll(scrollComponent.getComponent(vBox));
         scrollComponent.setPaddingX(0);
+    }
 
+    public VBox getComponent() {
         return layout;
     }
 
 
-    //TODO: dodaj jos ovde
-    public void setNewContent(String imageUrl) {
-        coverImage.setImage(new Image(imageUrl));
+    public void setNewContent(GameInUserCollectionDetails game) {
+        coverImage.setImage(new Image(game.getImage()));
+        descriptionLabel.setText(game.getDescription());
+        gameTitleLabel.setText(game.getTitle());
+
+        String lastPlayed = Objects.isNull(game.getLastPlayed()) ? "Never played" : CustomDateFormatter.formatDateTimeOfPattern2(game.getLastPlayed(), "d MMM yyyy");
+        lastPlayedText.setText(lastPlayed);
+
+        String playtime = String.valueOf(RoundNumberUtil.roundDecimals(game.getPlayTime()));
+
+        playtimeText.setText(playtime + " Hours");
+        if (descriptionAndFriendsHBox.getChildren().size() == 2)
+            descriptionAndFriendsHBox.getChildren().removeLast();
+
+        if (!game.getFriends().isEmpty()) {
+            FriendsThatPlayGameComponent friendsThatPlayGameComponent = new FriendsThatPlayGameComponent();
+            descriptionAndFriendsHBox.getChildren().add(friendsThatPlayGameComponent.getComponent());
+
+            game.getFriends().forEach(friendDTO -> {
+                FriendComponent friendComponent = new FriendComponent();
+                friendComponent.getImageView().setImage(new Image(friendDTO.getIcon()));
+                friendComponent.getUsernameLabel().setText(friendDTO.getUsername());
+                friendComponent.getTextLabel().setText( RoundNumberUtil.roundDecimals(friendDTO.getHoursPlayed()) + " Hours");
+                friendComponent.getUsernameLabel().setOnMouseClicked(e->{
+                    ProfilePageScene.getInstance().setUserId(friendDTO.getId());
+
+                    ChangeSceneUtil.changeScene(ProfilePageScene.getInstance().createScene());
+                });
+                friendsThatPlayGameComponent.getFriendsVbox().getChildren().add(friendComponent.getComponent());
+            });
+        }
+    }
+
+    public Label getDescriptionLabel() {
+        return descriptionLabel;
+    }
+
+    public void setDescriptionLabel(Label descriptionLabel) {
+        this.descriptionLabel = descriptionLabel;
     }
 }
