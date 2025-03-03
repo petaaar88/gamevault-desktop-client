@@ -19,7 +19,7 @@ public class UserGameCollectionHorizontalMainComponent extends HorizontalMainCom
         this.setup();
 
         layout.setSpacing(17);
-        layout.setPadding(new Insets(20,0,20,0));
+        layout.setPadding(new Insets(20,0,0,0));
 
         userGameInCollectionDetailsComponent = new UserGameInCollectionDetailsComponent();
 

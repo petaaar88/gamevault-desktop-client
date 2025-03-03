@@ -12,7 +12,7 @@ public class UserGameMainController {
 
         UserGameInCollectionDetailsController userGameInCollectionDetailsController = new UserGameInCollectionDetailsController(component.getUserGameInCollectionDetailsComponent(), userId);
 
-        UsersGamesCollectionController usersGamesCollectionController = new UsersGamesCollectionController(component.getUsersGamesCollectionComponent(), userGameInCollectionDetailsController);
+        UsersGamesCollectionController usersGamesCollectionController = new UsersGamesCollectionController(userId, component.getUsersGamesCollectionComponent(), userGameInCollectionDetailsController);
         usersGamesCollectionController.setUserId(userId);
         usersGamesCollectionController.initializeGameCollectionComponent();
 

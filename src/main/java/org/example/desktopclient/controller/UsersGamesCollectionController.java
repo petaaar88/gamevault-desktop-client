@@ -1,5 +1,7 @@
 package org.example.desktopclient.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -7,8 +9,13 @@ import javafx.scene.layout.HBox;
 import org.example.desktopclient.component.UserGameInCollectionComponent;
 import org.example.desktopclient.component.UsersGamesCollectionComponent;
 import org.example.desktopclient.model.game.GameInCollectionDTO;
+import org.example.desktopclient.model.game.GameStatus;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.util.JsonFileManager;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class UsersGamesCollectionController implements ISearchable {
@@ -16,13 +23,14 @@ public class UsersGamesCollectionController implements ISearchable {
     private UsersGamesCollectionComponent component;
     private UserGameInCollectionDetailsController userGameInCollectionDetailsController;
     private List<GameInCollectionDTO> gamesInUserCollection;
+    private List<GameStatus> installedGames;
 
     private UserGameInCollectionController selectedGameInCollectionController;
     private List<UserGameInCollectionController> gamesInCollectionControllers;
     private Integer userId;
     private GameService gameService;
 
-    public UsersGamesCollectionController(UsersGamesCollectionComponent component, UserGameInCollectionDetailsController userGameInCollectionDetailsController) {
+    public UsersGamesCollectionController(Integer userId, UsersGamesCollectionComponent component, UserGameInCollectionDetailsController userGameInCollectionDetailsController) {
         this.component = component;
         SearchController searchController = new SearchController(component.getSearchComponent());
         searchController.setSearchableController(this);
@@ -32,7 +40,15 @@ public class UsersGamesCollectionController implements ISearchable {
         gamesInUserCollection = new ArrayList<>();
 
         gameService = new GameService();
+        this.getInstalledGames();
 
+        gameService.fetchUserGameCollection(userId, games -> {
+            Platform.runLater(() -> {
+                 Integer firstGameInCollection = games.getFirst().getId();
+                 installedGames.stream().filter(game -> game.getGame_id() == firstGameInCollection).findFirst().ifPresent(game -> this.userGameInCollectionDetailsController.setGameStatus(game));
+            });
+        });
+        this.userGameInCollectionDetailsController.initialize();
     }
 
     public void initializeGameCollectionComponent() {
@@ -82,11 +98,38 @@ public class UsersGamesCollectionController implements ISearchable {
 
     }
 
+    public void getInstalledGames(){
+        installedGames = new ArrayList<>();
+
+        JsonFileManager jsonFileManager = new JsonFileManager();
+        Path jsonFile = jsonFileManager.getConfigFilePath("GameVault", "installed_games.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            if (Files.exists(jsonFile)) {
+                // Čitaj JSON i mapiraj u listu GameInfo objekata
+                List<GameStatus> games = objectMapper.readValue(Files.readString(jsonFile), new TypeReference<List<GameStatus>>() {
+                });
+
+                System.out.println("Učitan JSON kao objekti:");
+
+                installedGames = games;
+
+            } else {
+                System.out.println("Fajl ne postoji.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void changeGame(UserGameInCollectionController userGameInCollectionController) {
         selectedGameInCollectionController.setSelected(false);
         selectedGameInCollectionController = userGameInCollectionController;
         selectedGameInCollectionController.setSelected(true);
 
+        userGameInCollectionDetailsController.setGameStatus(installedGames.stream().filter(game -> game.getGame_id() == selectedGameInCollectionController.getGameId()).findFirst().orElse(null));
         userGameInCollectionDetailsController.changeGame(selectedGameInCollectionController.getGameId());
     }
 

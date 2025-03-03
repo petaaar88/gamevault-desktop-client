@@ -1,7 +1,6 @@
 package org.example.desktopclient.component;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
@@ -14,8 +13,6 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import org.example.desktopclient.controller.FriendsThatPlayGameController;
-import org.example.desktopclient.model.game.GameInCollectionDTO;
 import org.example.desktopclient.model.game.GameInUserCollectionDetails;
 import org.example.desktopclient.scene.ProfilePageScene;
 import org.example.desktopclient.util.ChangeSceneUtil;
@@ -26,7 +23,7 @@ import java.util.Objects;
 
 public class UserGameInCollectionDetailsComponent {
     private ImageView coverImage;
-    private Button actionButton;
+    private GameInLibraryActionButtonComponent gameInLibraryActionButtonComponent;
     private VBox layout;
     private Label descriptionLabel;
     private Text lastPlayedText;
@@ -36,12 +33,8 @@ public class UserGameInCollectionDetailsComponent {
 
     public UserGameInCollectionDetailsComponent() {
         coverImage = new ImageView();
-        actionButton = new Button();
+        gameInLibraryActionButtonComponent = new GameInLibraryActionButtonComponent();
         layout = new VBox();
-        String css = getClass().getResource("/org/example/desktopclient/styles/actionButtonStyles.css").toExternalForm();
-        layout.getStylesheets().add(css);
-
-        actionButton.getStyleClass().add("large-action-button");
 
 
         coverImage.setFitWidth(760);
@@ -59,7 +52,7 @@ public class UserGameInCollectionDetailsComponent {
                 new Stop(1, Color.color(0, 0, 0, 0))     // Prozirno na vrhu
         ));
 
-// Postavi blend mode da se lepo uklopi sa slikom
+
         gradientOverlay.setBlendMode(BlendMode.MULTIPLY);
         Pane coverImagePane = new Pane(coverImage,gradientOverlay, gameTitleLabel);
         coverImagePane.setMinHeight(260);
@@ -69,7 +62,6 @@ public class UserGameInCollectionDetailsComponent {
         actionAndStatsHbox.setPadding(new Insets(13, 18, 13, 18));
         VBox imageAndActionVbox = new VBox(coverImagePane, actionAndStatsHbox);
         actionAndStatsHbox.setStyle("-fx-background-color: #333352");
-        actionButton.setText("Download");
         Text lastPlayedTitle = new Text("Last Played");
         lastPlayedTitle.setStyle("-fx-fill: white;-fx-font-size: 15px;-fx-font-weight: 700;");
         lastPlayedText = new Text("");
@@ -88,7 +80,7 @@ public class UserGameInCollectionDetailsComponent {
         Button deleteButton = new Button("", deleteImageView);
         deleteButton.setStyle("-fx-background-color:transparent; -fx-cursor: hand");
 
-        HBox hbox = new HBox(actionButton, lastPlayedVBox, playtimeVBox);
+        HBox hbox = new HBox(gameInLibraryActionButtonComponent.getComponent(), lastPlayedVBox, playtimeVBox);
         HBox.setHgrow(hbox, Priority.ALWAYS);
         hbox.setSpacing(22);
         actionAndStatsHbox.getChildren().addAll(hbox, deleteButton);
@@ -165,5 +157,13 @@ public class UserGameInCollectionDetailsComponent {
 
     public void setDescriptionLabel(Label descriptionLabel) {
         this.descriptionLabel = descriptionLabel;
+    }
+
+    public GameInLibraryActionButtonComponent getGameInLibraryActionButtonComponent() {
+        return gameInLibraryActionButtonComponent;
+    }
+
+    public void setGameInLibraryActionButtonComponent(GameInLibraryActionButtonComponent gameInLibraryActionButtonComponent) {
+        this.gameInLibraryActionButtonComponent = gameInLibraryActionButtonComponent;
     }
 }
