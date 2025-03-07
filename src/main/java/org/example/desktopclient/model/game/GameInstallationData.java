@@ -1,13 +1,13 @@
 package org.example.desktopclient.model.game;
 
-public class GameStatus {
+public class GameInstallationData {
     private Integer game_id;
     private String game_folder;
     private String game_executable;
 
-    public GameStatus() {}
+    public GameInstallationData() {}
 
-    public GameStatus(Integer gameId, String gameFolder, String gameExecutable) {
+    public GameInstallationData(Integer gameId, String gameFolder, String gameExecutable) {
         this.game_id = gameId;
         this.game_folder = gameFolder;
         this.game_executable = gameExecutable;

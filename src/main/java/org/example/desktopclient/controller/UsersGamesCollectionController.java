@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import org.example.desktopclient.component.UserGameInCollectionComponent;
 import org.example.desktopclient.component.UsersGamesCollectionComponent;
 import org.example.desktopclient.model.game.GameInCollectionDTO;
-import org.example.desktopclient.model.game.GameStatus;
+import org.example.desktopclient.model.game.GameInstallationData;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.util.JsonFileManager;
 
@@ -23,7 +22,7 @@ public class UsersGamesCollectionController implements ISearchable {
     private UsersGamesCollectionComponent component;
     private UserGameInCollectionDetailsController userGameInCollectionDetailsController;
     private List<GameInCollectionDTO> gamesInUserCollection;
-    private List<GameStatus> installedGames;
+    private List<GameInstallationData> installedGames;
 
     private UserGameInCollectionController selectedGameInCollectionController;
     private List<UserGameInCollectionController> gamesInCollectionControllers;
@@ -45,7 +44,7 @@ public class UsersGamesCollectionController implements ISearchable {
         gameService.fetchUserGameCollection(userId, games -> {
             Platform.runLater(() -> {
                  Integer firstGameInCollection = games.getFirst().getId();
-                 installedGames.stream().filter(game -> game.getGame_id() == firstGameInCollection).findFirst().ifPresent(game -> this.userGameInCollectionDetailsController.setGameStatus(game));
+                 installedGames.stream().filter(game -> game.getGame_id() == firstGameInCollection).findFirst().ifPresent(game -> this.userGameInCollectionDetailsController.setGameInstallationData(game));
             });
         });
         this.userGameInCollectionDetailsController.initialize();
@@ -108,7 +107,7 @@ public class UsersGamesCollectionController implements ISearchable {
         try {
             if (Files.exists(jsonFile)) {
                 // Čitaj JSON i mapiraj u listu GameInfo objekata
-                List<GameStatus> games = objectMapper.readValue(Files.readString(jsonFile), new TypeReference<List<GameStatus>>() {
+                List<GameInstallationData> games = objectMapper.readValue(Files.readString(jsonFile), new TypeReference<List<GameInstallationData>>() {
                 });
 
                 System.out.println("Učitan JSON kao objekti:");
@@ -129,7 +128,7 @@ public class UsersGamesCollectionController implements ISearchable {
         selectedGameInCollectionController = userGameInCollectionController;
         selectedGameInCollectionController.setSelected(true);
 
-        userGameInCollectionDetailsController.setGameStatus(installedGames.stream().filter(game -> game.getGame_id() == selectedGameInCollectionController.getGameId()).findFirst().orElse(null));
+        userGameInCollectionDetailsController.setGameInstallationData(installedGames.stream().filter(game -> game.getGame_id() == selectedGameInCollectionController.getGameId()).findFirst().orElse(null));
         userGameInCollectionDetailsController.changeGame(selectedGameInCollectionController.getGameId());
     }
 

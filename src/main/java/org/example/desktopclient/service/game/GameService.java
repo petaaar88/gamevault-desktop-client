@@ -3,11 +3,23 @@ package org.example.desktopclient.service.game;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.hc.client5.http.classic.methods.HttpPatch;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
 import org.example.desktopclient.model.game.*;
 import org.example.desktopclient.model.page.Pages;
+import org.example.desktopclient.model.user.ErrorMessageUser;
 import org.example.desktopclient.model.user.FriendDTO;
+import org.example.desktopclient.model.user.UpdateUserDTO;
 import org.example.desktopclient.service.AbstractService;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.URI;
@@ -15,7 +27,11 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class GameService extends AbstractService {
@@ -387,6 +403,88 @@ public class GameService extends AbstractService {
                     } else {
                         e.printStackTrace();
 
+                    }
+                    return null;
+                });
+    }
+
+    public void enterGame(Integer userId, Integer gameId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/play/" + userId.toString() + "/" + gameId.toString()))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+
+                    System.out.println(response.statusCode());
+
+                    if(response.statusCode() == 404)
+                        return "User doesnt own this game!";
+
+                    if (response.statusCode() == 409) {
+                        ErrorMessage message = null;
+                        try {
+                            message = objectMapper.readValue(response.body(), new TypeReference<>() {
+                            });
+                        } catch (JsonProcessingException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        return "Already In Game!";
+                    }
+                        return "";
+                })
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    public void exitGame(Integer userId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/play/" + userId.toString()))
+                .DELETE()
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> "")
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    public void updateGamePlaytime(Integer userId, Integer gameId, long timePlayed, LocalDateTime lastPlayed, Consumer<String> callback) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedLastPlayed = lastPlayed.format(formatter);
+        String jsonPayload = String.format("{\"timePlayed\":%d,\"lastPlayedAt\":\"%s\"}", timePlayed, formattedLastPlayed);
+
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonPayload))
+                .header("Content-Type", "application/json")
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof java.net.ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
                     }
                     return null;
                 });

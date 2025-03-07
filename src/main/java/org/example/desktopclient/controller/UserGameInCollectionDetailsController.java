@@ -2,21 +2,20 @@ package org.example.desktopclient.controller;
 
 import javafx.application.Platform;
 import org.example.desktopclient.component.UserGameInCollectionDetailsComponent;
-import org.example.desktopclient.model.game.GameStatus;
+import org.example.desktopclient.model.game.GameInLibraryButtonType;
+import org.example.desktopclient.model.game.GameInstallationData;
 import org.example.desktopclient.service.game.GameService;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class UserGameInCollectionDetailsController {
 
     private UserGameInCollectionDetailsComponent component;
     private GameService gameService;
+    private Integer runningGameId;
     private Integer userId;
     private GameInLibraryActionButtonController gameInLibraryActionButtonController;
-    private GameStatus gameStatus;
+    private GameInstallationData gameInstallationData;
 
     public UserGameInCollectionDetailsController(UserGameInCollectionDetailsComponent component, Integer userId) {
 
@@ -25,42 +24,57 @@ public class UserGameInCollectionDetailsController {
         gameService = new GameService();
 
         gameInLibraryActionButtonController = new GameInLibraryActionButtonController(component.getGameInLibraryActionButtonComponent());
-
+        gameInLibraryActionButtonController.setUserId(userId);
     }
 
     public void initialize() {
 
 
-
         gameService.fetchUserGameCollection(userId, games -> {
             Platform.runLater(() -> {
+                gameInLibraryActionButtonController.setGameId(games.getFirst().getId());
                 this.changeGame(games.getFirst().getId());
             });
         });
     }
 
 
+    public void changeGame(Integer newGameId) {
 
-    public void changeGame(Integer newGameId){
-
+        //TODO: ovde se menja stanje dugmeta
         gameService.fetchGameInUserCollection(userId, newGameId, game -> {
             Platform.runLater(() -> {
-                if(!Objects.isNull(gameStatus)){
-                    if(gameStatus.getGame_id()==newGameId){
-                        System.out.println("Vec je instalirana");
+                if (!Objects.isNull(gameInstallationData)) {
+                    if (gameInstallationData.getGame_id() == newGameId) {
+                        if (runningGameId != newGameId) {
+                            gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAY);
+                            gameInLibraryActionButtonController.handlePlayButton(gameInstallationData.getGame_executable(), this);
+                        }
+                        else if(runningGameId == newGameId)
+                            gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAYING);
+
                     }
+                } else {
+                    gameInLibraryActionButtonController.setType(GameInLibraryButtonType.DOWNLOAD);
+                    gameInLibraryActionButtonController.handleDownloadButton();
+
                 }
                 component.setNewContent(game);
+                gameInLibraryActionButtonController.setGameId(newGameId);
             });
         });
 
     }
 
-    public GameStatus getGameStatus() {
-        return gameStatus;
+    public void setGameInstallationData(GameInstallationData gameInstallationData) {
+        this.gameInstallationData = gameInstallationData;
     }
 
-    public void setGameStatus(GameStatus gameStatus) {
-        this.gameStatus = gameStatus;
+    public Integer getRunningGameId() {
+        return runningGameId;
+    }
+
+    public void setRunningGameId(Integer runningGameId) {
+        this.runningGameId = runningGameId;
     }
 }
