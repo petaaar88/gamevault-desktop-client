@@ -40,7 +40,8 @@ public class UserGameCollectionScene extends CustomScene {
         menuController.setActiveItemInMenu("My Games");
 
         UserGameCollectionHorizontalMainComponent userGameCollectionHorizontalMainComponent = new UserGameCollectionHorizontalMainComponent();
-        UserGameMainController userGameMainController = new UserGameMainController(userGameCollectionHorizontalMainComponent, applicationContextService.getUser().getId());
+        UserGameMainController userGameMainController = new UserGameMainController(userGameCollectionHorizontalMainComponent, applicationContextService.getUser().getId(), applicationContextService);
+        userGameMainController.setApplicationContextService(applicationContextService);
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), userGameCollectionHorizontalMainComponent.getComponent());
 

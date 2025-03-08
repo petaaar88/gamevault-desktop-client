@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import org.example.desktopclient.component.UserGameInCollectionDetailsComponent;
 import org.example.desktopclient.model.game.GameInLibraryButtonType;
 import org.example.desktopclient.model.game.GameInstallationData;
+import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
 
 import java.util.Objects;
@@ -16,15 +17,19 @@ public class UserGameInCollectionDetailsController {
     private Integer userId;
     private GameInLibraryActionButtonController gameInLibraryActionButtonController;
     private GameInstallationData gameInstallationData;
+    private ApplicationContextService applicationContextService;
 
-    public UserGameInCollectionDetailsController(UserGameInCollectionDetailsComponent component, Integer userId) {
+    public UserGameInCollectionDetailsController(UserGameInCollectionDetailsComponent component, Integer userId, ApplicationContextService applicationContextService) {
 
         this.component = component;
         this.userId = userId;
+        this.runningGameId = applicationContextService.getRunningGameId();
         gameService = new GameService();
+        this.applicationContextService = applicationContextService;
 
         gameInLibraryActionButtonController = new GameInLibraryActionButtonController(component.getGameInLibraryActionButtonComponent());
         gameInLibraryActionButtonController.setUserId(userId);
+        gameInLibraryActionButtonController.setApplicationContextService(applicationContextService);
     }
 
     public void initialize() {
@@ -34,6 +39,10 @@ public class UserGameInCollectionDetailsController {
             Platform.runLater(() -> {
                 gameInLibraryActionButtonController.setGameId(games.getFirst().getId());
                 this.changeGame(games.getFirst().getId());
+                if(runningGameId == games.getFirst().getId()) {
+                    gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAYING);
+                }
+
             });
         });
     }
@@ -46,11 +55,11 @@ public class UserGameInCollectionDetailsController {
             Platform.runLater(() -> {
                 if (!Objects.isNull(gameInstallationData)) {
                     if (gameInstallationData.getGame_id() == newGameId) {
-                        if (runningGameId != newGameId) {
+                        if (applicationContextService.getRunningGameId() != newGameId) {
                             gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAY);
                             gameInLibraryActionButtonController.handlePlayButton(gameInstallationData.getGame_executable(), this);
                         }
-                        else if(runningGameId == newGameId)
+                        else if(applicationContextService.getRunningGameId() == newGameId)
                             gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAYING);
 
                     }
@@ -76,5 +85,6 @@ public class UserGameInCollectionDetailsController {
 
     public void setRunningGameId(Integer runningGameId) {
         this.runningGameId = runningGameId;
+        applicationContextService.setRunningGameId(runningGameId);
     }
 }

@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ApplicationContextService {
     private User user;
     private JsonFileManager jsonFileManager;
+    private Integer runningGameId;
 
     public ApplicationContextService() {
         jsonFileManager = new JsonFileManager();
@@ -38,4 +39,11 @@ public class ApplicationContextService {
         return user;
     }
 
+    public Integer getRunningGameId() {
+        return runningGameId;
+    }
+
+    public void setRunningGameId(Integer runningGameId) {
+        this.runningGameId = runningGameId;
+    }
 }

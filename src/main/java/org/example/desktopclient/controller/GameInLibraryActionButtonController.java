@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.GameInLibraryActionButtonComponent;
 import org.example.desktopclient.model.game.GameInLibraryButtonType;
+import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class GameInLibraryActionButtonController {
     private Integer gameId;
     private Integer userId;
     private GameService gameService;
+    private ApplicationContextService applicationContextService;
 
     public GameInLibraryActionButtonController(GameInLibraryActionButtonComponent component) {
         this.component = component;
@@ -47,6 +49,7 @@ public class GameInLibraryActionButtonController {
                                 Platform.runLater(() -> setType(GameInLibraryButtonType.PLAYING));
                                 System.out.println(gameId);
                                 userGameInCollectionDetailsController.setRunningGameId(gameId);
+                                applicationContextService.setRunningGameId(gameId);
                                 System.out.println("Application started: " + executablePath);
 
                                 long startTime = System.currentTimeMillis(); // Početak merenja
@@ -61,6 +64,7 @@ public class GameInLibraryActionButtonController {
 
                                             // Vraćanje dugmeta u PLAY stanje na JavaFX niti
                                             userGameInCollectionDetailsController.setRunningGameId(null);
+                                            applicationContextService.setRunningGameId(null);
                                             setType(GameInLibraryButtonType.PLAY);
                                             long elapsedTime = System.currentTimeMillis() - startTime; // Izračunaj proteklo vreme
                                             System.out.println(elapsedTime);
@@ -199,5 +203,9 @@ public class GameInLibraryActionButtonController {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+    public void setApplicationContextService(ApplicationContextService applicationContextService) {
+        this.applicationContextService = applicationContextService;
+    }
+
 }
 

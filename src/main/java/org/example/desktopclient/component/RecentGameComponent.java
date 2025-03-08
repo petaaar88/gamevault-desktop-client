@@ -57,7 +57,7 @@ public class RecentGameComponent {
         imageView.setImage(new Image(recentPlayedGameDTO.getImage()));
         gameTitleLabel.setText(recentPlayedGameDTO.getTitle());
 
-        String lastPlayedAt = Objects.isNull(recentPlayedGameDTO.getLastPlayedAt()) ? "Never Played" : CustomDateFormatter.fomatDateTimeOfPattern(recentPlayedGameDTO.getLastPlayedAt(),"d. MMM yyyy");
+        String lastPlayedAt = Objects.isNull(recentPlayedGameDTO.getLastPlayedAt()) ? "Never Played" : CustomDateFormatter.formatDateTimeOfPattern2(recentPlayedGameDTO.getLastPlayedAt(),"d. MMM yyyy");
 
         lastPlayedAtLabel.setText(lastPlayedAt);
 
