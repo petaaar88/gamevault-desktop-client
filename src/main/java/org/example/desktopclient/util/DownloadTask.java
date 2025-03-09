@@ -49,9 +49,9 @@ public class DownloadTask extends Task<Void> {
 
                 if (sizeOfFile > 0) {
                     updateProgress(downloadedContent, sizeOfFile);
-                    System.out.println("Downloading: " + 100 * ((float) downloadedContent / sizeOfFile) + "%");
+                   // System.out.println("Downloading: " + 100 * ((float) downloadedContent / sizeOfFile) + "%");
                 } else {
-                    System.out.println("Downloading: " + downloadedContent + " bytes downloaded...");
+                   // System.out.println("Downloading: " + downloadedContent + " bytes downloaded...");
                 }
             }
 

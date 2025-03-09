@@ -17,6 +17,7 @@ import org.example.desktopclient.model.game.GameInLibraryButtonType;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.util.DownloadTask;
+import org.example.desktopclient.util.UnZipper;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,6 +141,40 @@ public class GameInLibraryActionButtonController {
                     downloadTask.setOnSucceeded(event -> {
                         Platform.runLater(() -> {
                             this.setType(GameInLibraryButtonType.INSTALLING);
+
+                            String fileName = downloadUrl.split("/")[downloadUrl.split("/").length - 1];
+                            // Pokrenite UnZipper u posebnom threadu
+                            Task<Void> unzipTask = new Task<Void>() {
+                                @Override
+                                protected Void call() throws Exception {
+                                    UnZipper unZipper = new UnZipper();
+                                    try {
+                                        unZipper.UnzipFile(folderPath + "/" + fileName, folderPath);
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                    return null;
+                                }
+                            };
+
+                            unzipTask.setOnSucceeded(unzipEvent -> {
+                                Platform.runLater(() -> {
+                                    File zipFile = new File(folderPath + "/" + fileName);
+                                    zipFile.delete();
+                                    this.setType(GameInLibraryButtonType.PLAY);
+                                });
+                            });
+
+                            unzipTask.setOnFailed(unzipEvent -> {
+                                Platform.runLater(() -> {
+                                    // Obrada greške tokom dekompresije
+                                    System.err.println("Unzip failed: " + unzipTask.getException());
+                                });
+                            });
+
+                            Thread unzipThread = new Thread(unzipTask);
+                            unzipThread.setDaemon(true);
+                            unzipThread.start();
                         });
                     });
 
