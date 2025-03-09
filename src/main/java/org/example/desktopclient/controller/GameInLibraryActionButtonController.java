@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,7 +16,9 @@ import org.example.desktopclient.component.GameInLibraryActionButtonComponent;
 import org.example.desktopclient.model.game.GameInLibraryButtonType;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.util.DownloadTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -39,7 +42,6 @@ public class GameInLibraryActionButtonController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() {
-
 
                     gameService.enterGame(userId, gameId, message -> {
 
@@ -115,7 +117,39 @@ public class GameInLibraryActionButtonController {
 
     public void handleDownloadButton() {
         component.getActionButton().setOnMouseClicked(e -> {
-            this.setType(GameInLibraryButtonType.DOWNLOADING);
+
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Choose installation directory");
+
+            // Opciono: postavljanje početnog direktorijuma
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedDirectory = directoryChooser.showDialog(applicationContextService.getPrimaryStage());
+
+            if (selectedDirectory != null) {
+                gameService.fetchGameDownloadURL(gameId, downloadUrl -> {
+                    Platform.runLater(() -> {
+                        this.setType(GameInLibraryButtonType.DOWNLOADING);
+                    });
+
+                    String folderPath = selectedDirectory.getAbsolutePath();
+                    DownloadTask downloadTask = new DownloadTask(downloadUrl, folderPath);
+
+                    component.getProgressBar().progressProperty().bind(downloadTask.progressProperty());
+
+                    downloadTask.setOnSucceeded(event -> {
+                        Platform.runLater(() -> {
+                            this.setType(GameInLibraryButtonType.INSTALLING);
+                        });
+                    });
+
+                    Thread thread = new Thread(downloadTask);
+                    thread.setDaemon(true);
+                    thread.start();
+                });
+                // Ovde možeš sačuvati putanju i koristiti je za instalaciju igre
+            }
+
         });
     }
 
@@ -165,22 +199,35 @@ public class GameInLibraryActionButtonController {
             case PLAY:
                 component.getActionButton().setText("Play");
                 component.getActionButton().setDisable(false);
+                if(component.getComponent().getChildren().size() == 2)
+                    component.getComponent().getChildren().remove(component.getProgressBar());
+
                 break;
             case PLAYING:
                 component.getActionButton().setText("Playing");
                 component.getActionButton().setDisable(true);
+                if(component.getComponent().getChildren().size() == 2)
+                    component.getComponent().getChildren().remove(component.getProgressBar());
+
                 break;
             case DOWNLOAD:
                 component.getActionButton().setText("Download");
                 component.getActionButton().setDisable(false);
+                if(component.getComponent().getChildren().size() == 2)
+                    component.getComponent().getChildren().remove(component.getProgressBar());
+
                 break;
             case DOWNLOADING:
                 component.getActionButton().setText("Downloading");
                 component.getActionButton().setDisable(true);
+                component.getComponent().getChildren().add(component.getProgressBar());
                 break;
             case INSTALLING:
                 component.getActionButton().setText("Installing");
                 component.getActionButton().setDisable(true);
+                if(component.getComponent().getChildren().size() == 2)
+                    component.getComponent().getChildren().remove(component.getProgressBar());
+
                 break;
             default:
                 break;
@@ -203,6 +250,7 @@ public class GameInLibraryActionButtonController {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
     public void setApplicationContextService(ApplicationContextService applicationContextService) {
         this.applicationContextService = applicationContextService;
     }

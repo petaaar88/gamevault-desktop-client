@@ -21,6 +21,7 @@ public class Application extends javafx.application.Application {
         ApplicationContextService applicationContextService = new ApplicationContextService();
         applicationContextService.setUser(new User(1,"Petar","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNNNXsl0n7l8OJWD05DUpYjWeNnYsg0bQneQ&s"));
         applicationContextService.initialize();
+        applicationContextService.setPrimaryStage(primaryStage);
 
         MenuComponent menuComponent = new MenuComponent();
         MenuController menuController = new MenuController(menuComponent, primaryStage);

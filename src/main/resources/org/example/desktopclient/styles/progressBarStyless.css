@@ -1,0 +1,9 @@
+.custom-progress-bar {
+    -fx-accent: #0084FF; /* Zelena gradijentna boja */
+    -fx-background-color: #2C2F33; /* Tamna pozadina */
+    -fx-background-radius: 10px; /* Zaobljeni uglovi */
+    -fx-padding: 5px;
+}
+
+
+

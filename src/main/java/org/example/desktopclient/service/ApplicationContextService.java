@@ -4,6 +4,7 @@ package org.example.desktopclient.service;
 //treba da sadrzi podatak o tokenima ili sesiji
 //bez ovog konteksta nemogu da imam pristup aplikaciji
 
+import javafx.stage.Stage;
 import org.example.desktopclient.model.user.User;
 import org.example.desktopclient.util.JsonFileManager;
 
@@ -13,6 +14,7 @@ public class ApplicationContextService {
     private User user;
     private JsonFileManager jsonFileManager;
     private Integer runningGameId;
+    private Stage primaryStage;
 
     public ApplicationContextService() {
         jsonFileManager = new JsonFileManager();
@@ -45,5 +47,13 @@ public class ApplicationContextService {
 
     public void setRunningGameId(Integer runningGameId) {
         this.runningGameId = runningGameId;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }

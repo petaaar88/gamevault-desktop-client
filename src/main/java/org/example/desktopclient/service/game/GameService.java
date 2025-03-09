@@ -474,6 +474,24 @@ public class GameService extends AbstractService {
                 });
     }
 
+    public void fetchGameDownloadURL(Integer gameId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/download"))
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
     public GameInUserCollectionDetails parseGameInUserCollection(String json) {
         try {
             GameInUserCollectionDetails game = objectMapper.readValue(json, new TypeReference<>() {
