@@ -1,5 +1,7 @@
 package org.example.desktopclient.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -14,14 +16,22 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.GameInLibraryActionButtonComponent;
 import org.example.desktopclient.model.game.GameInLibraryButtonType;
+import org.example.desktopclient.model.game.GameInstallationData;
+import org.example.desktopclient.scene.UserGameCollectionScene;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
+import org.example.desktopclient.util.ChangeSceneUtil;
 import org.example.desktopclient.util.DownloadTask;
+import org.example.desktopclient.util.JsonFileManager;
 import org.example.desktopclient.util.UnZipper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameInLibraryActionButtonController {
 
@@ -161,7 +171,22 @@ public class GameInLibraryActionButtonController {
                                 Platform.runLater(() -> {
                                     File zipFile = new File(folderPath + "/" + fileName);
                                     zipFile.delete();
+
+                                    System.out.println(fileName);
+                                    String gameName = fileName.split("\\.")[0];
+
+                                    String exeFileName = gameName + ".exe";
+
+
+                                    GameInstallationData gameInstallationData = new GameInstallationData(gameId, folderPath, folderPath + "\\" + gameName + "\\" + exeFileName);
+
+                                    addGameToFile(gameInstallationData);
+
                                     this.setType(GameInLibraryButtonType.PLAY);
+
+
+                                    ChangeSceneUtil.changeScene(UserGameCollectionScene.getInstance().createScene());
+
                                 });
                             });
 
@@ -186,6 +211,32 @@ public class GameInLibraryActionButtonController {
             }
 
         });
+    }
+
+    public void addGameToFile(GameInstallationData newGame) {
+        JsonFileManager jsonFileManager = new JsonFileManager();
+        Path jsonFile = jsonFileManager.getConfigFilePath("GameVault", "installed_games.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            List<GameInstallationData> games = new ArrayList<>();
+
+            // Ako fajl postoji, učitaj postojeće igre
+            if (Files.exists(jsonFile)) {
+                games = objectMapper.readValue(Files.readString(jsonFile), new TypeReference<List<GameInstallationData>>() {
+                });
+            }
+
+            // Dodaj novi objekat u listu
+            games.add(newGame);
+
+            // Upisivanje ažurirane liste u fajl
+            objectMapper.writeValue(Files.newBufferedWriter(jsonFile), games);
+
+            System.out.println("Novi objekat je uspešno dodat u fajl.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showAlert(String message) {
@@ -234,21 +285,21 @@ public class GameInLibraryActionButtonController {
             case PLAY:
                 component.getActionButton().setText("Play");
                 component.getActionButton().setDisable(false);
-                if(component.getComponent().getChildren().size() == 2)
+                if (component.getComponent().getChildren().size() == 2)
                     component.getComponent().getChildren().remove(component.getProgressBar());
 
                 break;
             case PLAYING:
                 component.getActionButton().setText("Playing");
                 component.getActionButton().setDisable(true);
-                if(component.getComponent().getChildren().size() == 2)
+                if (component.getComponent().getChildren().size() == 2)
                     component.getComponent().getChildren().remove(component.getProgressBar());
 
                 break;
             case DOWNLOAD:
                 component.getActionButton().setText("Download");
                 component.getActionButton().setDisable(false);
-                if(component.getComponent().getChildren().size() == 2)
+                if (component.getComponent().getChildren().size() == 2)
                     component.getComponent().getChildren().remove(component.getProgressBar());
 
                 break;
@@ -260,7 +311,7 @@ public class GameInLibraryActionButtonController {
             case INSTALLING:
                 component.getActionButton().setText("Installing");
                 component.getActionButton().setDisable(true);
-                if(component.getComponent().getChildren().size() == 2)
+                if (component.getComponent().getChildren().size() == 2)
                     component.getComponent().getChildren().remove(component.getProgressBar());
 
                 break;
