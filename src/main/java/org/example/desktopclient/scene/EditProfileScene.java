@@ -24,6 +24,10 @@ public class EditProfileScene extends CustomScene{
         return instance;
     }
 
+    public static void restartInstance(){
+        instance = null;
+    }
+
     public static EditProfileScene getInstance(){
         return instance;
     }

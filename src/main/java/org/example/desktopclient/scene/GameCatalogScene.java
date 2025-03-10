@@ -19,7 +19,9 @@ public class GameCatalogScene extends CustomScene {
     public static GameCatalogScene getInstance() {
         return instance;
     }
-
+    public static void restartInstance(){
+        instance = null;
+    }
 
     public static GameCatalogScene getInstance(Stage primaryStage, MenuController menuController) {
         if (instance == null) {

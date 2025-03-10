@@ -24,6 +24,10 @@ public class ProfilePageScene extends CustomScene {
         return instance;
     }
 
+    public static void restartInstance(){
+        instance = null;
+    }
+
     public ProfilePageScene(Stage primaryStage, MenuController menuController) {
         super(primaryStage);
         this.setup();

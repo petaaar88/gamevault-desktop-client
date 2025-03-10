@@ -22,6 +22,10 @@ public class FriendsScene extends CustomScene{
         return instance;
     }
 
+    public static void restartInstance(){
+        instance = null;
+    }
+
     public static FriendsScene getInstance(){
         return instance;
     }

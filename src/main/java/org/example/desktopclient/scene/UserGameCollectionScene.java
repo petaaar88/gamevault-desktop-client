@@ -24,6 +24,10 @@ public class UserGameCollectionScene extends CustomScene {
         return instance;
     }
 
+    public static void restartInstance(){
+        instance = null;
+    }
+
     public static UserGameCollectionScene getInstance() {
         return instance;
     }

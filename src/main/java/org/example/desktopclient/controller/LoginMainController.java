@@ -44,7 +44,6 @@ public class LoginMainController {
                 UserService userService = new UserService();
 
                 userService.loginUser(new LoginUserDTO(username, password), user -> {
-                    System.out.println("Prikazzzzz");
 
                     Platform.runLater(() -> {
                         if (!Objects.isNull(user.getUsername())) {

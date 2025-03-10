@@ -48,31 +48,52 @@ public class Initializer {
 
         MenuComponent menuComponent = new MenuComponent();
         MenuController menuController = new MenuController(menuComponent, primaryStage);
-        menuController.setUser(applicationContextService.getUser());
+        menuController.setUser(new User(user.getId(), user.getUsername(), user.getIcon()));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(applicationContextService.getUser().getUsername());
 
         ChangeSceneUtil.primaryStage = primaryStage;
 
+        GameProductPageScene.restartInstance();
         GameProductPageScene gameProductPageSceneInstance = GameProductPageScene.getInstance(primaryStage, menuController);
         gameProductPageSceneInstance.setApplicationContextService(applicationContextService);
 
+        UserGameCollectionScene.restartInstance();
         UserGameCollectionScene userGameCollectionSceneInstance = UserGameCollectionScene.getInstance(primaryStage, menuController);
         userGameCollectionSceneInstance.setApplicationContextService(applicationContextService);
 
+        FriendsScene.restartInstance();
         FriendsScene friendsSceneInstance = FriendsScene.getInstance(primaryStage, menuController);
         friendsSceneInstance.setApplicationContextService(applicationContextService);
 
+        ProfilePageScene.restartInstance();
         ProfilePageScene profilePageSceneInstance = ProfilePageScene.getInstance(primaryStage, menuController);
         profilePageSceneInstance.setApplicationContextService(applicationContextService);
 
+        EditProfileScene.restartInstance();
         EditProfileScene editProfileSceneInstance = EditProfileScene.getInstance(primaryStage, menuController);
         editProfileSceneInstance.setApplicationContextService(applicationContextService);
 
         //TODO scena nije zadnja inicijlaizovana, nece se rendervoati meni i sadrzaj na njoj
+        GameCatalogScene.restartInstance();
         GameCatalogScene gameCatalogSceneInstance = GameCatalogScene.getInstance(primaryStage, menuController);
         gameCatalogSceneInstance.setApplicationContextService(applicationContextService);
 
 
         ChangeSceneUtil.changeScene(GameCatalogScene.getInstance().createScene());
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(768);
+        primaryStage.setMinHeight(768);
+        primaryStage.setMinWidth(1200);
+        primaryStage.setMaxHeight(768);
+        primaryStage.setMaxWidth(1200);
+
         primaryStage.centerOnScreen();
     }
 }

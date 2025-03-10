@@ -481,6 +481,25 @@ public class UserService extends AbstractService {
                 });
     }
 
+    public void logoutUser(Integer userId, Consumer<String> callback) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/logout/" + userId.toString()))
+                .DELETE()
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(callback)
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
     private FriendDTO parseLoginUser(String json) {
         try {
             return objectMapper.readValue(json, FriendDTO.class);

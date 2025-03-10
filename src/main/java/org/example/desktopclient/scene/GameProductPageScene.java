@@ -68,4 +68,8 @@ public class GameProductPageScene extends CustomScene{
     public void setGameId(Integer gameId) {
         this.gameId = gameId;
     }
+
+    public static void restartInstance(){
+        instance = null;
+    }
 }

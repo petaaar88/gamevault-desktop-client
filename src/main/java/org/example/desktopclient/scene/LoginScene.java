@@ -17,8 +17,9 @@ public class LoginScene {
 
     private LoginScene(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        layout = new VBox();
-        layout.setStyle("-fx-background-color: #191B2E");
+
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+
     }
 
     public static LoginScene getInstance(Stage primaryStage) {
@@ -29,9 +30,8 @@ public class LoginScene {
     }
 
     public Scene createScene() {
-
-
-        layout.getChildren().clear();
+        layout = new VBox();
+        layout.setStyle("-fx-background-color: #191B2E");
 
         LoginMainComponent loginMainComponent = new LoginMainComponent();
 
@@ -44,12 +44,28 @@ public class LoginScene {
 
         layout.getChildren().add(loginMainComponent.getComponent());
 
+
         scene = new Scene(layout, 610, 370);
 
-        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
 
+        primaryStage.setHeight(370);
+        primaryStage.setWidth(610);
+
+        primaryStage.setMinHeight(370);
+        primaryStage.setMinWidth(610);
+        primaryStage.setMaxHeight(370);
+        primaryStage.setMaxWidth(610);
+
+        primaryStage.centerOnScreen();
+
+        primaryStage.show();
+
         return scene;
+    }
+
+    public static LoginScene getInstance() {
+        return instance;
     }
 
 }
