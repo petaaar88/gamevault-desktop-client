@@ -18,7 +18,7 @@ public class GamesCatalogController implements ISearchable, IPaginable {
     private GamesCatalogVerticalMainComponent component;
     private SearchController searchController;
     private GameService gameService;
-    private final Integer LIMIT = 2;
+    private final Integer LIMIT = 6;
     private final Integer COLUMNS_PER_ROW = 3;
     private String gameTitle;
     private Integer currentPage = 1;

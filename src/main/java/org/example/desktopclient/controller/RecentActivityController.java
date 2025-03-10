@@ -12,7 +12,7 @@ public class RecentActivityController {
     private RecentActivityComponent component;
     private Integer userId;
     private UserService userService;
-    private final Integer LIMIT = 2;
+    private final Integer LIMIT = 3;
 
     public RecentActivityController(RecentActivityComponent component) {
         this.component = component;

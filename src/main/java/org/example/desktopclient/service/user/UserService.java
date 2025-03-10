@@ -3,6 +3,16 @@ package org.example.desktopclient.service.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.hc.client5.http.classic.methods.HttpPatch;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.FileBody;
@@ -428,5 +438,89 @@ public class UserService extends AbstractService {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public void loginUser(LoginUserDTO loginUserDTO, Consumer<FriendDTO> callback) {
+        String json;
+        try {
+            json = objectMapper.writeValueAsString(loginUserDTO);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error serializing login data", e);
+        }
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/login"))
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .header("Content-Type", "application/json")
+                .build();
+
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(response -> {
+                    if (response.statusCode() == 200) {
+                        return parseLoginUser(response.body());
+                    } else {
+                        System.out.println(response.body());
+                        showAlert("Wrong Credetials!");
+                        return null;
+                    }
+                })
+                .thenAccept(result -> {
+                    if (result != null) {
+                        callback.accept(result);
+                    } else {
+                        System.out.println("Login unsuccessful, callback not called.");
+                    }
+                })
+                .exceptionally(e -> {
+                    if (e.getCause() instanceof ConnectException) {
+                        System.out.println("Could not connect to server!");
+                    } else {
+                        e.printStackTrace();
+                    }
+                    return null;
+                });
+    }
+
+    private FriendDTO parseLoginUser(String json) {
+        try {
+            return objectMapper.readValue(json, FriendDTO.class);
+        } catch (JsonProcessingException e) {
+            try {
+                ErrorMessage message = objectMapper.readValue(json, ErrorMessage.class);
+                System.out.println("Error message from server: " + message.getMessage());
+            } catch (JsonProcessingException ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public void showAlert(String message) {
+        Platform.runLater(()->{
+            Stage alertStage = new Stage();
+            alertStage.initStyle(StageStyle.UNDECORATED); // Uklanja naslovnu traku
+            alertStage.initModality(Modality.APPLICATION_MODAL); // Blokira interakciju sa glavnim prozorom dok je alert otvoren
+
+            // Tekst poruke
+            Label alertText = new Label(message);
+            alertText.setStyle("-fx-font-size: 25px;-fx-text-fill: white");
+
+            // Dugme za zatvaranje
+            Button closeButton = new Button("OK");
+            closeButton.setStyle("-fx-background-color: #0084FF;-fx-text-fill: white;-fx-cursor:hand;-fx-font-size:14px;-fx-padding: 5 14 5 14;-fx-font-weight:700");
+            closeButton.setOnAction(ec -> alertStage.close());
+
+            // Pravljenje layout-a
+            VBox alertLayout = new VBox(10, alertText, closeButton);
+            alertLayout.setAlignment(Pos.CENTER);
+            alertLayout.setStyle("-fx-background-color: #191B2E;-fx-border-color:#333352;-fx-border-width: 2px; -fx-padding: 25px 50px 25px 50px;");
+
+            Scene alertScene = new Scene(alertLayout);
+            alertScene.setFill(Color.TRANSPARENT); // Ako želiš prozirnu pozadinu
+
+            alertStage.setScene(alertScene);
+            alertStage.showAndWait();
+        });
+
     }
 }

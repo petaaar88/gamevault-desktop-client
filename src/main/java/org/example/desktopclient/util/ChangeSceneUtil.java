@@ -17,4 +17,5 @@ public class ChangeSceneUtil {
         primaryStage.setWidth(width.doubleValue());
         primaryStage.setHeight(height.doubleValue());
     }
+
 }

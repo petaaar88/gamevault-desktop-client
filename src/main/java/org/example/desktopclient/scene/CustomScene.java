@@ -35,7 +35,8 @@ public abstract class CustomScene {
 
     public void setup(){
         // Uklanjanje podrazumevanog okvira prozora
-        this.primaryStage.initStyle(StageStyle.UNDECORATED);
+        //TODO: ako ne radi, odtkomentarisi ovo
+        //this.primaryStage.initStyle(StageStyle.UNDECORATED);
 
         TitleBarComponent titleBar = new TitleBarComponent();
         root.setTop(titleBar.getComponent(primaryStage,xOffset,yOffset));

@@ -18,4 +18,6 @@ module org.example.desktopclient {
     exports org.example.desktopclient;
     exports org.example.desktopclient.model.user; // Omogućava pristup paketima
     opens org.example.desktopclient.model.user to com.fasterxml.jackson.databind;
+    exports org.example.desktopclient.component;
+    opens org.example.desktopclient.component to javafx.fxml;
 }

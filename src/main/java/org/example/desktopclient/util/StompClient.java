@@ -1,7 +1,7 @@
 package org.example.desktopclient.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.desktopclient.Notification;
+import org.example.desktopclient.component.Notification;
 import org.example.desktopclient.model.user.FriendDTO;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;

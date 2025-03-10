@@ -1,4 +1,4 @@
-package org.example.desktopclient;
+package org.example.desktopclient.component;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
