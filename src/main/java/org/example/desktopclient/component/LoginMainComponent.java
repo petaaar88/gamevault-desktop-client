@@ -15,7 +15,7 @@ public class LoginMainComponent {
     private VBox layout;
     private Button closeButton;
     private TextField usernameTextField;
-    private TextField passwordTextField;
+    private PasswordComponent passwordComponent;
     private Button loginButton;
     private Label createAccountButton;
 
@@ -55,12 +55,9 @@ public class LoginMainComponent {
         Label passwordLabel = new Label("Password");
         passwordLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
         layout.getChildren().add(passwordLabel);
-        passwordTextField = new TextField();
-        passwordTextField.setMinWidth(360);
-        passwordTextField.setMaxWidth(360);
-        passwordTextField.getStyleClass().add("search-text");
-        passwordTextField.setStyle("-fx-border-color: transparent;-fx-border-radius: 0px;");
-        VBox passwordVbox = new VBox(passwordLabel, passwordTextField);
+        passwordComponent = new PasswordComponent();
+
+        VBox passwordVbox = new VBox(passwordLabel, passwordComponent.getComponent());
         passwordVbox.setSpacing(5);
         passwordVbox.setPadding(new Insets(0,0,10,0));
         layout.getChildren().add(passwordVbox);
@@ -85,6 +82,7 @@ public class LoginMainComponent {
 
     }
 
+
     public VBox getComponent() {
         return layout;
     }
@@ -105,12 +103,12 @@ public class LoginMainComponent {
         this.usernameTextField = usernameTextField;
     }
 
-    public TextField getPasswordTextField() {
-        return passwordTextField;
+    public PasswordComponent getPasswordComponent() {
+        return passwordComponent;
     }
 
-    public void setPasswordTextField(TextField passwordTextField) {
-        this.passwordTextField = passwordTextField;
+    public void setPasswordComponent(PasswordComponent passwordComponent) {
+        this.passwordComponent = passwordComponent;
     }
 
     public Button getLoginButton() {

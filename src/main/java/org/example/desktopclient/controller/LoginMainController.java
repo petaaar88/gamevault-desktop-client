@@ -20,10 +20,12 @@ import java.util.Objects;
 
 public class LoginMainController {
     private LoginMainComponent component;
+    private PasswordController passwordController;
     private Stage primaryStage;
 
     public LoginMainController(LoginMainComponent component) {
         this.component = component;
+        passwordController = new PasswordController(component.getPasswordComponent());
     }
 
     public void handleCloseButtonClick() {
@@ -34,7 +36,7 @@ public class LoginMainController {
         component.getLoginButton().setOnMouseClicked(e -> {
 
             String username = component.getUsernameTextField().getText().trim();
-            String password = component.getPasswordTextField().getText().trim();
+            String password = passwordController.getPassword().trim();
 
             if (username.isBlank() || password.isBlank()) {
                 showAlert("Enter username and password!");

@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 public class Initializer {
 
     public static void init(Stage primaryStage, FriendDTO user) {
+
+        //TODO: promeni da bude u env localhost;
         StompClient stompClient = new StompClient("ws://localhost:8080/ws", user.getId());
 
         ListenableFuture<StompSession> f = stompClient.connect();
