@@ -10,7 +10,7 @@ public class FooterComponent {
         HBox hBox = new HBox();
         hBox.setMinHeight(40);
         hBox.setMaxHeight(40);
-        Text text = new Text("Downloading");
+        Text text = new Text("");
         text.setStyle("-fx-fill: #575C96");
         hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().add(text);
