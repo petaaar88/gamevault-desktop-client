@@ -177,8 +177,10 @@ public class GameInLibraryActionButtonController {
 
                                     String exeFileName = gameName + ".exe";
 
+                                    String installationFolder = folderPath + "\\" + gameName;
+                                    System.out.println(installationFolder);
 
-                                    GameInstallationData gameInstallationData = new GameInstallationData(gameId, folderPath, folderPath + "\\" + gameName + "\\" + exeFileName);
+                                    GameInstallationData gameInstallationData = new GameInstallationData(gameId, installationFolder, folderPath + "\\" + gameName + "\\" + exeFileName);
 
                                     addGameToFile(gameInstallationData);
 

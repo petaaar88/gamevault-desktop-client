@@ -30,6 +30,7 @@ public class UserGameInCollectionDetailsComponent {
     private Text playtimeText;
     private HBox descriptionAndFriendsHBox;
     private Label gameTitleLabel;
+    private Button deleteButton;
 
     public UserGameInCollectionDetailsComponent() {
         coverImage = new ImageView();
@@ -77,8 +78,9 @@ public class UserGameInCollectionDetailsComponent {
         ImageView deleteImageView = new ImageView(new Image(getClass().getResource("/org/example/desktopclient/icons/settingsIcon.png").toExternalForm()));
         deleteImageView.setFitHeight(33);
         deleteImageView.setFitWidth(33);
-        Button deleteButton = new Button("", deleteImageView);
+        deleteButton = new Button("", deleteImageView);
         deleteButton.setStyle("-fx-background-color:transparent; -fx-cursor: hand");
+        deleteButton.setVisible(false);
 
         HBox hbox = new HBox(gameInLibraryActionButtonComponent.getComponent(), lastPlayedVBox, playtimeVBox);
         HBox.setHgrow(hbox, Priority.ALWAYS);
@@ -165,5 +167,13 @@ public class UserGameInCollectionDetailsComponent {
 
     public void setGameInLibraryActionButtonComponent(GameInLibraryActionButtonComponent gameInLibraryActionButtonComponent) {
         this.gameInLibraryActionButtonComponent = gameInLibraryActionButtonComponent;
+    }
+
+    public Button getDeleteButton() {
+        return deleteButton;
+    }
+
+    public void setDeleteButton(Button deleteButton) {
+        this.deleteButton = deleteButton;
     }
 }
