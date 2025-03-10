@@ -7,6 +7,7 @@ import org.example.desktopclient.component.*;
 import org.example.desktopclient.controller.GamesCatalogController;
 import org.example.desktopclient.controller.MenuController;
 import org.example.desktopclient.controller.SearchController;
+import org.example.desktopclient.controller.TitleBarController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +53,8 @@ public class GameCatalogScene extends CustomScene {
         gamesCatalogController.setContent("");
         searchController.setSearchableController(gamesCatalogController);
         gamesCatalogController.getComponent().getPaginationController().setPaginableController(gamesCatalogController);
-
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
 
         ScrollComponent scrollComponent = new ScrollComponent();
 

@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
 import org.example.desktopclient.controller.FriendsVerticalMainController;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.TitleBarController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,6 +48,8 @@ public class FriendsScene extends CustomScene{
         ScrollComponent scrollComponent = new ScrollComponent();
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(friendsVerticalMainComponent.getComponent()));
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
 
         this.addNodesToLayout(elements);
 

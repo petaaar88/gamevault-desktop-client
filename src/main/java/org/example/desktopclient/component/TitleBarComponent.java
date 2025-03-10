@@ -12,6 +12,7 @@ public class TitleBarComponent {
 
     private double xOffset;
     private double yOffset;
+    private Button closeButton;
 
     public HBox getComponent(Stage primaryStage, double xOffset1, double yOffset1) {
 
@@ -55,9 +56,9 @@ public class TitleBarComponent {
         minimizeButton.getStyleClass().add("title-bar-minimize-icon");
         minimizeButton.setOnAction(e -> primaryStage.setIconified(true));
 
-        Button closeButton = new Button("\u2715"); // "✕"
+        closeButton = new Button("\u2715"); // "✕"
         closeButton.getStyleClass().add("title-bar-close-icon");
-        closeButton.setOnAction(e -> primaryStage.close());
+        //closeButton.setOnAction(e -> primaryStage.close());
 
         HBox buttons = new HBox(minimizeButton, maximizeButton, closeButton);
         buttons.setAlignment(Pos.CENTER_RIGHT);
@@ -79,5 +80,11 @@ public class TitleBarComponent {
         return titleBar;
     }
 
+    public Button getCloseButton() {
+        return closeButton;
+    }
 
+    public void setCloseButton(Button closeButton) {
+        this.closeButton = closeButton;
+    }
 }

@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.desktopclient.component.*;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.TitleBarController;
 import org.example.desktopclient.controller.UserGameMainController;
 import org.example.desktopclient.service.ApplicationContextService;
 
@@ -48,6 +49,8 @@ public class UserGameCollectionScene extends CustomScene {
         userGameMainController.setApplicationContextService(applicationContextService);
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), userGameCollectionHorizontalMainComponent.getComponent());
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
 
         this.addNodesToLayout(elements);
 

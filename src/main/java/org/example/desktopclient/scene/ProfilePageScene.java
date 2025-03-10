@@ -7,6 +7,7 @@ import org.example.desktopclient.component.ProfileVerticalMainComponent;
 import org.example.desktopclient.component.ScrollComponent;
 import org.example.desktopclient.controller.MenuController;
 import org.example.desktopclient.controller.ProfileMainController;
+import org.example.desktopclient.controller.TitleBarController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,7 +43,8 @@ public class ProfilePageScene extends CustomScene {
         ProfileMainController profileMainController = new ProfileMainController(profileVerticalMainComponent, applicationContextService.getUser().getId(),userId);
 
         ScrollComponent scrollComponent = new ScrollComponent();
-
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(profileVerticalMainComponent.getComponent()));
         this.addNodesToLayout(elements);

@@ -56,8 +56,6 @@ public class Initializer {
             throw new RuntimeException(e);
         }
 
-        System.out.println(applicationContextService.getUser().getUsername());
-
         ChangeSceneUtil.primaryStage = primaryStage;
 
         GameProductPageScene.restartInstance();

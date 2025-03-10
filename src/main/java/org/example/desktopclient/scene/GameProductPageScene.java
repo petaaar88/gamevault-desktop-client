@@ -8,6 +8,7 @@ import org.example.desktopclient.component.MenuComponent;
 import org.example.desktopclient.component.ScrollComponent;
 import org.example.desktopclient.controller.GameProductPageMainController;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.TitleBarController;
 import org.example.desktopclient.service.ApplicationContextService;
 
 import java.util.Arrays;
@@ -44,6 +45,8 @@ public class GameProductPageScene extends CustomScene{
         GameProductPageVerticalMainComponent gameProductPageVerticalMainComponent = new GameProductPageVerticalMainComponent();
         GameProductPageMainController gameProductPageMainController = new GameProductPageMainController(gameProductPageVerticalMainComponent, gameId, applicationContextService.getUser().getId());
         ScrollComponent scrollComponent = new ScrollComponent();
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
 
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(), scrollComponent.getComponent(gameProductPageVerticalMainComponent.getComponent()));
         this.addNodesToLayout(elements);

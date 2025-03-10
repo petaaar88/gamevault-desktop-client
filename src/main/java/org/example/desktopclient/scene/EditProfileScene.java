@@ -7,6 +7,7 @@ import org.example.desktopclient.component.EditProfileMainVerticalComponent;
 import org.example.desktopclient.component.ScrollComponent;
 import org.example.desktopclient.controller.EditProfileMainController;
 import org.example.desktopclient.controller.MenuController;
+import org.example.desktopclient.controller.TitleBarController;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,6 +50,9 @@ public class EditProfileScene extends CustomScene{
 
         ScrollComponent scrollComponent = new ScrollComponent();
         Collection<Node> elements = Arrays.asList(menuController.getMenuComponent().getComponent(),scrollComponent.getComponent(editProfileMainVerticalComponent.getComponent()));
+        TitleBarController titleBarController = new TitleBarController(titleBar);
+        titleBarController.handleCloseButtonClick(applicationContextService.getUser().getId());
+
 
         this.addNodesToLayout(elements);
 
