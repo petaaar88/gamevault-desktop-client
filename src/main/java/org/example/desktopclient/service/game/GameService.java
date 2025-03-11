@@ -20,6 +20,8 @@ import java.util.function.Consumer;
 
 public class GameService extends AbstractService {
 
+    private final String API_URL = System.getenv("API_URL");
+
     public GameService() {
         super();
     }
@@ -35,7 +37,7 @@ public class GameService extends AbstractService {
         }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games?page=" + page.toString() + "&limit=" + limit.toString() + "&title=" + gameTitle))
+                .uri(URI.create(API_URL+"games?page=" + page.toString() + "&limit=" + limit.toString() + "&title=" + gameTitle))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -57,7 +59,7 @@ public class GameService extends AbstractService {
 
     public void fetchGameDescriptionForProductPage(Integer gameId, Consumer<GameDescriptionDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/description"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/description"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -78,7 +80,7 @@ public class GameService extends AbstractService {
 
     public void fetchGameProductPageImages(Integer gameId, Consumer<GameProductPageImages> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/pp-images"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/pp-images"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -99,7 +101,7 @@ public class GameService extends AbstractService {
 
     public void fetchOverallRating(Integer gameId, Consumer<GameOverallRatingDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/overal-rating"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/overal-rating"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -120,7 +122,7 @@ public class GameService extends AbstractService {
 
     public void fetchSystemRequirements(Integer gameId, Consumer<GameSystemRequirementsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/system-requirements"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/system-requirements"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -141,7 +143,7 @@ public class GameService extends AbstractService {
 
     public void doesUserHaveGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + userId.toString() + "/" + gameId.toString() + "/has-game"))
+                .uri(URI.create(API_URL+"games/" + userId.toString() + "/" + gameId.toString() + "/has-game"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -162,7 +164,7 @@ public class GameService extends AbstractService {
 
     public void doesUserHaveFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + userId.toString() + "/" + gameId.toString() + "/has-friends-that-own-game"))
+                .uri(URI.create(API_URL+"games/" + userId.toString() + "/" + gameId.toString() + "/has-friends-that-own-game"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -183,7 +185,7 @@ public class GameService extends AbstractService {
 
     public void doesUserHaveReviewOnGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/has-review"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/has-review"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -204,7 +206,7 @@ public class GameService extends AbstractService {
 
     public void doesGameHaveReviews(Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/has-reviews"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/has-reviews"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -225,7 +227,7 @@ public class GameService extends AbstractService {
 
     public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString()))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString()))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -261,7 +263,7 @@ public class GameService extends AbstractService {
 
     public void fetchAllFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<List<FriendDTO>> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/friends"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/friends"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -286,7 +288,7 @@ public class GameService extends AbstractService {
             String json = new ObjectMapper().writeValueAsString(reviewDTO);
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/" + userId.toString() + "/reviews"))
+                    .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/reviews"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -331,7 +333,7 @@ public class GameService extends AbstractService {
     public void fetchGamerReviews(Integer gameId, Integer page, Integer limit, Consumer<Pages<GameReviewDTO>> callback) {
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/reviews?page=" + page.toString() + "&limit=" + limit.toString()))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/reviews?page=" + page.toString() + "&limit=" + limit.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -352,7 +354,7 @@ public class GameService extends AbstractService {
 
     public void fetchUserGameCollection(Integer userId, Consumer<List<GameInCollectionDTO>>callback){
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString()))
+                .uri(URI.create(API_URL+"games/collection/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -373,7 +375,7 @@ public class GameService extends AbstractService {
 
     public void fetchGameInUserCollection(Integer userId, Integer gameId, Consumer<GameInUserCollectionDetails> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .uri(URI.create(API_URL+"games/collection/" + userId.toString() + "/" + gameId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -394,7 +396,7 @@ public class GameService extends AbstractService {
 
     public void enterGame(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/play/" + userId.toString() + "/" + gameId.toString()))
+                .uri(URI.create(API_URL+"play/" + userId.toString() + "/" + gameId.toString()))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -431,7 +433,7 @@ public class GameService extends AbstractService {
 
     public void exitGame(Integer userId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/play/" + userId.toString()))
+                .uri(URI.create(API_URL+"play/" + userId.toString()))
                 .DELETE()
                 .build();
 
@@ -456,7 +458,7 @@ public class GameService extends AbstractService {
 
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .uri(URI.create(API_URL+"games/collection/" + userId.toString() + "/" + gameId.toString()))
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonPayload))
                 .header("Content-Type", "application/json")
                 .build();
@@ -476,7 +478,7 @@ public class GameService extends AbstractService {
 
     public void fetchGameDownloadURL(Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/games/" + gameId.toString() + "/download"))
+                .uri(URI.create(API_URL+"games/" + gameId.toString() + "/download"))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())

@@ -89,7 +89,6 @@ public class UserGameInCollectionDetailsController {
 
     public void changeGame(Integer newGameId) {
 
-        //TODO: ovde se menja stanje dugmeta
         gameService.fetchGameInUserCollection(userId, newGameId, game -> {
             Platform.runLater(() -> {
                 gameId = newGameId;

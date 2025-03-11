@@ -45,6 +45,8 @@ import java.util.function.Consumer;
 
 public class UserService extends AbstractService {
 
+    private final String API_URL = System.getenv("API_URL");
+
     public UserService() {
         super();
     }
@@ -61,7 +63,7 @@ public class UserService extends AbstractService {
         }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/search/" + userId.toString() + "?username=" + encodedUsername + "&page=" + page.toString() + "&limit=" + limit.toString()))
+                .uri(URI.create(API_URL + "search/" + userId.toString() + "?username=" + encodedUsername + "&page=" + page.toString() + "&limit=" + limit.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -84,7 +86,7 @@ public class UserService extends AbstractService {
 
     public void fetchFriendRequest(Integer userId, Consumer<FriendRequestsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/requests/" + userId.toString()))
+                .uri(URI.create(API_URL + "requests/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -106,7 +108,7 @@ public class UserService extends AbstractService {
     public void sendFriendRequest(Integer userId, Integer friendId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.noBody())
-                .uri(URI.create("http://localhost:8080/requests/send/" + userId.toString() + "/" + friendId.toString()))
+                .uri(URI.create(API_URL + "requests/send/" + userId.toString() + "/" + friendId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -142,7 +144,7 @@ public class UserService extends AbstractService {
 
     public void deleteFriendRequest(Integer requestId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/requests/" + requestId.toString()))
+                .uri(URI.create(API_URL + "requests/" + requestId.toString()))
                 .DELETE()
                 .build();
 
@@ -166,7 +168,7 @@ public class UserService extends AbstractService {
 
     public void acceptFriendRequest(Integer userId, Integer requestId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/requests/" + userId.toString() + "/" + requestId.toString()))
+                .uri(URI.create(API_URL + "requests/" + userId.toString() + "/" + requestId.toString()))
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -190,7 +192,7 @@ public class UserService extends AbstractService {
 
     public void fetchAllFriends(Integer userId, Consumer<AllFriendsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/friends/" + userId.toString()))
+                .uri(URI.create(API_URL + "friends/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -210,7 +212,7 @@ public class UserService extends AbstractService {
 
     public void fetchUserDescription(Integer userId, Consumer<UserDescriptionDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/profile/" + userId.toString()))
+                .uri(URI.create(API_URL + "profile/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -230,7 +232,7 @@ public class UserService extends AbstractService {
 
     public void fetchUserRelationshipWithUser(Integer userId, Integer otherUserId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/relationship/" + userId.toString() + "/" + otherUserId.toString()))
+                .uri(URI.create(API_URL + "relationship/" + userId.toString() + "/" + otherUserId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -248,7 +250,7 @@ public class UserService extends AbstractService {
 
     public void fetchRecentPlayedGames(Integer userId, Integer page, Integer limit, Consumer<Pages<RecentPlayedGameDTO>> callback) {
 
-        String url = "http://localhost:8080/profile/games/" + userId.toString();
+        String url = API_URL + "profile/games/" + userId.toString();
 
         if (!Objects.isNull(page)) {
             url += "?page=" + page.toString();
@@ -278,7 +280,7 @@ public class UserService extends AbstractService {
 
     public void doesUserHaveFriends(Integer userId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/does-have-friends/" + userId.toString()))
+                .uri(URI.create(API_URL + "does-have-friends/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -297,7 +299,7 @@ public class UserService extends AbstractService {
 
     public void doesUserPostedCommentOnFriendProfile(Integer userId, Integer friendId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/does-user-post-comment/" + userId.toString() + "/" + friendId.toString()))
+                .uri(URI.create(API_URL + "does-user-post-comment/" + userId.toString() + "/" + friendId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -323,7 +325,7 @@ public class UserService extends AbstractService {
             HttpRequest request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .header("Content-Type", "application/json")
-                    .uri(URI.create("http://localhost:8080/profile/comments/" + userId.toString() + "/" + friendId.toString()))
+                    .uri(URI.create(API_URL + "profile/comments/" + userId.toString() + "/" + friendId.toString()))
                     .build();
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -361,7 +363,7 @@ public class UserService extends AbstractService {
 
     public void fetchAllCommentsOnUserProfile(Integer userId, Integer page, Integer limit, Consumer<Pages<FriendCommentDTO>> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/profile/comments/" + userId.toString() + "?page=" + page.toString() + "&limit=" + limit.toString()))
+                .uri(URI.create(API_URL + "profile/comments/" + userId.toString() + "?page=" + page.toString() + "&limit=" + limit.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -382,7 +384,7 @@ public class UserService extends AbstractService {
 
     public void doesHaveComments(Integer userId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/does-have-comments/" + userId.toString()))
+                .uri(URI.create(API_URL + "does-have-comments/" + userId.toString()))
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -401,7 +403,7 @@ public class UserService extends AbstractService {
 
     public void updateUser(Integer userId, UpdateUserDTO updateUserDTO, Consumer<String> callback) {
 
-        String serverUrl = "http://localhost:8080/profile/" + userId.toString();
+        String serverUrl = API_URL + "profile/" + userId.toString();
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPatch uploadFile = new HttpPatch(serverUrl);
@@ -449,7 +451,7 @@ public class UserService extends AbstractService {
         }
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/login"))
+                .uri(URI.create(API_URL + "login"))
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .header("Content-Type", "application/json")
                 .build();
@@ -483,7 +485,7 @@ public class UserService extends AbstractService {
 
     public void logoutUser(Integer userId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/logout/" + userId.toString()))
+                .uri(URI.create(API_URL + "logout/" + userId.toString()))
                 .DELETE()
                 .build();
 
@@ -501,7 +503,7 @@ public class UserService extends AbstractService {
     }
 
     public void registerUser(RegisterUserDTO registerUserDTO, Consumer<String> callback) {
-        String serverUrl = "http://localhost:8080/register";
+        String serverUrl = API_URL + "register";
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost uploadFile = new HttpPost(serverUrl);

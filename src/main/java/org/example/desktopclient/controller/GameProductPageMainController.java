@@ -19,7 +19,6 @@ public class GameProductPageMainController {
     private Integer currentPage = 1;
     private final Integer LIMIT = 3;
 
-    //TODO: ovde se inicijazliuju svi kontroleri u jednoj sceni
     public GameProductPageMainController(GameProductPageVerticalMainComponent component, Integer gameId, Integer userId) {
         gameService = new GameService();
 

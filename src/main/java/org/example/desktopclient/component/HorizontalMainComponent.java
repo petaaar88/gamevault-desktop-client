@@ -14,7 +14,7 @@ public abstract class HorizontalMainComponent {
 
     protected void setup(){
         layout = new HBox();
-        //TODO: mozda ovo treba da se prepravi. Proveri kada bude pravio ovo
+
         layout.setAlignment(Pos.CENTER); // Centriranje sadržaja
         layout.setPrefWidth(1000); // Širina omotača
     }

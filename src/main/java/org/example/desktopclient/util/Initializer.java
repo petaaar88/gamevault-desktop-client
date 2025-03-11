@@ -16,10 +16,12 @@ import java.util.concurrent.ExecutionException;
 
 public class Initializer {
 
+    private static final String WS_URL = System.getenv("WS_URL");
+
     public static void init(Stage primaryStage, FriendDTO user) {
 
         //TODO: promeni da bude u env localhost;
-        StompClient stompClient = new StompClient("ws://localhost:8080/ws", user.getId());
+        StompClient stompClient = new StompClient(WS_URL +"/ws", user.getId());
 
         ListenableFuture<StompSession> f = stompClient.connect();
         StompSession stompSession = null;
@@ -85,12 +87,14 @@ public class Initializer {
 
 
         ChangeSceneUtil.changeScene(GameCatalogScene.getInstance().createScene());
+        primaryStage.setMinHeight(550);
+        primaryStage.setMinWidth(1048);
+        primaryStage.setMaxHeight(1080); // Postavljamo maksimalnu visinu
+        primaryStage.setMaxWidth(1920);  // Postavljamo maksimalnu širinu
         primaryStage.setWidth(1200);
         primaryStage.setHeight(768);
-        primaryStage.setMinHeight(768);
-        primaryStage.setMinWidth(1200);
-        primaryStage.setMaxHeight(768);
-        primaryStage.setMaxWidth(1200);
+        primaryStage.setResizable(true); // Omogućavamo promenu veličine prozora
+
 
         primaryStage.centerOnScreen();
     }

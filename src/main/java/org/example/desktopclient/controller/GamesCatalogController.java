@@ -80,7 +80,6 @@ public class GamesCatalogController implements ISearchable, IPaginable {
                                 component.getGridPane().add(noGameFound, 1, 0);
                             }
                         } else {
-                            //TODO: dodaj text
                             System.out.println("No games provided");
                         }
 
