@@ -47,7 +47,7 @@ public class GameInLibraryActionButtonController {
         gameService = new GameService();
     }
 
-    public void handlePlayButton(String executablePath, UserGameInCollectionDetailsController userGameInCollectionDetailsController) {
+    public void handlePlayButton(String workingFolder, String executablePath, UserGameInCollectionDetailsController userGameInCollectionDetailsController) {
         component.getActionButton().setOnMouseClicked(e -> {
 
             Task<Void> task = new Task<>() {
@@ -58,7 +58,10 @@ public class GameInLibraryActionButtonController {
 
                         if (message.isBlank()) {
                             try {
-                                Process process = new ProcessBuilder(executablePath).start();
+                                ProcessBuilder processBuilder = new ProcessBuilder(executablePath);
+                                processBuilder.directory(new File(workingFolder));
+                                Process process = processBuilder.start();
+
                                 Platform.runLater(() -> setType(GameInLibraryButtonType.PLAYING));
                                 System.out.println(gameId);
                                 userGameInCollectionDetailsController.setRunningGameId(gameId);

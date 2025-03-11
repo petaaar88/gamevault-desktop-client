@@ -98,7 +98,7 @@ public class UserGameInCollectionDetailsController {
                     if (gameInstallationData.getGame_id() == newGameId) {
                         if (applicationContextService.getRunningGameId() != newGameId) {
                             gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAY);
-                            gameInLibraryActionButtonController.handlePlayButton(gameInstallationData.getGame_executable(), this);
+                            gameInLibraryActionButtonController.handlePlayButton(gameInstallationData.getGame_folder(),gameInstallationData.getGame_executable(), this);
                         } else if (applicationContextService.getRunningGameId() == newGameId)
                             gameInLibraryActionButtonController.setType(GameInLibraryButtonType.PLAYING);
 

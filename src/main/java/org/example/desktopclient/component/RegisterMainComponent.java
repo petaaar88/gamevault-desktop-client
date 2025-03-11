@@ -10,36 +10,40 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class LoginMainComponent {
-
+public class RegisterMainComponent {
     private VBox layout;
     private Button closeButton;
+    private Button backButton;
     private TextField usernameTextField;
     private PasswordComponent passwordComponent;
-    private Button loginButton;
-    private Label createAccountButton;
+    private ImageUploaderComponent imageUploaderComponent;
+    private Button registerButton;
 
-
-    public LoginMainComponent() {
-        layout = new VBox();
+    public RegisterMainComponent() {
+        this.layout = new VBox();
+        layout.setPadding(new Insets(40));
+        layout.setSpacing(20);
         layout.getStylesheets().add(getClass().getResource("/org/example/desktopclient/styles/actionButtonStyles.css").toExternalForm());
         layout.getStylesheets().add(getClass().getResource("/org/example/desktopclient/styles/searchComponent.css").toExternalForm());
-
-        Text gameVaultText = new Text("GameVault");
-        gameVaultText.setStyle("-fx-fill: white; -fx-font-size: 40; -fx-font-weight: 700;");
 
         closeButton = new Button("X");
         closeButton.getStyleClass().add("small-red-action-button");
         closeButton.setPrefWidth(10);
-        HBox titleHbox2 = new HBox(gameVaultText);
-        HBox titleHbox = new HBox(titleHbox2, closeButton);
-        titleHbox.setAlignment(Pos.CENTER);
-        titleHbox.setPadding(new Insets(0,0,10,0));
-        HBox.setHgrow(titleHbox2, Priority.ALWAYS);
 
-        layout.getChildren().add(titleHbox);
+        backButton = new Button("Back");
+        backButton.getStyleClass().add("small-action-button");
 
-        layout.setPadding(new Insets(40));
+        HBox buttonsHbox = new HBox(backButton, closeButton);
+        buttonsHbox.setSpacing(10);
+
+        Text createAccountText = new Text("Create Account");
+        createAccountText.setStyle("-fx-fill: white; -fx-font-size: 25; -fx-font-weight: 700;");
+        HBox createAccountHbox = new HBox(createAccountText);
+
+        HBox titleHBox = new HBox(createAccountHbox, buttonsHbox);
+        HBox.setHgrow(createAccountHbox, Priority.ALWAYS);
+
+        layout.getChildren().add(titleHBox);
 
         Label usernameLabel = new Label("Username");
         usernameLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
@@ -62,29 +66,31 @@ public class LoginMainComponent {
         passwordVbox.setPadding(new Insets(0,0,10,0));
         layout.getChildren().add(passwordVbox);
 
-        loginButton = new Button("Sign In");
-        loginButton.getStyleClass().add("normal-action-button");
-        layout.getChildren().add(loginButton);
+        Label profileImageLabel = new Label("Profile Image");
+        profileImageLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
+        imageUploaderComponent = new ImageUploaderComponent();
+        HBox imageUploaderHbox = new HBox(imageUploaderComponent.getComponent());
+        imageUploaderHbox.setAlignment(Pos.CENTER_LEFT);
+        VBox profileImageVbox = new VBox(profileImageLabel, imageUploaderHbox);
+        profileImageVbox.setSpacing(5);
+        layout.getChildren().add(profileImageVbox);
 
-        HBox createAccountHbox = new HBox();
-        createAccountHbox.setAlignment(Pos.CENTER);
-        Label createAccountLabel = new Label("Don't have an account? ");
-        createAccountLabel.setStyle("-fx-text-fill: white; -fx-font-size: 13;");
-        createAccountButton = new Label("Create Account");
-        createAccountButton.setStyle("-fx-cursor: hand; -fx-text-fill: #B6B4B4; -fx-font-size: 13px;");
-        createAccountButton.setOnMouseEntered(event -> createAccountButton.setStyle("-fx-cursor: hand;-fx-text-fill: #565656;-fx-font-size: 13px;-fx-underline: true;"));
-        createAccountButton.setOnMouseExited(event -> createAccountButton.setStyle("-fx-text-fill: #B6B4B4;-fx-font-size: 13px;"));
-        createAccountHbox.getChildren().addAll(createAccountLabel, createAccountButton);
-        createAccountHbox.setPadding(new Insets(5,0,0,0));
-        layout.getChildren().add(createAccountHbox);
-
-        layout.setSpacing(15);
+        registerButton = new Button("Register");
+        registerButton.getStyleClass().add("normal-action-button");
+        layout.getChildren().add(registerButton);
 
     }
 
-
     public VBox getComponent() {
+        return this.layout;
+    }
+
+    public VBox getLayout() {
         return layout;
+    }
+
+    public void setLayout(VBox layout) {
+        this.layout = layout;
     }
 
     public Button getCloseButton() {
@@ -93,6 +99,14 @@ public class LoginMainComponent {
 
     public void setCloseButton(Button closeButton) {
         this.closeButton = closeButton;
+    }
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
+    public void setBackButton(Button backButton) {
+        this.backButton = backButton;
     }
 
     public TextField getUsernameTextField() {
@@ -111,19 +125,19 @@ public class LoginMainComponent {
         this.passwordComponent = passwordComponent;
     }
 
-    public Button getLoginButton() {
-        return loginButton;
+    public Button getRegisterButton() {
+        return registerButton;
     }
 
-    public void setLoginButton(Button loginButton) {
-        this.loginButton = loginButton;
+    public void setRegisterButton(Button registerButton) {
+        this.registerButton = registerButton;
     }
 
-    public Label getCreateAccountButton() {
-        return createAccountButton;
+    public ImageUploaderComponent getImageUploaderComponent() {
+        return imageUploaderComponent;
     }
 
-    public void setCreateAccountButton(Label createAccountButton) {
-        this.createAccountButton = createAccountButton;
+    public void setImageUploaderComponent(ImageUploaderComponent imageUploaderComponent) {
+        this.imageUploaderComponent = imageUploaderComponent;
     }
 }

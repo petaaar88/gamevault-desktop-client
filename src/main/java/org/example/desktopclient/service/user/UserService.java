@@ -500,6 +500,47 @@ public class UserService extends AbstractService {
                 });
     }
 
+    public void registerUser(RegisterUserDTO registerUserDTO, Consumer<String> callback) {
+        String serverUrl = "http://localhost:8080/register";
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpPost uploadFile = new HttpPost(serverUrl);
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setMode(HttpMultipartMode.STRICT);
+
+            if (!Objects.isNull(registerUserDTO.getIcon()))
+                builder.addPart("profileImage", new FileBody(registerUserDTO.getIcon()));
+
+            builder.addPart("username", new StringBody(registerUserDTO.getUsername(), ContentType.create("text/plain", StandardCharsets.UTF_8)));
+            builder.addPart("password", new StringBody(registerUserDTO.getPassword(), ContentType.create("text/plain", StandardCharsets.UTF_8)));
+
+            uploadFile.setEntity(builder.build());
+
+
+            try (CloseableHttpResponse response = httpClient.execute(uploadFile)) {
+
+                String message = null;
+
+                if (response.getCode() == 409)
+                    message = "Username Already Taken!";
+
+                if (response.getCode() == 204)
+                    message = "Profile Created!";
+                else if (response.getCode() == 400) {
+                    ErrorMessageUser errorMessage = objectMapper.readValue(response.getEntity().getContent(), ErrorMessageUser.class);
+                    if (errorMessage.getDescription() != null)
+                        message = errorMessage.getDescription();
+                    if (errorMessage.getUsername() != null)
+                        message = errorMessage.getUsername();
+                }
+
+                callback.accept(message);
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     private FriendDTO parseLoginUser(String json) {
         try {
             return objectMapper.readValue(json, FriendDTO.class);

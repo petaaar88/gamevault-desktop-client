@@ -11,8 +11,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.desktopclient.component.LoginMainComponent;
-import org.example.desktopclient.model.user.FriendDTO;
 import org.example.desktopclient.model.user.LoginUserDTO;
+import org.example.desktopclient.scene.RegisterScene;
 import org.example.desktopclient.service.user.UserService;
 import org.example.desktopclient.util.Initializer;
 
@@ -90,6 +90,11 @@ public class LoginMainController {
     }
 
     public void handleCreateAccountButtonClick() {
+        component.getCreateAccountButton().setOnMouseClicked(e -> {
+            RegisterScene.getInstance(primaryStage);
+            RegisterScene.getInstance().createScene();
+
+        });
     }
 
     public Stage getPrimaryStage() {
