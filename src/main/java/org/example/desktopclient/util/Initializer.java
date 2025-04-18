@@ -58,7 +58,7 @@ public class Initializer {
             throw new RuntimeException(e);
         }
 
-        ChangeSceneUtil.primaryStage = primaryStage;
+        SceneChanger.primaryStage = primaryStage;
 
         GameProductPageScene.restartInstance();
         GameProductPageScene gameProductPageSceneInstance = GameProductPageScene.getInstance(primaryStage, menuController);
@@ -86,7 +86,7 @@ public class Initializer {
         gameCatalogSceneInstance.setApplicationContextService(applicationContextService);
 
 
-        ChangeSceneUtil.changeScene(GameCatalogScene.getInstance().createScene());
+        SceneChanger.changeScene(GameCatalogScene.getInstance().createScene());
         primaryStage.setMinHeight(550);
         primaryStage.setMinWidth(1048);
         primaryStage.setMaxHeight(1080); // Postavljamo maksimalnu visinu

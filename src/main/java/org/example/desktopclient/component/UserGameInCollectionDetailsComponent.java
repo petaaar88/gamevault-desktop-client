@@ -15,9 +15,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.example.desktopclient.model.game.GameInUserCollectionDetails;
 import org.example.desktopclient.scene.ProfilePageScene;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 import org.example.desktopclient.util.CustomDateFormatter;
-import org.example.desktopclient.util.RoundNumberUtil;
+import org.example.desktopclient.util.NumberFormatter;
 
 import java.util.Objects;
 
@@ -128,7 +128,7 @@ public class UserGameInCollectionDetailsComponent {
         String lastPlayed = Objects.isNull(game.getLastPlayed()) ? "Never played" : CustomDateFormatter.formatDateTimeOfPattern2(game.getLastPlayed(), "d MMM yyyy");
         lastPlayedText.setText(lastPlayed);
 
-        String playtime = String.valueOf(RoundNumberUtil.roundDecimals(game.getPlayTime()));
+        String playtime = String.valueOf(NumberFormatter.roundDecimals(game.getPlayTime()));
 
         playtimeText.setText(playtime + " Hours");
         if (descriptionAndFriendsHBox.getChildren().size() == 2)
@@ -142,11 +142,11 @@ public class UserGameInCollectionDetailsComponent {
                 FriendComponent friendComponent = new FriendComponent();
                 friendComponent.getImageView().setImage(new Image(friendDTO.getIcon()));
                 friendComponent.getUsernameLabel().setText(friendDTO.getUsername());
-                friendComponent.getTextLabel().setText( RoundNumberUtil.roundDecimals(friendDTO.getHoursPlayed()) + " Hours");
+                friendComponent.getTextLabel().setText( NumberFormatter.roundDecimals(friendDTO.getHoursPlayed()) + " Hours");
                 friendComponent.getUsernameLabel().setOnMouseClicked(e->{
                     ProfilePageScene.getInstance().setUserId(friendDTO.getId());
 
-                    ChangeSceneUtil.changeScene(ProfilePageScene.getInstance().createScene());
+                    SceneChanger.changeScene(ProfilePageScene.getInstance().createScene());
                 });
                 friendsThatPlayGameComponent.getFriendsVbox().getChildren().add(friendComponent.getComponent());
             });

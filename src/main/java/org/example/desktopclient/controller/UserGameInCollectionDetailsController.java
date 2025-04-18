@@ -19,11 +19,10 @@ import org.example.desktopclient.model.game.GameInstallationData;
 import org.example.desktopclient.scene.UserGameCollectionScene;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 import org.example.desktopclient.util.FolderDeleter;
 import org.example.desktopclient.util.JsonFileManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -157,7 +156,7 @@ public class UserGameInCollectionDetailsController {
 
 
             alertStage.close();
-            ChangeSceneUtil.changeScene(UserGameCollectionScene.getInstance().createScene());
+            SceneChanger.changeScene(UserGameCollectionScene.getInstance().createScene());
         });
 
         HBox buttons = new HBox(deleteButton,closeButton);

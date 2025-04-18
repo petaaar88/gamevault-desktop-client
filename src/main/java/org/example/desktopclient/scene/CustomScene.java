@@ -7,11 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.example.desktopclient.component.FooterComponent;
 import org.example.desktopclient.component.TitleBarComponent;
 import org.example.desktopclient.service.ApplicationContextService;
-import org.example.desktopclient.util.ResizeUtil;
+import org.example.desktopclient.util.WindowResizer;
 
 import java.util.Collection;
 
@@ -44,7 +43,7 @@ public abstract class CustomScene {
         FooterComponent footerComponent = new FooterComponent();
         root.setBottom(footerComponent.getComponents());
 
-        ResizeUtil.resizingWindow(primaryStage,root,borderThickness);
+        WindowResizer.resizingWindow(primaryStage,root,borderThickness);
 
         scene = new Scene(root, 1200, 768);
         String css = getClass().getResource("/org/example/desktopclient/styles/universalStyles.css").toExternalForm();

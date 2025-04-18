@@ -2,7 +2,7 @@ package org.example.desktopclient.controller;
 
 import org.example.desktopclient.component.RecentGameComponent;
 import org.example.desktopclient.scene.GameProductPageScene;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 
 public class RecentGameController {
     private RecentGameComponent component;
@@ -23,7 +23,7 @@ public class RecentGameController {
 
         this.component.getGameTitleLabel().setOnMouseClicked(e -> {
             GameProductPageScene.getInstance().setGameId(gameId);
-            ChangeSceneUtil.changeScene(GameProductPageScene.getInstance().createScene());
+            SceneChanger.changeScene(GameProductPageScene.getInstance().createScene());
         });
     }
 

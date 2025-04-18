@@ -16,7 +16,7 @@ import org.example.desktopclient.model.user.User;
 import org.example.desktopclient.scene.*;
 import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 
 import java.util.Arrays;
 
@@ -65,7 +65,7 @@ public class MenuController {
 
                 userService.logoutUser(user.getId(), c -> {
                     Platform.runLater(() -> {
-                        ChangeSceneUtil.changeScene(LoginScene.getInstance().createScene());
+                        SceneChanger.changeScene(LoginScene.getInstance().createScene());
                     });
                 });
 

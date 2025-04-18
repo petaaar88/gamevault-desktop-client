@@ -1,10 +1,8 @@
 package org.example.desktopclient.controller;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import org.example.desktopclient.component.CatalogGameComponent;
 import org.example.desktopclient.scene.GameProductPageScene;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 
 public class CatalogGameController {
     private CatalogGameComponent component;
@@ -27,7 +25,7 @@ public class CatalogGameController {
     public void handleButtonClick(){
         component.getButton().setOnMouseClicked(e->{
             GameProductPageScene.getInstance().setGameId(gameId);
-            ChangeSceneUtil.changeScene( GameProductPageScene.getInstance().createScene());
+            SceneChanger.changeScene( GameProductPageScene.getInstance().createScene());
         });
     }
 

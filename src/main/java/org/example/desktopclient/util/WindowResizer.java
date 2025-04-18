@@ -3,7 +3,7 @@ package org.example.desktopclient.util;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-public class ResizeUtil {
+public class WindowResizer {
 
     public static void resizingWindow(Stage stage, Region root, double borderThickness){
         root.setOnMouseMoved(event -> {

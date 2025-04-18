@@ -2,7 +2,7 @@ package org.example.desktopclient.controller;
 
 import org.example.desktopclient.component.FriendComponent;
 import org.example.desktopclient.scene.ProfilePageScene;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 
 public class FriendController {
     private Integer userId;
@@ -16,7 +16,7 @@ public class FriendController {
         component.getButton().setOnMouseClicked(e -> {
             ProfilePageScene.getInstance().setUserId(userId);
 
-            ChangeSceneUtil.changeScene(ProfilePageScene.getInstance().createScene());
+            SceneChanger.changeScene(ProfilePageScene.getInstance().createScene());
 
         });
     }

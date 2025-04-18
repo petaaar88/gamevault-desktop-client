@@ -20,7 +20,7 @@ import org.example.desktopclient.model.game.GameInstallationData;
 import org.example.desktopclient.scene.UserGameCollectionScene;
 import org.example.desktopclient.service.ApplicationContextService;
 import org.example.desktopclient.service.game.GameService;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 import org.example.desktopclient.util.DownloadTask;
 import org.example.desktopclient.util.JsonFileManager;
 import org.example.desktopclient.util.UnZipper;
@@ -190,7 +190,7 @@ public class GameInLibraryActionButtonController {
                                     this.setType(GameInLibraryButtonType.PLAY);
 
 
-                                    ChangeSceneUtil.changeScene(UserGameCollectionScene.getInstance().createScene());
+                                    SceneChanger.changeScene(UserGameCollectionScene.getInstance().createScene());
 
                                 });
                             });

@@ -3,10 +3,8 @@ package org.example.desktopclient.controller;
 import javafx.application.Platform;
 import javafx.scene.text.Text;
 import org.example.desktopclient.component.AddFriendComponent;
-import org.example.desktopclient.component.CatalogGameComponent;
 import org.example.desktopclient.component.FoundUserComponent;
 import org.example.desktopclient.model.user.FriendDTO;
-import org.example.desktopclient.service.game.GameService;
 import org.example.desktopclient.service.user.UserService;
 
 import java.util.ArrayList;
@@ -17,8 +15,9 @@ public class AddFriendController implements ISearchable {
     private Integer userId;
     private SearchController searchController;
     private UserService userService;
-    private final Integer LIMIT = 6;
+    private final Integer RESULT_LIMIT_PER_PAGE = 6;
     private final Integer COLUMNS_PER_ROW = 3;
+    private final Integer FIRST_PAGE_OF_RESULT = 1;
 
     public AddFriendController(AddFriendComponent component) {
         this.component = component;
@@ -39,7 +38,7 @@ public class AddFriendController implements ISearchable {
         loadingText.setStyle("-fx-fill: #575C96;-fx-font-size: 19px;-fx-font-weight: 700;-fx-padding: 350;");
         this.component.getFoundUsers().add(loadingText, 1, 0);
 
-        userService.fetchUsers(1, LIMIT, userId, username, pages -> {
+        userService.fetchUsers(FIRST_PAGE_OF_RESULT, RESULT_LIMIT_PER_PAGE, userId, username, pages -> {
             Platform.runLater(() -> {
                 List<FriendDTO> users = pages.getResoult();
                 List<Integer> userIdsThatUserSendRequest = new ArrayList<>();

@@ -4,9 +4,8 @@ import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.example.desktopclient.component.ProfileDescriptionComponent;
 import org.example.desktopclient.scene.EditProfileScene;
-import org.example.desktopclient.scene.GameProductPageScene;
 import org.example.desktopclient.service.user.UserService;
-import org.example.desktopclient.util.ChangeSceneUtil;
+import org.example.desktopclient.util.SceneChanger;
 import org.example.desktopclient.util.CustomDateFormatter;
 
 import java.util.Objects;
@@ -85,7 +84,7 @@ public class ProfileDescriptionController {
     public void handleEditProfileClick() {
         component.getActionButton().setOnMouseClicked(e -> {
             EditProfileScene.getInstance().setUserId(mainUserId);
-            ChangeSceneUtil.changeScene( EditProfileScene.getInstance().createScene());
+            SceneChanger.changeScene( EditProfileScene.getInstance().createScene());
         });
     }
 

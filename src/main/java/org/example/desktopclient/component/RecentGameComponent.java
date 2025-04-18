@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.desktopclient.model.game.RecentPlayedGameDTO;
 import org.example.desktopclient.util.CustomDateFormatter;
-import org.example.desktopclient.util.RoundNumberUtil;
+import org.example.desktopclient.util.NumberFormatter;
 
 import java.util.Objects;
 
@@ -61,7 +61,7 @@ public class RecentGameComponent {
 
         lastPlayedAtLabel.setText(lastPlayedAt);
 
-        playtimeOfGameLabel.setText(String.valueOf(RoundNumberUtil.roundDecimals(Double.parseDouble(recentPlayedGameDTO.getPlaytime())))  + " Hours");
+        playtimeOfGameLabel.setText(String.valueOf(NumberFormatter.roundDecimals(Double.parseDouble(recentPlayedGameDTO.getPlaytime())))  + " Hours");
     }
 
     public HBox getComponent(){

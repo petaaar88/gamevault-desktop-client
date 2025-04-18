@@ -5,9 +5,7 @@ import javafx.scene.image.Image;
 import org.example.desktopclient.component.FriendComponent;
 import org.example.desktopclient.component.FriendsThatPlayGameComponent;
 import org.example.desktopclient.service.game.GameService;
-import org.example.desktopclient.util.RoundNumberUtil;
-
-import java.text.DecimalFormat;
+import org.example.desktopclient.util.NumberFormatter;
 
 public class FriendsThatPlayGameController {
 
@@ -35,7 +33,7 @@ public class FriendsThatPlayGameController {
                                 friendController.setUserId(friend.getId());
 
 
-                                friendController.getComponent().getTextLabel().setText(RoundNumberUtil.roundDecimals(friend.getHoursPlayed()) + " Hours");
+                                friendController.getComponent().getTextLabel().setText(NumberFormatter.roundDecimals(friend.getHoursPlayed()) + " Hours");
                                 friendController.getComponent().getImageView().setImage(new Image(friend.getIcon()));
                                 friendController.getComponent().getUsernameLabel().setText(friend.getUsername());
                                 friendController.handleClick();
