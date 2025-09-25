@@ -426,6 +426,8 @@ public class UserService extends AbstractService {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setMode(HttpMultipartMode.STRICT);
 
+            uploadFile.setHeader("Authorization", "Bearer " + SessionManager.getToken());
+
             if (!Objects.isNull(updateUserDTO.getIcon()))
                 builder.addPart("profileImage", new FileBody(updateUserDTO.getIcon()));
 
@@ -528,6 +530,7 @@ public class UserService extends AbstractService {
             HttpPost uploadFile = new HttpPost(serverUrl);
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.setMode(HttpMultipartMode.STRICT);
+
 
             if (!Objects.isNull(registerUserDTO.getIcon()))
                 builder.addPart("profileImage", new FileBody(registerUserDTO.getIcon()));
