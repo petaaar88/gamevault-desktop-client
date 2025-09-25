@@ -7,6 +7,8 @@ import org.example.desktopclient.model.game.*;
 import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.FriendDTO;
 import org.example.desktopclient.service.AbstractService;
+import org.example.desktopclient.util.SessionManager;
+
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.URI;
@@ -38,6 +40,7 @@ public class GameService extends AbstractService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games?page=" + page.toString() + "&limit=" + limit.toString() + "&title=" + gameTitle))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -60,6 +63,7 @@ public class GameService extends AbstractService {
     public void fetchGameDescriptionForProductPage(Integer gameId, Consumer<GameDescriptionDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/description"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -81,6 +85,7 @@ public class GameService extends AbstractService {
     public void fetchGameProductPageImages(Integer gameId, Consumer<GameProductPageImages> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/pp-images"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -102,6 +107,7 @@ public class GameService extends AbstractService {
     public void fetchOverallRating(Integer gameId, Consumer<GameOverallRatingDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/overal-rating"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -123,6 +129,7 @@ public class GameService extends AbstractService {
     public void fetchSystemRequirements(Integer gameId, Consumer<GameSystemRequirementsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/system-requirements"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -144,6 +151,7 @@ public class GameService extends AbstractService {
     public void doesUserHaveGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + userId.toString() + "/" + gameId.toString() + "/has-game"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -165,6 +173,7 @@ public class GameService extends AbstractService {
     public void doesUserHaveFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + userId.toString() + "/" + gameId.toString() + "/has-friends-that-own-game"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -186,6 +195,7 @@ public class GameService extends AbstractService {
     public void doesUserHaveReviewOnGame(Integer userId, Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/has-review"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -207,6 +217,7 @@ public class GameService extends AbstractService {
     public void doesGameHaveReviews(Integer gameId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/has-reviews"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -228,6 +239,7 @@ public class GameService extends AbstractService {
     public void addGameToUserCollection(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -264,6 +276,7 @@ public class GameService extends AbstractService {
     public void fetchAllFriendsThatPlayGame(Integer userId, Integer gameId, Consumer<List<FriendDTO>> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/friends"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -289,6 +302,7 @@ public class GameService extends AbstractService {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_URL+"games/" + gameId.toString() + "/" + userId.toString() + "/reviews"))
+                    .header("Authorization", "Bearer " + SessionManager.getToken())
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -334,6 +348,7 @@ public class GameService extends AbstractService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/reviews?page=" + page.toString() + "&limit=" + limit.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -355,6 +370,7 @@ public class GameService extends AbstractService {
     public void fetchUserGameCollection(Integer userId, Consumer<List<GameInCollectionDTO>>callback){
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/collection/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -376,6 +392,7 @@ public class GameService extends AbstractService {
     public void fetchGameInUserCollection(Integer userId, Integer gameId, Consumer<GameInUserCollectionDetails> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -397,6 +414,7 @@ public class GameService extends AbstractService {
     public void enterGame(Integer userId, Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"play/" + userId.toString() + "/" + gameId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -434,6 +452,7 @@ public class GameService extends AbstractService {
     public void exitGame(Integer userId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"play/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .DELETE()
                 .build();
 
@@ -459,6 +478,7 @@ public class GameService extends AbstractService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/collection/" + userId.toString() + "/" + gameId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonPayload))
                 .header("Content-Type", "application/json")
                 .build();
@@ -479,6 +499,7 @@ public class GameService extends AbstractService {
     public void fetchGameDownloadURL(Integer gameId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL+"games/" + gameId.toString() + "/download"))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())

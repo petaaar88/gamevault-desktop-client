@@ -20,4 +20,5 @@ module org.example.desktopclient {
     opens org.example.desktopclient.model.user to com.fasterxml.jackson.databind;
     exports org.example.desktopclient.component;
     opens org.example.desktopclient.component to javafx.fxml;
+    opens org.example.desktopclient.util to com.fasterxml.jackson.databind;
 }

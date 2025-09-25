@@ -29,6 +29,8 @@ import org.example.desktopclient.model.page.Pages;
 import org.example.desktopclient.model.user.*;
 import org.example.desktopclient.service.AbstractService;
 import org.example.desktopclient.service.game.ErrorMessage;
+import org.example.desktopclient.util.LoginResponse;
+import org.example.desktopclient.util.SessionManager;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -64,6 +66,7 @@ public class UserService extends AbstractService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "search/" + userId.toString() + "?username=" + encodedUsername + "&page=" + page.toString() + "&limit=" + limit.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -87,6 +90,7 @@ public class UserService extends AbstractService {
     public void fetchFriendRequest(Integer userId, Consumer<FriendRequestsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "requests/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -109,6 +113,7 @@ public class UserService extends AbstractService {
         HttpRequest request = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .uri(URI.create(API_URL + "requests/send/" + userId.toString() + "/" + friendId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -145,6 +150,7 @@ public class UserService extends AbstractService {
     public void deleteFriendRequest(Integer requestId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "requests/" + requestId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .DELETE()
                 .build();
 
@@ -169,6 +175,7 @@ public class UserService extends AbstractService {
     public void acceptFriendRequest(Integer userId, Integer requestId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "requests/" + userId.toString() + "/" + requestId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -193,6 +200,7 @@ public class UserService extends AbstractService {
     public void fetchAllFriends(Integer userId, Consumer<AllFriendsDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "friends/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -213,6 +221,7 @@ public class UserService extends AbstractService {
     public void fetchUserDescription(Integer userId, Consumer<UserDescriptionDTO> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "profile/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -233,6 +242,7 @@ public class UserService extends AbstractService {
     public void fetchUserRelationshipWithUser(Integer userId, Integer otherUserId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "relationship/" + userId.toString() + "/" + otherUserId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -261,6 +271,7 @@ public class UserService extends AbstractService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -281,6 +292,7 @@ public class UserService extends AbstractService {
     public void doesUserHaveFriends(Integer userId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "does-have-friends/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -300,6 +312,7 @@ public class UserService extends AbstractService {
     public void doesUserPostedCommentOnFriendProfile(Integer userId, Integer friendId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "does-user-post-comment/" + userId.toString() + "/" + friendId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -326,6 +339,7 @@ public class UserService extends AbstractService {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .header("Content-Type", "application/json")
                     .uri(URI.create(API_URL + "profile/comments/" + userId.toString() + "/" + friendId.toString()))
+                    .header("Authorization", "Bearer " + SessionManager.getToken())
                     .build();
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -364,6 +378,7 @@ public class UserService extends AbstractService {
     public void fetchAllCommentsOnUserProfile(Integer userId, Integer page, Integer limit, Consumer<Pages<FriendCommentDTO>> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "profile/comments/" + userId.toString() + "?page=" + page.toString() + "&limit=" + limit.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -385,6 +400,7 @@ public class UserService extends AbstractService {
     public void doesHaveComments(Integer userId, Consumer<Boolean> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "does-have-comments/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -486,8 +502,11 @@ public class UserService extends AbstractService {
     public void logoutUser(Integer userId, Consumer<String> callback) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + "logout/" + userId.toString()))
+                .header("Authorization", "Bearer " + SessionManager.getToken())
                 .DELETE()
                 .build();
+
+        SessionManager.setToken(null);
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
@@ -545,9 +564,14 @@ public class UserService extends AbstractService {
 
     private FriendDTO parseLoginUser(String json) {
         try {
-            return objectMapper.readValue(json, FriendDTO.class);
+            LoginResponse loginResponse = objectMapper.readValue(json, LoginResponse.class);
+
+            SessionManager.setToken(loginResponse.getToken());
+
+            return new FriendDTO(loginResponse.getId(), loginResponse.getUsername(), loginResponse.getImageUrl(), null,null);
         } catch (JsonProcessingException e) {
             try {
+                System.out.println(json);
                 ErrorMessage message = objectMapper.readValue(json, ErrorMessage.class);
                 System.out.println("Error message from server: " + message.getMessage());
             } catch (JsonProcessingException ex) {

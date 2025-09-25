@@ -44,6 +44,10 @@ public class StompClient {
         WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
 
         String url = connectionUrl;
+
+        StompHeaders connectHeaders = new StompHeaders();
+        connectHeaders.add("Authorization", "Bearer " + SessionManager.getToken());
+
         return stompClient.connect(url, headers, new StompClientHandler(), "localhost", 8080);
     }
 
